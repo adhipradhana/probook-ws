@@ -1,0 +1,13 @@
+.auth-input-validation-message-container {
+  transform: translateY(-15px);
+}
+
+.auth-title-container {
+	-webkit-transition-duration: 0.25s;
+  transition-duration: 0.25s;
+  transform: translateY(15px);
+}
+
+.auth-title-container.moved {
+	transform: translateY(-8px);
+}
