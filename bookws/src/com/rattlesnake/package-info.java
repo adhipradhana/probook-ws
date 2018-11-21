@@ -5,4 +5,4 @@
  * @author adhipradhana
  *
  */
-package com.rattlesnake.ws;
+package com.rattlesnake;

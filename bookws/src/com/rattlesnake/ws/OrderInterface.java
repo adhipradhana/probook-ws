@@ -7,9 +7,9 @@ import javax.jws.soap.SOAPBinding.Style;
 
 @WebService
 @SOAPBinding(style = Style.RPC)
-public interface BookInterface {
+public interface OrderInterface {
 	
 	@WebMethod
-	String getBookName();
+	int getOrderNumber();
 	
 }
