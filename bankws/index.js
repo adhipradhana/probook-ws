@@ -1,8 +1,12 @@
 const express = require('express');
+const bodyParser = require('body-parser');
 const db = require('./model/index');
 
 const PORT = 5000;
 const app = express();
+
+app.use(bodyParser.json())
+app.use(bodyParser.urlencoded({ extended: true }))
 
 app.get('/api/v1/status', (_, res) => {
   res.status(200).send({
@@ -11,15 +15,21 @@ app.get('/api/v1/status', (_, res) => {
 });
 
 app.get('/api/v1/account', (req, res) => {
-  const cardNumberQuery = req.query.cardNumber;
-  console.log(cardNumberQuery);
-  db.account.findOne({ where: {cardNumber: cardNumberQuery} })
+  db.account.findOne({ where: {cardNumber: req.query.cardNumber} })
     .then((account) => {
-      res.status(200).send(account);
-    })
+      if (account) {
+        res.status(200).send({
+          name: account.name,
+          balance: account.balance
+        });
+      } else {
+        res.status(200).send({});
+      }
+    });
 });
 
 app.post('/api/v1/charge', (req, res) => {
+  console.log(req.body);
   res.status(200).send({
     status: 'available'
   });

@@ -15,28 +15,43 @@ const sequelize = new Sequelize({
 });
 
 const Account = sequelize.define('account', {
-  cardNumber: { type: Sequelize.STRING(16), primaryKey: true },
+  id: { type: Sequelize.INTEGER, primaryKey: true, autoIncrement: true },
+  cardNumber: { type: Sequelize.STRING(16), allowNull: false, unique: true },
   name: { type: Sequelize.STRING, allowNull: false },
   balance: { type: Sequelize.FLOAT, allowNull: false }
 });
 
-const Transaction = sequelize.define('transaction', {
-  senderCardNumber: { 
-    type: Sequelize.STRING(16), 
+const Merchant = sequelize.define('merchant', {
+  id: { type: Sequelize.INTEGER, primaryKey: true, autoIncrement: true },
+  accountId: { 
+    type: Sequelize.INTEGER, 
     allowNull: false,
-    references: { model: Account, key: 'cardNumber' }
+    references: { model: Account, key: 'id' }
   },
-  receiverCardNumber: { 
-    type: Sequelize.STRING(16), 
+  name: { type: Sequelize.STRING, allowNull: false },
+  secret: { type: Sequelize.STRING(24), allowNull: false }
+});
+
+const Transaction = sequelize.define('transaction', {
+  id: { type: Sequelize.INTEGER, primaryKey: true, autoIncrement: true },
+  senderId: { 
+    type: Sequelize.INTEGER, 
     allowNull: false,
-    references: { model: Account, key: 'cardNumber' }
+    references: { model: Account, key: 'id' }
+  },
+  receiverId: { 
+    type: Sequelize.INTEGER, 
+    allowNull: false,
+    references: { model: Account, key: 'id' }
   },
   amount: { type: Sequelize.FLOAT, allowNull: false },
   timeStamp: { type: Sequelize.DATE, defaultValue: Sequelize.NOW }
 });
 
 const db = {};
+db.sequelize = sequelize;
 db.account = Account;
+db.merchant = Merchant;
 db.transaction = Transaction;
 
 module.exports = db;
