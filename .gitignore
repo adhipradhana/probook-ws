@@ -1,2 +1,8 @@
 # DS Store
 .DS_Store
+
+# Node modules
+bankws/node_modules
+
+# Env vars
+*/.env
