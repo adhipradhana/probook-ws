@@ -1,7 +1,8 @@
 const Sequelize = require('sequelize');
 const dotenv = require('dotenv');
+const db = require('./index');
 
-const vars = dotenv.config({ path: './../' });
+const vars = dotenv.config();
 if (vars.error) {
   throw vars.error
 }

@@ -1,20 +1,5 @@
-require('dotenv').config()
 const express = require('express');
-const Sequelize = require('sequelize');
-const dotenv = require('dotenv');
-
-const vars = dotenv.config();
-if (vars.error) {
-  throw vars.error
-}
-
-const sequelize = new Sequelize({
-  host: process.env.BANK_DB_HOST,
-  username: process.env.BANK_DB_USER,
-  password: process.env.BANK_DB_PASS,
-  database: process.env.BANK_DB_NAME,
-  dialect: 'mysql'
-});
+const db = require('./model/index');
 
 const PORT = 5000;
 const app = express();
@@ -26,15 +11,12 @@ app.get('/api/v1/status', (_, res) => {
 });
 
 app.get('/api/v1/account', (req, res) => {
-  const cardNumber = req.query.cardNumber;
-  Post.findAll({
-    where: {
-      authorId: 2
-    }
-  });
-  res.status(200).send({
-    cardNumber: cardNumber
-  });
+  const cardNumberQuery = req.query.cardNumber;
+  console.log(cardNumberQuery);
+  db.account.findOne({ where: {cardNumber: cardNumberQuery} })
+    .then((account) => {
+      res.status(200).send(account);
+    })
 });
 
 app.post('/api/v1/charge', (req, res) => {
