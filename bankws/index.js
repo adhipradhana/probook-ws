@@ -1,6 +1,9 @@
 const express = require('express');
 const bodyParser = require('body-parser');
-const db = require('./model/index');
+const db = require('./models/index');
+const Account = require('./models/account');
+const Merchant = require('./models/merchant');
+const Transaction = require('./models/transaction');
 
 const PORT = 5000;
 const app = express();
@@ -15,24 +18,57 @@ app.get('/api/v1/status', (_, res) => {
 });
 
 app.get('/api/v1/account', (req, res) => {
-  db.account.findOne({ where: {cardNumber: req.query.cardNumber} })
+  Account.getByCardNumber(req.query.cardNumber)
     .then((account) => {
-      if (account) {
-        res.status(200).send({
-          name: account.name,
-          balance: account.balance
-        });
-      } else {
-        res.status(200).send({});
-      }
+      res.status(200).send({
+        status: "success",
+        message: "",
+        name: account.name,
+        balance: account.balance
+      });
+    }, (error) => {
+      res.status(200).send({
+        status: "error",
+        message: error.message
+      });
     });
 });
 
 app.post('/api/v1/charge', (req, res) => {
-  console.log(req.body);
-  res.status(200).send({
-    status: 'available'
-  });
+  Merchant.getBySecret(req.body.secret)
+    .then((merchant) => {
+
+      Account.getByCardNumber(req.body.cardNumber)
+        .then((account) => {
+
+          if (account.balance >= req.body.amount) {
+            res.status(200).send({
+              status: "success",
+              message: "",
+              from: account.name,
+              to: merchant.name,
+              amount: req.body.amount
+            });
+          } else {
+            res.status(200).send({
+              status: "error",
+              message: "Insuffincent balance"
+            });
+          }
+
+        }, (error) => {
+          res.status(200).send({
+            status: "error",
+            message: error.message
+          });
+        });
+
+    }, (error) => {
+      res.status(200).send({
+        status: "error",
+        message: error.message
+      });
+    });
 });
 
 app.listen(PORT, () => {
