@@ -4,7 +4,7 @@ import javax.jws.WebMethod;
 import javax.jws.WebService;
 import javax.jws.soap.SOAPBinding;
 import javax.jws.soap.SOAPBinding.Style;
-//import javax.json.*;
+import org.json.*;
 
 import com.rattlesnake.methods.HTTPMethod;
 import com.rattlesnake.models.Book;
@@ -19,21 +19,59 @@ public class BookService {
     @WebMethod
     public Book[] searchBook(String searchTitle) {
         String targetURL = BASE_URL + searchTitle + "&key=" + BOOK_API_KEY;
-        Book[] bookList = new Book[1];
 
         // return null if error
         String response = HTTPMethod.executeGet(targetURL);
         if (response == null) {
+            Book[] bookList = new Book[1];
+
             return bookList;
         }
 
-//        JSONParser jsonResponse;
+        // parse json object
+        JSONObject jsonResponse = new JSONObject(response);
 
-        // int elementLength = jsonResponse.getInt("totalItems");
-        // Object item = jsonResponse.get("item");
+        // get item list
+        JSONArray items = jsonResponse.getJSONArray("items");
+        int totalItems = items.length();
 
-        // System.out.println(item.toString());
+        Book[] bookList = new Book[totalItems];
+        for (int i = 0; i < totalItems; i++) {
+            // get item
+            JSONObject item = items.getJSONObject(i);
 
+            // construct book
+            bookList[i] = new Book();
+
+            // assign id
+            String id = item.getString("id");
+            bookList[i].setId(id);
+
+            // assign title
+            String title = item.getJSONObject("volumeInfo").getString("title");
+            bookList[i].setTitle(title);
+
+            // assign author
+            if (item.getJSONObject("volumeInfo").has("authors")) {
+                String author = item.getJSONObject("volumeInfo").getJSONArray("authors").getString(0);
+                bookList[i].setAuthor(author);
+            }
+
+            // assign image
+            if (item.getJSONObject("volumeInfo").has("imageLinks")) {
+                String image = item.getJSONObject("volumeInfo").getJSONObject("imageLinks").getString("thumbnail");
+                bookList[i].setImage(image);
+            }
+
+            // assign description
+            if (item.getJSONObject("volumeInfo").has("description")) {
+                String description = item.getJSONObject("volumeInfo").getString("description");
+                bookList[i].setDescription(description);
+            }
+
+            // TODO : assign rating from db
+            // TODO : assign price from db
+        }
 
         return bookList;
     }

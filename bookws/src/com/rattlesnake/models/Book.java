@@ -15,6 +15,9 @@ public class Book {
     @XmlElement(name = "title")
     private String title;
 
+    @XmlElement(name = "author")
+    private String author;
+
     @XmlElement(name = "image")
     private String image;
 
@@ -27,10 +30,11 @@ public class Book {
     @XmlElement(name = "price")
     private long price;
 
-    public Book(String id, String title, String image, String description, double rating, long price) {
+    public Book(String id, String title, String author, String image, String description, double rating, long price) {
         this.id = id;
         this.title = title;
         this.image = image;
+        this.author = author;
         this.description = description;
         this.rating = rating;
         this.price = price;
@@ -38,11 +42,12 @@ public class Book {
 
     public Book() {
         this.id = "0";
-        this.title = "Tayo the Creator";
-        this.image = "tayo.com";
-        this.description = "Tayo huyu emang";
-        this.rating = 5.0;
-        this.price = 30000;
+        this.title = "Default Title";
+        this.author = "Anonymous";
+        this.image = "null";
+        this.description = "null";
+        this.rating = 0.0;
+        this.price = 0;
     }
 
     // getter
@@ -93,5 +98,13 @@ public class Book {
 
     public void setPrice(long price) {
         this.price = price;
+    }
+
+    public String getAuthor() {
+        return this.author;
+    }
+
+    public void setAuthor(String author) {
+        this.author = author;
     }
 }
