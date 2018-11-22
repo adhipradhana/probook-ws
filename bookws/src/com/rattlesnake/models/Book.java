@@ -1,4 +1,4 @@
-package com.rattlesnake.ws;
+package com.rattlesnake.models;
 
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
@@ -7,25 +7,25 @@ import javax.xml.bind.annotation.XmlAccessType;
 
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "Book")
-public class Book {   
+public class Book {
 
     @XmlElement(name = "id")
-    public String id;
+    private String id;
 
     @XmlElement(name = "title")
-    public String title;   
+    private String title;
 
     @XmlElement(name = "image")
-    public String image;
+    private String image;
 
     @XmlElement(name = "description")
-    public String description;
+    private String description;
 
     @XmlElement(name = "rating")
-    public double rating;
+    private double rating;
 
     @XmlElement(name = "price")
-    public long price;
+    private long price;
 
     public Book(String id, String title, String image, String description, double rating, long price) {
         this.id = id;
@@ -73,7 +73,7 @@ public class Book {
     // setter
     public void setId(String id) {
         this.id = id;
-    } 
+    }
 
     public void setTitle(String title) {
         this.title = title;

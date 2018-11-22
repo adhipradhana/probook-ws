@@ -10,14 +10,14 @@ public class HTTPMethod {
 
     public static String executePost(String targetURL, String urlParameters) {
         HttpURLConnection connection = null;
-      
+
         try {
             URL obj = new URL(targetURL);
             HttpURLConnection con = (HttpURLConnection) obj.openConnection();
 
             //add reuqest header
             con.setRequestMethod("POST");
-            
+
             // Send post request
             con.setDoOutput(true);
             DataOutputStream wr = new DataOutputStream(con.getOutputStream());
@@ -39,7 +39,7 @@ public class HTTPMethod {
                 response.append(inputLine);
             }
             in.close();
-            
+
             //print result
             return response.toString();
         } catch (Exception e) {
@@ -55,7 +55,7 @@ public class HTTPMethod {
     public static String executeGet(String targetURL) {
         HttpURLConnection con = null;
 
-        try {		
+        try {
             URL obj = new URL(targetURL);
             con = (HttpURLConnection) obj.openConnection();
 
@@ -89,5 +89,5 @@ public class HTTPMethod {
             }
         }
     }
-        
+
 }
