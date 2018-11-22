@@ -11,10 +11,10 @@ if (vars.error) {
 
 db.sync({force: true})
   .then(() => {
-    Account.create({ cardNumber: "4716717075371688", name: 'Joko Widodo', balance: 100000000.0 });
-    Account.create({ cardNumber: "4024007171246290", name: 'Prabowo Subianto', balance: 1000000000001.0 });
-    Account.create({ cardNumber: "4539562256288318", name: 'Sandiaga Uno', balance: 1000000000000.0 });
-    Account.create({ cardNumber: "4126795473513873", name: 'Aldo Azali', balance: 1000000.0 });
+    Account.create({ cardNumber: "4716717075371688", name: 'Joko Widodo', balance: 100000000 });
+    Account.create({ cardNumber: "4024007171246290", name: 'Prabowo Subianto', balance: 1000000000001 });
+    Account.create({ cardNumber: "4539562256288318", name: 'Sandiaga Uno', balance: 1000000000000 });
+    Account.create({ cardNumber: "4126795473513873", name: 'Aldo Azali', balance: 1000000 });
   })
   .then(() => {
     Merchant.create({ 

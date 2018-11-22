@@ -21,54 +21,107 @@ app.get('/api/v1/account', (req, res) => {
   Account.getByCardNumber(req.query.cardNumber)
     .then((account) => {
       res.status(200).send({
-        status: "success",
-        message: "",
+        status: 'success',
+        message: '',
         name: account.name,
         balance: account.balance
       });
-    }, (error) => {
+    })
+    .catch((error) => {
       res.status(200).send({
-        status: "error",
+        status: 'error',
         message: error.message
       });
     });
 });
 
 app.post('/api/v1/charge', (req, res) => {
-  Merchant.getBySecret(req.body.secret)
+  const secret = req.body.secret;
+  const amount = parseFloat(req.body.amount);
+  const customerCardNumber = req.body.cardNumber;
+  let customerAccount;
+  let merchantAccount;
+
+  Merchant.getBySecret(secret)
     .then((merchant) => {
-
-      Account.getByCardNumber(req.body.cardNumber)
-        .then((account) => {
-
-          if (account.balance >= req.body.amount) {
-            res.status(200).send({
-              status: "success",
-              message: "",
-              from: account.name,
-              to: merchant.name,
-              amount: req.body.amount
-            });
-          } else {
-            res.status(200).send({
-              status: "error",
-              message: "Insuffincent balance"
-            });
-          }
-
-        }, (error) => {
-          res.status(200).send({
-            status: "error",
-            message: error.message
-          });
-        });
-
-    }, (error) => {
+      return Account.getById(merchant.accountId);
+    })
+    .then((account) => {
+      merchantAccount = account;
+      return Account.getByCardNumber(customerCardNumber);
+    })
+    .then((account) => {
+      customerAccount = account;
+      return customerAccount.decreaseBalance(amount);
+    })
+    .then(() => {
+      return merchantAccount.increaseBalance(amount);
+    })
+    .then(() => {
+      Transaction.create({ 
+        senderId: customerAccount.id, 
+        receiverId: merchantAccount.id, 
+        amount: amount
+      });
+    })
+    .then(() => {
       res.status(200).send({
-        status: "error",
+        status: 'success',
+        message: '',
+      });
+    })
+    .catch((error) => {
+      res.status(200).send({
+        status: 'error',
         message: error.message
       });
-    });
+    })
+
+  // Merchant.getBySecret(secret)
+  //   .then((merchant) => {
+
+  //     Account.getByCardNumber(customerCardNumber)
+  //       .then((account) => {
+
+  //         if (account.balance >= amount) {
+
+  //           account.increaseBalance(amount)
+  //             .then(() => {
+  //               account.increaseBalance(amount);
+  //             })
+  //             .then(() => {
+  //               account.increaseBalance(amount);
+  //             })
+  //             .then(() => {
+  //               res.status(200).send({
+  //                 status: 'success',
+  //                 message: '',
+  //                 senderCardNumber: account.name,
+  //                 receiverCardNumber: merchant.name,
+  //                 amount: req.body.amount
+  //               });
+  //             });
+
+  //         } else {
+  //           res.status(200).send({
+  //             status: 'error',
+  //             message: 'Insuffincent balance'
+  //           });
+  //         }
+
+  //       }, (error) => {
+  //         res.status(200).send({
+  //           status: 'error',
+  //           message: error.message
+  //         });
+  //       });
+
+  //   }, (error) => {
+  //     res.status(200).send({
+  //       status: 'error',
+  //       message: error.message
+  //     });
+  //   });
 });
 
 app.listen(PORT, () => {
