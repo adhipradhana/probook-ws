@@ -1,5 +1,5 @@
 const Sequelize = require('sequelize');
-const db = require('./index');
+const db = require('./connection');
 
 const Account = db.define('account', {
   id: { type: Sequelize.INTEGER, primaryKey: true, autoIncrement: true },

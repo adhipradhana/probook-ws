@@ -1,5 +1,5 @@
 const dotenv = require('dotenv');
-const db = require('./models/index');
+const db = require('./models/connection');
 const Account = require('./models/account');
 const Merchant = require('./models/merchant');
 const Transaction = require('./models/transaction');
