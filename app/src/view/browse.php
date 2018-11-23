@@ -5,6 +5,7 @@ function render_template(string $username) {
 <!DOCTYPE html>
 <html>
 <head>
+  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
   <link rel="icon" href="favicon.ico" type="image/x-icon" />
   <link rel="shortcut icon" href="favicon.ico" type="image/x-icon" />
   <link rel='stylesheet' href='src/view/static/css/common.css'>
@@ -12,6 +13,9 @@ function render_template(string $username) {
   <link rel='stylesheet' href='src/view/static/css/browse.css'>
   <script type='module' src='src/view/static/js/main.js'></script>
   <script type='module' src='src/view/static/js/browse.js'></script>
+  <script src='src/view/static/js/app.js'></script>
+  <script src='src/view/static/js/lib/angular.soap.js'></script>
+  <script src='src/view/static/js/lib/soapclient.js'></script>
   <link rel="stylesheet" href="src/view/static/css/fonts.css" type='text/css'>
   <title>Pro-Book</title>
 </head>
@@ -57,21 +61,60 @@ function render_template(string $username) {
         </div>
       </div>
     </div>
-    <div class='main-content-container'>
-      <div class='browse-content-container'>
-        <div class='browse-title-container'>
-          <h1 class='browse-title'>Search B<a class='o-button' href='/about'>o</a><a class='o-button' href='/about'>o</a>ks</h1>
+    <div class='main-content-container' ng-app="probookSearch" ng-controller="searchBook">
+      <div>
+        <div class='browse-content-container'>
+          <div class='browse-title-container'>
+            <h1 class='browse-title'>Search B<a class='o-button' href='/about'>o</a><a class='o-button' href='/about'>o</a>ks</h1>
+          </div>
+          <form id='browseForm' class='browse-form'>
+            <input id='queryField' type='text' name='title' placeholder='Input search terms...' autofocus ng-model="query">
+          </form>
+          <div class='browse-submit-container'>
+            <button id='submitButton' type='submit' form='browseForm' disabled ng-click="search()">
+              <div id='submitButtonInner' class='browse-submit-inner'>
+                SEARCH
+              </div>
+            </button>
+          </div>
         </div>
-        <form id='browseForm' class='browse-form' action='/search' method='GET'>
-          <input id='queryField' type='text' name='title' placeholder='Input search terms...' autofocus>
-        </form>
-        <div class='browse-submit-container'>
-          <button id='submitButton' type='submit' form='browseForm' disabled>
-            <div id='submitButtonInner' class='browse-submit-inner'>
-              SEARCH
+
+        <div class='search-content-container' ng-if="status">
+          <div class='search-title-container'>
+            <h1 class='search-title'>Search Result</h1>
+            <div class='search-result-count-container add-background'>
+              <h4 class='search-result-count'>{{ books.length }}</h4>
             </div>
-          </button>
-        </div>
+          </div>
+          <div class='search-result-container'>
+          
+          <div ng-repeat="book in books">
+            <div class='search-book-container'>
+              <div class='search-book-content-container'>
+                <div class='search-book-image-container'>
+                  <img class='search-book-image' src="src/model/books/{{book.id}}.jpg"/>
+                </div>
+                <div class='search-book-text-container'>
+                  <h4 class='book-title'>{{ book.title }}</h4>
+                  <h4 class='book-author'>{{ book.author }} - {{ book.rating }} / 5.0 {{ book.vote }} votes</h4>
+                  <p class='book-description'>{{ book.synopsis }}</p>
+                </div>
+              </div>
+              <div class='search-detail-button-container'>
+                <form id='bookDetail-{{book.id}}' action='/book' method='get'>
+                  <input hidden name='id' value={{book.id}}>
+                </form>
+                <button class='search-detail-button' type='submit' form='bookDetail-{{book.id}}'>
+                  <div class='search-detail-button-inner'>
+                    DETAILS
+                  </div>
+                </button>
+              </div>
+            </div>
+          </div>
+      
+      </div>
+
       </div>
     </div>
 	</div>
