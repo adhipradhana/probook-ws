@@ -5,7 +5,24 @@
   align-items: center;
 }
 
+.search-main-content-container {
+  display: flex;
+	flex-direction: column;
+	justify-content: flex-start;
+  align-items: center;
+}
+
 .search-content-container {
+  width: 80%;
+  margin-bottom: 80px;
+  display: flex;
+  flex-direction: column;
+	justify-content: flex-start;
+  align-items: center;
+}
+
+.ng-search-content-container {
+  padding-top: 300px;
   width: 80%;
   margin-bottom: 80px;
   display: flex;

@@ -4,7 +4,7 @@ app.controller("searchBook", function($scope) {
     $scope.books = [];
     $scope.status = false;
     $scope.search = function () {
-        console.log("NIGGA");
+        console.log($scope.query);
         $scope.status = true;
         $scope.books = [
             {
@@ -24,9 +24,5 @@ app.controller("searchBook", function($scope) {
                 vote: 0  
             }
         ]
-        setInterval(function() {
-            console.log("ANJINGGG");
-            $scope.$apply() 
-        }, 1000);
-    } 
+    }
 });

@@ -11,6 +11,7 @@ function render_template(string $username) {
   <link rel='stylesheet' href='src/view/static/css/common.css'>
   <link rel='stylesheet' href='src/view/static/css/main.css'>
   <link rel='stylesheet' href='src/view/static/css/browse.css'>
+  <link rel='stylesheet' href='src/view/static/css/search.css'>
   <script type='module' src='src/view/static/js/main.js'></script>
   <script type='module' src='src/view/static/js/browse.js'></script>
   <script src='src/view/static/js/app.js'></script>
@@ -61,8 +62,8 @@ function render_template(string $username) {
         </div>
       </div>
     </div>
-    <div class='main-content-container' ng-app="probookSearch" ng-controller="searchBook">
-      <div>
+    <div ng-class="{'search-main-content-container': status , 'main-content-container': !status }" ng-app="probookSearch" ng-controller="searchBook">
+
         <div class='browse-content-container'>
           <div class='browse-title-container'>
             <h1 class='browse-title'>Search B<a class='o-button' href='/about'>o</a><a class='o-button' href='/about'>o</a>ks</h1>
@@ -79,11 +80,11 @@ function render_template(string $username) {
           </div>
         </div>
 
-        <div class='search-content-container' ng-if="status">
+        <div ng-if="status" class='ng-search-content-container'>
           <div class='search-title-container'>
             <h1 class='search-title'>Search Result</h1>
             <div class='search-result-count-container add-background'>
-              <h4 class='search-result-count'>{{ books.length }}</h4>
+              <h4 class='search-result-count'>Found {{ books.length }} results</h4>
             </div>
           </div>
           <div class='search-result-container'>
@@ -112,10 +113,8 @@ function render_template(string $username) {
               </div>
             </div>
           </div>
-      
-      </div>
-
-      </div>
+        </div>
+        
     </div>
 	</div>
 </body>
