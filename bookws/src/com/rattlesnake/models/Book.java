@@ -1,4 +1,4 @@
-package com.rattlesnake.ws;
+package com.rattlesnake.models;
 
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
@@ -7,30 +7,34 @@ import javax.xml.bind.annotation.XmlAccessType;
 
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "Book")
-public class Book {   
+public class Book {
 
     @XmlElement(name = "id")
-    public String id;
+    private String id;
 
     @XmlElement(name = "title")
-    public String title;   
+    private String title;
+
+    @XmlElement(name = "author")
+    private String author;
 
     @XmlElement(name = "image")
-    public String image;
+    private String image;
 
     @XmlElement(name = "description")
-    public String description;
+    private String description;
 
     @XmlElement(name = "rating")
-    public double rating;
+    private double rating;
 
     @XmlElement(name = "price")
-    public long price;
+    private long price;
 
-    public Book(String id, String title, String image, String description, double rating, long price) {
+    public Book(String id, String title, String author, String image, String description, double rating, long price) {
         this.id = id;
         this.title = title;
         this.image = image;
+        this.author = author;
         this.description = description;
         this.rating = rating;
         this.price = price;
@@ -38,11 +42,12 @@ public class Book {
 
     public Book() {
         this.id = "0";
-        this.title = "Tayo the Creator";
-        this.image = "tayo.com";
-        this.description = "Tayo huyu emang";
-        this.rating = 5.0;
-        this.price = 30000;
+        this.title = "Default Title";
+        this.author = "Anonymous";
+        this.image = "null";
+        this.description = "null";
+        this.rating = 0.0;
+        this.price = 0;
     }
 
     // getter
@@ -73,7 +78,7 @@ public class Book {
     // setter
     public void setId(String id) {
         this.id = id;
-    } 
+    }
 
     public void setTitle(String title) {
         this.title = title;
@@ -93,5 +98,13 @@ public class Book {
 
     public void setPrice(long price) {
         this.price = price;
+    }
+
+    public String getAuthor() {
+        return this.author;
+    }
+
+    public void setAuthor(String author) {
+        this.author = author;
     }
 }
