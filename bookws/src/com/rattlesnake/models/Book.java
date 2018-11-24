@@ -18,6 +18,9 @@ public class Book {
     @XmlElement(name = "author")
     private String author;
 
+    @XmlElement(name = "genre")
+    private String genre;
+
     @XmlElement(name = "image")
     private String image;
 
@@ -30,24 +33,32 @@ public class Book {
     @XmlElement(name = "price")
     private long price;
 
-    public Book(String id, String title, String author, String image, String description, double rating, long price) {
+    @XmlElement(name = "rating_count")
+    private int ratingCount;
+
+    public Book(String id, String title, String author, String genre, String image, String description, double rating, long price, int ratingCount) {
         this.id = id;
         this.title = title;
         this.image = image;
         this.author = author;
+        this.genre = genre;
         this.description = description;
         this.rating = rating;
         this.price = price;
+        this.ratingCount = ratingCount;
+
     }
 
     public Book() {
         this.id = "0";
         this.title = "Default Title";
         this.author = "Anonymous";
+        this.genre = "null";
         this.image = "null";
         this.description = "null";
         this.rating = 0.0;
         this.price = 0;
+        this.ratingCount = 0;
     }
 
     // getter
@@ -75,6 +86,18 @@ public class Book {
         return this.price;
     }
 
+    public String getAuthor() {
+        return this.author;
+    }
+
+    public String getGenre() {
+        return this.genre;
+    }
+
+    public int getRatingCount() {
+        return this.ratingCount;
+    }
+
     // setter
     public void setId(String id) {
         this.id = id;
@@ -100,11 +123,15 @@ public class Book {
         this.price = price;
     }
 
-    public String getAuthor() {
-        return this.author;
-    }
-
     public void setAuthor(String author) {
         this.author = author;
+    }
+
+    public void setGenre(String genre) {
+        this.genre = genre;
+    }
+
+    public void setRatingCount(int ratingCount) {
+        this.ratingCount = ratingCount;
     }
 }
