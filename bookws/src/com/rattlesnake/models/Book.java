@@ -132,6 +132,6 @@ public class Book {
     }
 
     public void setRatingCount(int ratingCount) {
-        this.ratingCount = ratingCountr;
+        this.ratingCount = ratingCount;
     }
 }
