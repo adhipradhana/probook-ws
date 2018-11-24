@@ -4,6 +4,6 @@ $client = new SoapClient('http://localhost:3000/service/book?wsdl', array('cache
 
 var_dump($client->__getFunctions());
 //var_dump($client->searchBook("power+system+analysis"));
-var_dump($client->getBookDetail("s5xrAwAAQBAJ"));
+//var_dump($client->getBookDetail("s5xrAwAAQBAJ"));
 
 ?>

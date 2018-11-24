@@ -1,6 +1,7 @@
 package com.rattlesnake.ws;
 
 import javax.jws.WebMethod;
+import javax.jws.WebParam;
 import javax.jws.WebService;
 import javax.jws.soap.SOAPBinding;
 import javax.jws.soap.SOAPBinding.Style;
@@ -24,7 +25,7 @@ public class BookService {
     private final String MERCHANT_SECRET = "DJJALIJALIKECEBONGKU";
 
     @WebMethod
-    public Book[] searchBook(String searchTitle) {
+    public Book[] searchBook(@WebParam(name = "searchTitle") String searchTitle) {
         String targetURL = BASE_URL + "?q=intitle:" + searchTitle + "&key=" + BOOK_API_KEY;
         Book[] bookList;
 
@@ -43,7 +44,7 @@ public class BookService {
     }
 
     @WebMethod
-    public Book getBookDetail(String id) {
+    public Book getBookDetail(@WebParam(name = "bookID") String id) {
         // target url
         String targetURL = BASE_URL + "/" + id + "?key=" + BOOK_API_KEY;
 
@@ -60,23 +61,23 @@ public class BookService {
     }
 
     @WebMethod
-    public boolean setBookRating(String id, double rating) {
+    public boolean setBookRating(@WebParam(name = "bookID") String id, @WebParam(name = "rating") double rating) {
         boolean result = DBMethod.changeRating(id, rating);
 
         return result;
     }
 
     @WebMethod
-    public Book getRecommendedBook(String subject) {
+    public Book getRecommendedBook(@WebParam(name = "genre") String genre) {
         // get book id
-        String id = DBMethod.getRecommendedBook(subject);
+        String id = DBMethod.getRecommendedBook(genre);
 
         if (id != null) {
             return getBookDetail(id);
         }
 
         // target url
-        String targetURL = BASE_URL + "?q=subject:" + subject + "&key=" + BOOK_API_KEY;
+        String targetURL = BASE_URL + "?q=subject:" + genre + "&key=" + BOOK_API_KEY;
 
         // return null if error
         String response = HTTPMethod.executeGet(targetURL);
@@ -105,21 +106,23 @@ public class BookService {
     }
 
     @WebMethod
-    public boolean buyBook(String cardNumber, String bookID, String genre, int bookAmount) {
+    public boolean buyBook(@WebParam(name = "cardNumber") String cardNumber,
+                           @WebParam(name = "bookID") String bookID, @WebParam(name = "bookAmount") int bookAmount) {
         // target url
         String targetURL = "http://localhost:5000/api/v1/charge";
 
         // get book info
-        HashMap<String, Number> bookInfo = DBMethod.getBookInfo(bookID);
+        Book book = getBookDetail(bookID);
 
         // book not found
-        if (bookInfo == null) {
+        if (book.getId().equals("0")) {
             return false;
         }
 
         // calculate book price
-        long price = bookInfo.get("price").longValue();
+        long price = book.getPrice();
         long totalAmount = price * bookAmount;
+        String genre = book.getGenre();
 
         // create and assign json
         JSONObject body = new JSONObject();
@@ -140,7 +143,7 @@ public class BookService {
         if (!DBMethod.updateSales(bookID, genre, bookAmount)) {
             return false;
         }
-        
+
         return true;
     }
 
