@@ -1,33 +1,38 @@
 package com.rattlesnake.methods;
 
+import org.json.JSONObject;
+
 import java.io.BufferedReader;
 import java.io.DataOutputStream;
 import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
 public class HTTPMethod {
 
-    public static String executePost(String targetURL, String urlParameters) {
+    public static String executePost(String targetURL, JSONObject body) {
         HttpURLConnection connection = null;
 
         try {
             URL obj = new URL(targetURL);
             HttpURLConnection con = (HttpURLConnection) obj.openConnection();
 
-            //add reuqest header
+            //add request header
             con.setRequestMethod("POST");
+            con.setRequestProperty("Content-Type", "application/json; charset=UTF-8");
+            con.setRequestProperty("Accept", "application/json");
 
             // Send post request
             con.setDoOutput(true);
-            DataOutputStream wr = new DataOutputStream(con.getOutputStream());
-            wr.writeBytes(urlParameters);
+            OutputStreamWriter wr = new OutputStreamWriter(con.getOutputStream());
+            wr.write(body.toString());
             wr.flush();
             wr.close();
 
             int responseCode = con.getResponseCode();
             System.out.println("\nSending 'POST' request to URL : " + targetURL);
-            System.out.println("Post parameters : " + urlParameters);
+            System.out.println("Post parameters : " + body.toString());
             System.out.println("Response Code : " + responseCode);
 
             BufferedReader in = new BufferedReader(
@@ -40,7 +45,7 @@ public class HTTPMethod {
             }
             in.close();
 
-            //print result
+            // get result
             return response.toString();
         } catch (Exception e) {
             e.printStackTrace();

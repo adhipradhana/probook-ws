@@ -139,4 +139,74 @@ public class DBMethod {
             }
         }
     }
+
+    public static boolean updateSales(String id, String genre, int amount) {
+        Connection con = null;
+        boolean result;
+
+        try {
+            // create a connection
+            con = DriverManager.getConnection(host, user, password);
+
+            // start transaction
+            String startTransaction = "START TRANSACTION";
+            Statement statement = con.createStatement();
+            statement.execute(startTransaction);
+
+            // see sales
+            String selectSql = "SELECT total_sales FROM sales WHERE id = ?";
+            PreparedStatement preparedStatement = con.prepareStatement(selectSql);
+            preparedStatement.setString(1,id);
+
+            // see query result
+            ResultSet resultSet = preparedStatement.executeQuery();
+            resultSet.last();
+
+            if (resultSet.getRow() == 0) {
+                // create new tuple
+                String insertSql = "INSERT INTO sales(id, genre, total_sales) VALUES(?, ?, ?)";
+                preparedStatement = con.prepareStatement(insertSql);
+                preparedStatement.setString(1, id);
+                preparedStatement.setString(2, genre);
+                preparedStatement.setInt(3, amount);
+
+                int rowsAffected = preparedStatement.executeUpdate();
+                if (rowsAffected == 0) {
+                    result = false;
+                } else {
+                    result = true;
+                }
+            } else {
+                int totalSales = resultSet.getInt("total_sales");
+
+                // update the tuple
+                String updateSQL = "UPDATE sales SET total_sales = ? WHERE id = ?";
+                preparedStatement = con.prepareStatement(updateSQL);
+                preparedStatement.setInt(1, totalSales + amount);
+                preparedStatement.setString(2, id);
+
+                int rowsAffected = preparedStatement.executeUpdate();
+                if (rowsAffected == 0) {
+                    result = false;
+                } else {
+                    result = true;
+                }
+            }
+
+            // commit transaction
+            String commitTransaction = "COMMIT";
+            statement.execute(commitTransaction);
+
+            return result;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        } finally {
+            try {
+                con.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+    }
 }

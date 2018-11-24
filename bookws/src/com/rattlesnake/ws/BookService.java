@@ -21,6 +21,7 @@ public class BookService {
 
     private final String BOOK_API_KEY = "AIzaSyAmKiuIzrY3aUGm6nh5MjVq7gaio0xobv8";
     private final String BASE_URL = "https://www.googleapis.com/books/v1/volumes";
+    private final String MERCHANT_SECRET = "DJJALIJALIKECEBONGKU";
 
     @WebMethod
     public Book[] searchBook(String searchTitle) {
@@ -101,6 +102,46 @@ public class BookService {
         Book book = JSONMethod.parseBook(item);
 
         return book;
+    }
+
+    @WebMethod
+    public boolean buyBook(String cardNumber, String bookID, String genre, int bookAmount) {
+        // target url
+        String targetURL = "http://localhost:5000/api/v1/charge";
+
+        // get book info
+        HashMap<String, Number> bookInfo = DBMethod.getBookInfo(bookID);
+
+        // book not found
+        if (bookInfo == null) {
+            return false;
+        }
+
+        // calculate book price
+        long price = bookInfo.get("price").longValue();
+        long totalAmount = price * bookAmount;
+
+        // create and assign json
+        JSONObject body = new JSONObject();
+        body.put("secret", MERCHANT_SECRET);
+        body.put("amount", totalAmount);
+        body.put("cardNumber", cardNumber);
+
+        // execute post request
+        String response = HTTPMethod.executePost(targetURL, body);
+        JSONObject jsonResponse = new JSONObject(response);
+
+        // get response
+        if (jsonResponse.getString("status").equals("error")) {
+            return false;
+        }
+
+        // add sales record to database
+        if (!DBMethod.updateSales(bookID, genre, bookAmount)) {
+            return false;
+        }
+        
+        return true;
     }
 
 }
