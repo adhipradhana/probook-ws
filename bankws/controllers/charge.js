@@ -6,13 +6,13 @@ const Transaction = require('../models/transaction');
 const router = express.Router();
 
 router.post('/', (req, res) => {
-  const secret = req.body.secret;
+  const apiKey = req.body.apiKey;
   const amount = parseFloat(req.body.amount);
   const customerCardNumber = req.body.cardNumber;
   let customerAccount;
   let merchantAccount;
 
-  Merchant.getBySecret(secret)
+  Merchant.getByApiKey(apiKey)
     .then((merchant) => {
       return Account.getById(merchant.accountId);
     })
@@ -37,7 +37,7 @@ router.post('/', (req, res) => {
     .then(() => {
       res.json({
         status: 'success',
-        message: '',
+        message: ''
       });
     })
     .catch((error) => {

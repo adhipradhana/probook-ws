@@ -4,6 +4,7 @@ const router = express.Router();
 
 router.use('/account', require('./account'));
 router.use('/charge', require('./charge'));
+router.use('/totpQRCode', require('./totpQRCode'));
 
 router.get('/', (_, res) => {
   res.json({

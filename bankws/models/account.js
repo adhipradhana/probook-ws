@@ -1,11 +1,12 @@
 const Sequelize = require('sequelize');
-const db = require('./connection');
+const db = require('./db');
 
 const Account = db.define('account', {
   id: { type: Sequelize.INTEGER, primaryKey: true, autoIncrement: true },
   cardNumber: { type: Sequelize.STRING(16), allowNull: false, unique: true },
   name: { type: Sequelize.STRING, allowNull: false },
-  balance: { type: Sequelize.BIGINT, allowNull: false }
+  balance: { type: Sequelize.BIGINT, allowNull: false },
+  totpSecret: { type: Sequelize.STRING(52), allowNull: false }
 });
 
 Account.getById = (id) => {

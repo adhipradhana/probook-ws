@@ -1,5 +1,5 @@
 const Sequelize = require('sequelize');
-const db = require('./connection');
+const db = require('./db');
 const Account = require('./account');
 
 const Merchant = db.define('merchant', {
@@ -10,14 +10,14 @@ const Merchant = db.define('merchant', {
     references: { model: Account, key: 'id' }
   },
   name: { type: Sequelize.STRING, allowNull: false },
-  secret: { type: Sequelize.STRING(24), allowNull: false, unique: true }
+  apiKey: { type: Sequelize.STRING(24), allowNull: false, unique: true }
 });
 
-Merchant.getBySecret = (secret) => {
-  return Merchant.findOne({ where: {secret: secret} })
+Merchant.getByApiKey = (apiKey) => {
+  return Merchant.findOne({ where: {apiKey: apiKey} })
     .then((merchant) => {
       if (merchant) return merchant;
-      else throw Error('Invalid merchant secret');
+      else throw Error('Invalid merchant API key');
     });
 };
 
