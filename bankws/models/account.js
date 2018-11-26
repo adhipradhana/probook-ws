@@ -1,4 +1,5 @@
 const Sequelize = require('sequelize');
+const speakeasy = require('speakeasy');
 const db = require('./db');
 
 const Account = db.define('account', {
@@ -36,6 +37,17 @@ Account.prototype.decreaseBalance = function(amount) {
     balance: this.balance - amount 
   });
   else throw Error('Insufficient balance');
+};
+
+Account.prototype.checkTOTPCode = function(totpCode) {
+  let verified = speakeasy.totp.verify({
+    secret: this.totpSecret,
+    encoding: 'base32',
+    token: totpCode.toString(),
+    window: 2
+  });
+  if (verified) return;
+  else throw Error('Invalid TOTP code');
 };
 
 module.exports = Account;

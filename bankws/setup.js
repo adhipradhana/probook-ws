@@ -11,8 +11,6 @@ if (vars.error) {
   throw vars.error
 }
 
-console.log(speakeasy.generateSecret());
-
 db.sync({force: true})
   .then(() => {
     Account.create({ 

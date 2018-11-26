@@ -9,6 +9,7 @@ router.post('/', (req, res) => {
   const apiKey = req.body.apiKey;
   const amount = parseFloat(req.body.amount);
   const customerCardNumber = req.body.cardNumber;
+  const customerTOTPCode = req.body.totpCode;
   let customerAccount;
   let merchantAccount;
 
@@ -22,6 +23,9 @@ router.post('/', (req, res) => {
     })
     .then((account) => {
       customerAccount = account;
+      return customerAccount.checkTOTPCode(customerTOTPCode);
+    })
+    .then(() => {
       return customerAccount.decreaseBalance(amount);
     })
     .then(() => {
