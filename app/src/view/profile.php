@@ -114,7 +114,7 @@ HTML;
           </div>
           <div class='profile-detail-content-row-container'>
             <div class='profile-detail-content-row-label-container'>
-              <img class='profile-detail-content-row-label-icon' src='src/view/static/img/icon_email.svg' alt='Email icon'>
+              <img class='profile-detail-content-row-label-icon' src='src/view/static/img/icon_card.svg' alt='Card Number icon'>
               <p class='profile-detail-content-row-label'>Card Number</p>
             </div>
             <div class='profile-detail-content-row-content-container'>
