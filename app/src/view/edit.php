@@ -1,5 +1,5 @@
 <?php
-function render_template(string $id, string $name, string $username, string $email, string $address, string $phoneNumber, $response = null) {
+function render_template(string $id, string $name, string $username, string $email, string $cardnumber, string $address, string $phoneNumber, $response = null) {
   $path = 'src/model/profile/';
   if(file_exists($path . $id .'.jpg')) {
     $path = $path . $id . '.jpg';
@@ -112,6 +112,18 @@ function render_template(string $id, string $name, string $username, string $ema
                 </div>
                 <div class='edit-detail-content-row-content-container'>
                   <input id='phoneNumberField' class='edit-detail-content-row-input' type='text' name='phone_number' value='{$phoneNumber}'>
+                </div>
+              </div>
+              <div class='edit-detail-content-row-container'>
+                <div class='edit-detail-content-row-label-container'>
+                  <img class='edit-detail-content-row-label-icon' src='src/view/static/img/icon_card.svg' alt='Card Number icon'>
+                  <h4>Card Number</h4>
+                </div>
+                <div class='edit-detail-content-row-content-container'>
+                  <input id='cardNumberField' class='edit-detail-content-row-input-short' type='text' name='card_number' value='{$cardnumber}'>
+                  <div id='cardNumberFieldValidation' class='edit-detail-content-row-validation-container'>
+                    <img id='cardNumberFieldValidationIcon' class='edit-detail-content-row-validation-icon' src='src/view/static/img/icon_success.svg' alt='Validation icon'>
+                  </div>
                 </div>
               </div>
               <div class='edit-button-container'>

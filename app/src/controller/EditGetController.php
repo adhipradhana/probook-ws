@@ -5,6 +5,6 @@ class EditGetController implements ControllerInterface {
     $db = new MarufDB;
     $user = $db->getUser($_COOKIE['token']);
     // print_r($user);
-    return $template->render($user['id'], $user['name'], $user['username'], $user['email'], $user['address'], $user['phonenumber']);
+    return $template->render($user['id'], $user['name'], $user['username'], $user['email'], $user['cardnumber'], $user['address'], $user['phonenumber']);
   }
 }

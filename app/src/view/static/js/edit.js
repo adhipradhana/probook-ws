@@ -3,7 +3,13 @@ import $$ from './lib/jQowi.js';
 const invalidNameMessage = 'Name must be a valid person name with less than 20 characters';
 const invalidAddressMessage = 'Address cannot be empty';
 const invalidPhoneNumberMessage = 'Phone number must be a number with 9 to 12 digits';
+const checkingCardNumberMessage = 'Please wait, we are validating your card number...';
+const invalidCardNumberMessage = 'Card number invalid';
 const invalidImageMessage = 'Image must be in JPG format';
+
+let cardNumberValidationMessage = invalidCardNumberMessage;
+let cardNumberValid = false;
+let cardNumberValidationRequest;
 
 let submitButtonHovered = false;
 let imageSelected = false;
@@ -55,6 +61,10 @@ function validateInput(_) {
     submitButton.disabled = true;
     updateInputValidationMessage(invalidPhoneNumberMessage);
     if (submitButtonHovered) showInputValidationMessage();
+  } else if (!cardNumberValid) {
+    submitButton.disabled = true;
+    updateInputValidationMessage(cardNumberValidationMessage);
+    if (submitButtonHovered) showInputValidationMessage();
   } else if (imageSelected && !isJPG(imagePath)) {
     submitButton.disabled = true;
     updateInputValidationMessage(invalidImageMessage);
@@ -63,6 +73,45 @@ function validateInput(_) {
     submitButton.disabled = false;
     hideInputValidationMessage();
   }
+}
+
+function validateCardNumber(_) {
+  const cardNumber = event.target.value;
+  const cardNumberValidationIcon = $$('#cardNumberFieldValidationIcon');
+  const submitButton = $$('#submitButton');
+  cardNumberValidationIcon.style.opacity = 1;
+  if (cardNumberValidationRequest) cardNumberValidationRequest.abort();
+  if (isNum(cardNumber)) {
+    submitButton.disabled = true;
+    cardNumberValid = false;
+    cardNumberValidationMessage = checkingCardNumberMessage;
+    cardNumberValidationRequest = $$.ajax({
+      method: 'GET',
+      url: '/cardnumber?cardnumber=' + cardNumber,
+      callback: (response) => {
+        response = JSON.parse(response);
+        const cardNumberValidationIcon = $$('#cardNumberFieldValidationIcon');
+        const submitButton = $$('#submitButton');
+        if (response.valid) {
+          cardNumberValidationIcon.src = 'src/view/static/img/icon_success.svg';
+          submitButton.disabled = false;
+          cardNumberValid = true;
+        } else {
+          cardNumberValidationIcon.src = 'src/view/static/img/icon_failed.svg';
+          submitButton.disabled = true;
+          cardNumberValid = false;
+          cardNumberValidationMessage = invalidCardNumberMessage;
+        }
+        validateInput(null);
+      },
+    });
+  } else {
+    cardNumberValidationIcon.src = 'src/view/static/img/icon_failed.svg';
+    submitButton.disabled = true;
+    cardNumberValid = false;
+    cardNumberValidationMessage = invalidCardNumberMessage;
+  }
+  validateInput(null);
 }
 
 $$('#fileNameTextArea').disabled = true;
@@ -77,6 +126,8 @@ $$('#fileToUpload').onchange = () => {
   imageSelected = true;
   validateInput();
 };
+
+$$('#cardNumberField').oninput = validateCardNumber;
 
 $$('#nameField').oninput = validateInput;
 $$('#addressField').oninput = validateInput;

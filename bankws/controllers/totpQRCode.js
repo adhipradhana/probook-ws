@@ -18,7 +18,7 @@ router.get('/', (req, res) => {
       } else {
         res.json({
           status: 'failed',
-          message: error.message
+          message: 'Invalid card number'
         });
       }
     });
