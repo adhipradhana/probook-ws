@@ -114,6 +114,15 @@ HTML;
           </div>
           <div class='profile-detail-content-row-container'>
             <div class='profile-detail-content-row-label-container'>
+              <img class='profile-detail-content-row-label-icon' src='src/view/static/img/icon_email.svg' alt='Email icon'>
+              <p class='profile-detail-content-row-label'>Card Number</p>
+            </div>
+            <div class='profile-detail-content-row-content-container'>
+              <p class='profile-detail-content-row-content'>{$cardnumber}</p>
+            </div>
+          </div>
+          <div class='profile-detail-content-row-container'>
+            <div class='profile-detail-content-row-label-container'>
               <img class='profile-detail-content-row-label-icon' src='src/view/static/img/icon_address.svg' alt='Address icon'>
               <p class='profile-detail-content-row-label'>Address</p>
             </div>
