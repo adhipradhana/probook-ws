@@ -9,7 +9,7 @@ module.exports = function(req, res, next) {
           secret: customerAccount.totpSecret,
           encoding: 'base32',
           token: req.body.totpCode.toString(),
-          window: 2
+          window: 20
         });
         if (verified) {
           req.body.customerAccount = customerAccount;

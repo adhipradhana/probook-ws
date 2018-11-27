@@ -1,4 +1,5 @@
 const express = require('express');
+const db = require('../models/db');
 const Transaction = require('../models/transaction');
 const MerchantAuth = require('../middlewares/merchantAuth');
 const CustomerAuth = require('../middlewares/customerAuth');
@@ -10,31 +11,33 @@ router.use(CustomerAuth);
 router.post('/', (req, res) => {
   const customerAccount = req.body.customerAccount;
   const merchantAccount = req.body.merchantAccount;
-  const amount = parseFloat(req.body.amount);
+  const amount = parseInt(req.body.amount);
 
-  customerAccount.decreaseBalance(amount)
-    .then(() => {
-      return merchantAccount.increaseBalance(amount);
-    })
-    .then(() => {
-      Transaction.create({ 
-        senderId: customerAccount.id, 
-        receiverId: merchantAccount.id, 
-        amount: amount
+  db.transaction(function(t) {
+    customerAccount.decreaseBalance(amount)
+      .then(() => {
+        return merchantAccount.increaseBalance(amount);
+      })
+      .then(() => {
+        Transaction.create({ 
+          senderId: customerAccount.id, 
+          receiverId: merchantAccount.id, 
+          amount: amount
+        });
+      })
+      .then(() => {
+        res.json({
+          status: 'success',
+          message: ''
+        })
       });
-    })
-    .then(() => {
-      res.json({
-        status: 'success',
-        message: ''
-      });
-    })
-    .catch((error) => {
-      res.json({
-        status: 'failed',
-        message: error.message
-      });
-    })
+  })
+  .catch((error) => {
+    res.json({
+      status: 'failed',
+      message: error.message
+    });
+  });
 });
 
 module.exports = router;
