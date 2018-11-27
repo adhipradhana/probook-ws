@@ -1,6 +1,5 @@
 package com.rattlesnake.ws;
 
-import javax.jws.WebParam;
 import javax.jws.WebService;
 
 import com.rattlesnake.methods.JSONMethod;
