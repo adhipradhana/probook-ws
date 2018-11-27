@@ -95,6 +95,11 @@ $router->get('/email', function($request) {
   return json_encode(Api::validateEmail($request->email));
 });
 
+$router->get('/cardnumber', function($request) {
+  return json_encode(Api::validateCardNumber($request->cardnumber));
+});
+
+
 /** POST */
 $router->post('/order', function($request) {
   return json_encode(Api::order($request));
