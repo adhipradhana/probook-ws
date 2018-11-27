@@ -1,28 +1,21 @@
 var app = angular.module("probookSearch", []); 
 
-app.controller("searchBook", function($scope) {
+app.controller("searchBook", function($scope, $http) {
     $scope.books = [];
     $scope.status = false;
     $scope.search = function () {
-        console.log($scope.query);
+        var search_query = encodeURI($scope.query);
+        $http({
+            url: "/soapsearch", 
+            method: "GET",
+            params: {query: search_query}
+        }).then(function(response) {
+            //First function handles success
+            console.log(response.data);
+            $scope.books = response.data;
+        }, function(response) {
+            console.log("error");
+        });
         $scope.status = true;
-        $scope.books = [
-            {
-                id: 1,
-                title: 'The Communist Manifesto',
-                author: 'Karl Marx',
-                synopsis: 'The Communist Manifesto is divided into a preamble and four sections, the last of these a short conclusion.',
-                rating: 0,
-                vote: 0   
-            },
-            {
-                id: 2,
-                title: 'The Cold War: A New History',
-                author: 'John Lewis Gaddis',
-                synopsis: 'The dean of Cold War historians (The New York Times) now presents the definitive account of the global confrontation that dominated the last half of the twentieth century.',
-                rating: 0,
-                vote: 0  
-            }
-        ]
     }
 });

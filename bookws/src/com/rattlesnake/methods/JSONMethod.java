@@ -29,7 +29,7 @@ public class JSONMethod {
         return bookList;
     }
 
-    public static Book parseBook(String response) {
+    public static Book parseBookResponse(String response) {
         // parse json object
         JSONObject item = new JSONObject(response);
 
@@ -45,20 +45,36 @@ public class JSONMethod {
         book.setTitle(title);
 
         // assign author
-        String author = item.getJSONObject("volumeInfo").getJSONArray("authors").getString(0);
-        book.setAuthor(author);
+        if (item.getJSONObject("volumeInfo").has("authors")) {
+            String author = item.getJSONObject("volumeInfo").getJSONArray("authors").getString(0);
+            book.setAuthor(author);
+        } else {
+            book.setAuthor("Various authors");
+        }
 
         // assign image
-        String image = item.getJSONObject("volumeInfo").getJSONObject("imageLinks").getString("thumbnail");
-        book.setImage(image);
+        if (item.getJSONObject("volumeInfo").has("imageLinks")) {
+            String image = item.getJSONObject("volumeInfo").getJSONObject("imageLinks").getString("thumbnail");
+            book.setImage(image);
+        } else {
+            book.setImage("https://upload.wikimedia.org/wikipedia/en/thumb/9/99/Question_book-new.svg/512px-Question_book-new.svg.png");
+        }
 
         // assign genre
-        String genre = item.getJSONObject("volumeInfo").getJSONArray("categories").getString(0);
-        book.setGenre(genre);
+        if (item.getJSONObject("volumeInfo").has("categories")) {
+            String genre = item.getJSONObject("volumeInfo").getJSONArray("categories").getString(0);
+            book.setGenre(genre);
+        } else {
+            book.setGenre("Unknown");
+        }
 
         // assign description
-        String description = item.getJSONObject("volumeInfo").getString("description");
-        book.setDescription(description);
+        if (item.getJSONObject("volumeInfo").has("description")) {
+            String description = item.getJSONObject("volumeInfo").getString("description");
+            book.setDescription(description);
+        } else {
+            book.setDescription("No description found.");
+        }
 
         // assign price and rating
         HashMap<String, Number> result = DBMethod.getBookInfo(id);
@@ -79,26 +95,44 @@ public class JSONMethod {
         // assign id
         String id = item.getString("id");
         book.setId(id);
+        System.out.println(id);
 
         // assign title
         String title = item.getJSONObject("volumeInfo").getString("title");
         book.setTitle(title);
+        System.out.println(title);
 
         // assign author
-        String author = item.getJSONObject("volumeInfo").getJSONArray("authors").getString(0);
-        book.setAuthor(author);
+        if (item.getJSONObject("volumeInfo").has("authors")) {
+            String author = item.getJSONObject("volumeInfo").getJSONArray("authors").getString(0);
+            book.setAuthor(author);
+        } else {
+            book.setAuthor("Various authors");
+        }
 
         // assign image
-        String image = item.getJSONObject("volumeInfo").getJSONObject("imageLinks").getString("thumbnail");
-        book.setImage(image);
+        if (item.getJSONObject("volumeInfo").has("imageLinks")) {
+            String image = item.getJSONObject("volumeInfo").getJSONObject("imageLinks").getString("thumbnail");
+            book.setImage(image);
+        } else {
+            book.setImage("https://upload.wikimedia.org/wikipedia/en/thumb/9/99/Question_book-new.svg/512px-Question_book-new.svg.png");
+        }
 
         // assign genre
-        String genre = item.getJSONObject("volumeInfo").getJSONArray("categories").getString(0);
-        book.setGenre(genre);
+        if (item.getJSONObject("volumeInfo").has("categories")) {
+            String genre = item.getJSONObject("volumeInfo").getJSONArray("categories").getString(0);
+            book.setGenre(genre);
+        } else {
+            book.setGenre("Unknown");
+        }
 
         // assign description
-        String description = item.getJSONObject("volumeInfo").getString("description");
-        book.setDescription(description);
+        if (item.getJSONObject("volumeInfo").has("description")) {
+            String description = item.getJSONObject("volumeInfo").getString("description");
+            book.setDescription(description);
+        } else {
+            book.setDescription("No description found.");
+        }
 
         // assign price and rating
         HashMap<String, Number> result = DBMethod.getBookInfo(id);

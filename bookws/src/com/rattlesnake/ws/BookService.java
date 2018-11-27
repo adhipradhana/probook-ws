@@ -50,7 +50,7 @@ public class BookService implements BookInterface {
         }
 
         // parse book
-        Book book = JSONMethod.parseBook(response);
+        Book book = JSONMethod.parseBookResponse(response);
 
         return book;
     }

@@ -229,6 +229,8 @@
     radial-gradient(#e2e2e2 10%, transparent 0);
   background-size: 40px 40px;
   background-position: 0 0, 20px 20px;
+  background-attachment: fixed;
+  overflow-x: scroll;
 }
 
 .add-background {

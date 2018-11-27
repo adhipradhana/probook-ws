@@ -3,6 +3,7 @@ build/
 bin/
 target/
 libs/
+lib/
 tmp/
 node_modules/
 jaxws/jaxws-client/src/main/
