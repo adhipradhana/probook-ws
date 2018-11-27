@@ -15,10 +15,7 @@ const Merchant = db.define('merchant', {
 
 Merchant.getByApiKey = (apiKey) => {
   return Merchant.findOne({ where: {apiKey: apiKey} })
-    .then((merchant) => {
-      if (merchant) return merchant;
-      else throw Error('Invalid merchant API key');
-    });
+    .then((merchant) => merchant);
 };
 
 module.exports = Merchant;

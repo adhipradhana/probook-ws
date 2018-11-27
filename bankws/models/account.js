@@ -1,5 +1,4 @@
 const Sequelize = require('sequelize');
-const speakeasy = require('speakeasy');
 const db = require('./db');
 
 const Account = db.define('account', {
@@ -12,18 +11,12 @@ const Account = db.define('account', {
 
 Account.getById = (id) => {
   return Account.findOne({ where: {id: id} })
-    .then((account) => {
-      if (account) return account;
-      else throw Error('Invalid id');
-    });
+    .then((account) => account);
 };
 
 Account.getByCardNumber = (cardNumber) => {
   return Account.findOne({ where: {cardNumber: cardNumber} })
-    .then((account) => {
-      if (account) return account;
-      else throw Error('Invalid credit card');
-    });
+    .then((account) => account);
 };
 
 Account.prototype.increaseBalance = function(amount) {
@@ -37,17 +30,6 @@ Account.prototype.decreaseBalance = function(amount) {
     balance: this.balance - amount 
   });
   else throw Error('Insufficient balance');
-};
-
-Account.prototype.checkTOTPCode = function(totpCode) {
-  let verified = speakeasy.totp.verify({
-    secret: this.totpSecret,
-    encoding: 'base32',
-    token: totpCode.toString(),
-    window: 2
-  });
-  if (verified) return;
-  else throw Error('Invalid TOTP code');
 };
 
 module.exports = Account;

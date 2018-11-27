@@ -1,33 +1,18 @@
 const express = require('express');
-const Account = require('../models/account');
-const Merchant = require('../models/merchant');
 const Transaction = require('../models/transaction');
+const MerchantAuth = require('../middlewares/merchantAuth');
+const CustomerAuth = require('../middlewares/customerAuth');
 
 const router = express.Router();
+router.use(MerchantAuth);
+router.use(CustomerAuth);
 
 router.post('/', (req, res) => {
-  const apiKey = req.body.apiKey;
+  const customerAccount = req.body.customerAccount;
+  const merchantAccount = req.body.merchantAccount;
   const amount = parseFloat(req.body.amount);
-  const customerCardNumber = req.body.cardNumber;
-  const customerTOTPCode = req.body.totpCode;
-  let customerAccount;
-  let merchantAccount;
 
-  Merchant.getByApiKey(apiKey)
-    .then((merchant) => {
-      return Account.getById(merchant.accountId);
-    })
-    .then((account) => {
-      merchantAccount = account;
-      return Account.getByCardNumber(customerCardNumber);
-    })
-    .then((account) => {
-      customerAccount = account;
-      return customerAccount.checkTOTPCode(customerTOTPCode);
-    })
-    .then(() => {
-      return customerAccount.decreaseBalance(amount);
-    })
+  customerAccount.decreaseBalance(amount)
     .then(() => {
       return merchantAccount.increaseBalance(amount);
     })

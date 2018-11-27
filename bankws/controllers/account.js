@@ -6,18 +6,19 @@ const router = express.Router();
 router.get('/', (req, res) => {
   Account.getByCardNumber(req.query.cardNumber)
     .then((account) => {
-      res.json({
-        status: 'success',
-        message: '',
-        name: account.name,
-        balance: account.balance
-      });
-    })
-    .catch((error) => {
-      res.json({
-        status: 'failed',
-        message: error.message
-      });
+      if (account) {
+        res.json({
+          status: 'success',
+          message: '',
+          name: account.name,
+          balance: account.balance
+        });
+      } else {
+        res.json({
+          status: 'failed',
+          message: 'Invalid card number'
+        });
+      }
     });
 });
 
