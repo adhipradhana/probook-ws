@@ -95,8 +95,11 @@ $router->get('/email', function($request) {
   return json_encode(Api::validateEmail($request->email));
 });
 
+$router->get('/soapsearch', function($request) {
+  return json_encode(Api::search($request->query));
+});
+
 /** POST */
 $router->post('/order', function($request) {
   return json_encode(Api::order($request));
 }, [new TokenValidationMiddleware, new ApiAuthMiddleware]);
-

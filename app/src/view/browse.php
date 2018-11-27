@@ -93,12 +93,12 @@ function render_template(string $username) {
             <div class='search-book-container'>
               <div class='search-book-content-container'>
                 <div class='search-book-image-container'>
-                  <img class='search-book-image' src="src/model/books/{{book.id}}.jpg"/>
+                  <img class='search-book-image' src="{{ book.image }}"/>
                 </div>
                 <div class='search-book-text-container'>
                   <h4 class='book-title'>{{ book.title }}</h4>
-                  <h4 class='book-author'>{{ book.author }} - {{ book.rating }} / 5.0 {{ book.vote }} votes</h4>
-                  <p class='book-description'>{{ book.synopsis }}</p>
+                  <h4 class='book-author'>{{ book.authors }} - {{ book.rating }} / 5.0 from {{ book.rating_count }} votes</h4>
+                  <p class='book-description'>{{ book.description }}</p>
                 </div>
               </div>
               <div class='search-detail-button-container'>

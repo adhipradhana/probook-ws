@@ -55,7 +55,7 @@ public class BookService {
         }
 
         // parse book
-        Book book = JSONMethod.parseBook(response);
+        Book book = JSONMethod.parseBookResponse(response);
 
         return book;
     }
