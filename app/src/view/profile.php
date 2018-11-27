@@ -1,5 +1,5 @@
 <?php
-function render_template(string $userId, string $name, string $username, string $email, string $address, string $phoneNumber) {
+function render_template(string $userId, string $name, string $username, string $email, string $cardnumber, string $address, string $phoneNumber) {
   $path = 'src/model/profile/';
   if(file_exists($path . $userId .'.jpg')) {
     $path = $path . $userId . '.jpg';

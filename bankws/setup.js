@@ -32,13 +32,13 @@ db.sync({force: true})
       totpSecret: speakeasy.generateSecret().base32
     });
     Account.create({ 
-      cardNumber: "4126795473513873", 
-      name: 'Jan Ethes', 
+      cardNumber: "4485012043330381", 
+      name: 'Rachel Park', 
       balance: 10000000,
       totpSecret: speakeasy.generateSecret().base32
     });
     Account.create({ 
-      cardNumber: "4126795473513873", 
+      cardNumber: "4126795473513873",
       name: 'Aldo Azaloss', 
       balance: 100000,
       totpSecret: speakeasy.generateSecret().base32
