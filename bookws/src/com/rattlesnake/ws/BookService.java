@@ -1,13 +1,13 @@
 package com.rattlesnake.ws;
 
 import javax.jws.WebService;
-
-import com.rattlesnake.methods.JSONMethod;
 import org.json.*;
 
+import com.rattlesnake.methods.JSONMethod;
 import com.rattlesnake.methods.HTTPMethod;
 import com.rattlesnake.methods.DBMethod;
 import com.rattlesnake.models.Book;
+import com.rattlesnake.models.Status;
 
 import java.util.Random;
 
@@ -55,10 +55,14 @@ public class BookService implements BookInterface {
     }
 
     @Override
-    public boolean setBookRating(String id, double rating) {
+    public Status setBookRating(String id, double rating) {
         boolean result = DBMethod.changeRating(id, rating);
 
-        return result;
+        if (result) {
+            return new Status("success", "");
+        } else {
+            return new Status("error", "Unable to change rating");
+        }
     }
 
     @Override
@@ -100,7 +104,7 @@ public class BookService implements BookInterface {
     }
 
     @Override
-    public boolean buyBook(String cardNumber, String bookID, int bookAmount, String totp) {
+    public Status buyBook(String cardNumber, String bookID, int bookAmount, String totpCode) {
         // target url
         String targetURL = "http://localhost:5000/api/v1/charge";
 
@@ -109,7 +113,7 @@ public class BookService implements BookInterface {
 
         // book not found
         if (book.getId().equals("0")) {
-            return false;
+            return new Status("error", "Book not found");
         }
 
         // calculate book price
@@ -122,7 +126,7 @@ public class BookService implements BookInterface {
         body.put("secret", MERCHANT_SECRET);
         body.put("amount", totalAmount);
         body.put("cardNumber", cardNumber);
-        body.put("totp", totp);
+        body.put("totp", totpCode);
 
         // execute post request
         String response = HTTPMethod.executePost(targetURL, body);
@@ -130,15 +134,15 @@ public class BookService implements BookInterface {
 
         // get response
         if (jsonResponse.getString("status").equals("error")) {
-            return false;
+            return new Status("error", jsonResponse.getString("message"));
         }
 
         // add sales record to database
         if (!DBMethod.updateSales(bookID, genre, bookAmount)) {
-            return false;
+            return new Status("error", "Unable to add sales record to database");
         }
 
-        return true;
+        return new Status("success", "");
     }
 
 }

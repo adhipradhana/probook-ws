@@ -7,6 +7,7 @@ import javax.jws.soap.SOAPBinding;
 import javax.jws.soap.SOAPBinding.Style;
 
 import com.rattlesnake.models.Book;
+import com.rattlesnake.models.Status;
 
 @WebService
 @SOAPBinding(style = Style.RPC)
@@ -19,14 +20,14 @@ public interface BookInterface {
     Book getBookDetail(@WebParam(name = "bookID") String id);
 
     @WebMethod
-    boolean setBookRating(@WebParam(name = "bookID") String id, @WebParam(name = "rating") double rating);
+    Status setBookRating(@WebParam(name = "bookID") String id, @WebParam(name = "rating") double rating);
 
     @WebMethod
     Book getRecommendedBook(@WebParam(name = "genre") String genre);
 
     @WebMethod
-    boolean buyBook(@WebParam(name = "cardNumber") String cardNumber, @WebParam(name = "bookID") String bookID,
-                    @WebParam(name = "bookAmount") int bookAmount, @WebParam(name = "totp") String totp);
+    Status buyBook(@WebParam(name = "cardNumber") String cardNumber, @WebParam(name = "bookID") String bookID,
+                    @WebParam(name = "bookAmount") int bookAmount, @WebParam(name = "totpCode") String totpCode);
 
 
 
