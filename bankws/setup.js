@@ -28,13 +28,19 @@ db.sync({force: true})
     Account.create({ 
       cardNumber: "4539562256288318", 
       name: 'Sandiaga Uno', 
-      balance: 1000000000000,
+      balance: 3000000000000,
       totpSecret: speakeasy.generateSecret().base32
     });
     Account.create({ 
       cardNumber: "4126795473513873", 
-      name: 'Aldo Azali', 
-      balance: 1000000,
+      name: 'Jan Ethes', 
+      balance: 10000000,
+      totpSecret: speakeasy.generateSecret().base32
+    });
+    Account.create({ 
+      cardNumber: "4126795473513873", 
+      name: 'Aldo Azaloss', 
+      balance: 100000,
       totpSecret: speakeasy.generateSecret().base32
     });
   })
