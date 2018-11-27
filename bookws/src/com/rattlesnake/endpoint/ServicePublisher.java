@@ -8,7 +8,7 @@ public class ServicePublisher {
 
     public static void main(String[] args) {
         System.out.println("Running on port 3000");
-        Endpoint.publish("http://localhost:3000/service/book", new BookService());
+        Endpoint.publish("http://localhost:3000/bookws/book", new BookService());
     }
 
 }

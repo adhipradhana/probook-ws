@@ -1,10 +1,7 @@
 package com.rattlesnake.ws;
 
-import javax.jws.WebMethod;
 import javax.jws.WebParam;
 import javax.jws.WebService;
-import javax.jws.soap.SOAPBinding;
-import javax.jws.soap.SOAPBinding.Style;
 
 import com.rattlesnake.methods.JSONMethod;
 import org.json.*;
@@ -13,19 +10,17 @@ import com.rattlesnake.methods.HTTPMethod;
 import com.rattlesnake.methods.DBMethod;
 import com.rattlesnake.models.Book;
 
-import java.util.HashMap;
 import java.util.Random;
 
-@WebService
-@SOAPBinding(style = Style.RPC)
-public class BookService {
+@WebService(endpointInterface="com.rattlesnake.ws.BookInterface")
+public class BookService implements BookInterface {
 
     private final String BOOK_API_KEY = "AIzaSyAmKiuIzrY3aUGm6nh5MjVq7gaio0xobv8";
     private final String BASE_URL = "https://www.googleapis.com/books/v1/volumes";
     private final String MERCHANT_SECRET = "DJJALIJALIKECEBONGKU";
 
-    @WebMethod
-    public Book[] searchBook(@WebParam(name = "searchTitle") String searchTitle) {
+    @Override
+    public Book[] searchBook(String searchTitle) {
         String targetURL = BASE_URL + "?q=intitle:" + searchTitle + "&key=" + BOOK_API_KEY;
         Book[] bookList;
 
@@ -43,8 +38,8 @@ public class BookService {
         return bookList;
     }
 
-    @WebMethod
-    public Book getBookDetail(@WebParam(name = "bookID") String id) {
+    @Override
+    public Book getBookDetail(String id) {
         // target url
         String targetURL = BASE_URL + "/" + id + "?key=" + BOOK_API_KEY;
 
@@ -60,15 +55,15 @@ public class BookService {
         return book;
     }
 
-    @WebMethod
-    public boolean setBookRating(@WebParam(name = "bookID") String id, @WebParam(name = "rating") double rating) {
+    @Override
+    public boolean setBookRating(String id, double rating) {
         boolean result = DBMethod.changeRating(id, rating);
 
         return result;
     }
 
-    @WebMethod
-    public Book getRecommendedBook(@WebParam(name = "genre") String genre) {
+    @Override
+    public Book getRecommendedBook(String genre) {
         // get book id
         String id = DBMethod.getRecommendedBook(genre);
 
@@ -105,9 +100,8 @@ public class BookService {
         return book;
     }
 
-    @WebMethod
-    public boolean buyBook(@WebParam(name = "cardNumber") String cardNumber,
-                           @WebParam(name = "bookID") String bookID, @WebParam(name = "bookAmount") int bookAmount) {
+    @Override
+    public boolean buyBook(String cardNumber, String bookID, int bookAmount) {
         // target url
         String targetURL = "http://localhost:5000/api/v1/charge";
 
