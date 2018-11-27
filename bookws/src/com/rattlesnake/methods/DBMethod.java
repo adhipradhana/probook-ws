@@ -7,7 +7,7 @@ public class DBMethod {
 
     private static final String host = "jdbc:mysql://localhost:3306/bookws";
     private static final String user = "root";
-    private static final String password = "mamapapa123";
+    private static final String password = "";
 
     public static HashMap<String, Number> getBookInfo(String id) {
         Connection con = null;
