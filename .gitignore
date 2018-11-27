@@ -6,6 +6,7 @@ bankws/node_modules
 
 # Env vars
 */.env
+*/.ethes
 
 # VSCode
 .vscode

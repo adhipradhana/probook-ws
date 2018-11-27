@@ -53,6 +53,7 @@
 
 form {
 	width: 90%;
+	margin-bottom: 0px;
 }
 
 button {
@@ -64,7 +65,7 @@ input {
 }
 
 textarea {
-  height: 60px;
+  height: 46px;
   margin-bottom: 8px;
   box-sizing: border-box;
   font-size: 0.9rem;

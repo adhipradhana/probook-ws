@@ -9,17 +9,22 @@ const checkingEmailMessage = 'Please wait, we are checking your email availabili
 const takenEmailMessage = 'Email already taken';
 const invalidPasswordMessage = 'Password must contains at least 6 characters';
 const notMatchingPasswordMessage = 'Password confirmation does not match';
+const checkingCardNumberMessage = 'Please wait, we are validating your card number...';
+const invalidCardNumberMessage = 'Card number invalid';
 const invalidAddressMessage = 'Address cannot be empty';
 const invalidPhoneNumberMessage = 'Phone number must be a number with 9 to 12 digits';
 
 let usernameValidationMessage = invalidUsernameMessage;
 let emailValidationMessage = invalidEmailMessage;
+let cardNumberValidationMessage = invalidCardNumberMessage;
 
 let usernameValid = false;
 let emailValid = false;
+let cardNumberValid = false;
 
 let usernameValidationRequest;
 let emailValidationRequest;
+let cardNumberValidationRequest;
 
 let submitButtonHovered = false;
 
@@ -84,6 +89,10 @@ function validateInput(_) {
   } else if (confirmPasswordField.value != passwordField.value) {
     submitButton.disabled = true;
     updateInputValidationMessage(notMatchingPasswordMessage);
+    if (submitButtonHovered) showInputValidationMessage();
+  } else if (!cardNumberValid) {
+    submitButton.disabled = true;
+    updateInputValidationMessage(cardNumberValidationMessage);
     if (submitButtonHovered) showInputValidationMessage();
   } else if (addressField.value.length == 0) {
     submitButton.disabled = true;
@@ -177,8 +186,48 @@ function validateEmail(_) {
   validateInput(null);
 }
 
+function validateCardNumber(_) {
+  const cardNumber = event.target.value;
+  const cardNumberValidationIcon = $$('#formCardNumberValidationIcon');
+  const submitButton = $$('#formSubmitButton');
+  cardNumberValidationIcon.style.opacity = 1;
+  if (cardNumberValidationRequest) cardNumberValidationRequest.abort();
+  if (isNum(cardNumber)) {
+    submitButton.disabled = true;
+    cardNumberValid = false;
+    cardNumberValidationMessage = checkingCardNumberMessage;
+    cardNumberValidationRequest = $$.ajax({
+      method: 'GET',
+      url: 'http://localhost:5000/api/v1/account?cardNumber=' + cardNumber,
+      callback: (response) => {
+        response = JSON.parse(response);
+        const cardNumberValidationIcon = $$('#formCardNumberValidationIcon');
+        const submitButton = $$('#formSubmitButton');
+        if (response.status == 'success') {
+          cardNumberValidationIcon.src = 'src/view/static/img/icon_success.svg';
+          submitButton.disabled = false;
+          cardNumberValid = true;
+        } else {
+          cardNumberValidationIcon.src = 'src/view/static/img/icon_failed.svg';
+          submitButton.disabled = true;
+          cardNumberValid = false;
+          cardNumberValidationMessage = invalidCardNumberMessage;
+        }
+        validateInput(null);
+      },
+    });
+  } else {
+    cardNumberValidationIcon.src = 'src/view/static/img/icon_failed.svg';
+    submitButton.disabled = true;
+    cardNumberValid = false;
+    cardNumberValidationMessage = invalidCardNumberMessage;
+  }
+  validateInput(null);
+}
+
 $$('#formUsernameField').oninput = validateUsername;
 $$('#formEmailField').oninput = validateEmail;
+$$('#formCardNumberField').oninput = validateCardNumber;
 
 $$('#formNameField').oninput = validateInput;
 $$('#formPasswordField').oninput = validateInput;
@@ -189,9 +238,7 @@ $$('#formPhoneNumberField').oninput = validateInput;
 updateInputValidationMessage(invalidNameMessage);
 
 $$('#formSubmitButtonInner').onmouseenter = () => {
-  if ($$('#formSubmitButton').disabled) {
-    showInputValidationMessage();
-  }
+  if ($$('#formSubmitButton').disabled) showInputValidationMessage();
   submitButtonHovered = true;
 };
 
