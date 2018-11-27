@@ -100,7 +100,7 @@ public class BookService implements BookInterface {
     }
 
     @Override
-    public boolean buyBook(String cardNumber, String bookID, int bookAmount) {
+    public boolean buyBook(String cardNumber, String bookID, int bookAmount, String totp) {
         // target url
         String targetURL = "http://localhost:5000/api/v1/charge";
 
@@ -122,6 +122,7 @@ public class BookService implements BookInterface {
         body.put("secret", MERCHANT_SECRET);
         body.put("amount", totalAmount);
         body.put("cardNumber", cardNumber);
+        body.put("totp", totp);
 
         // execute post request
         String response = HTTPMethod.executePost(targetURL, body);

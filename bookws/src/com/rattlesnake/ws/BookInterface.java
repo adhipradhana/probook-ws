@@ -25,7 +25,8 @@ public interface BookInterface {
     Book getRecommendedBook(@WebParam(name = "genre") String genre);
 
     @WebMethod
-    boolean buyBook(@WebParam(name = "cardNumber") String cardNumber, @WebParam(name = "bookID") String bookID, @WebParam(name = "bookAmount") int bookAmount);
+    boolean buyBook(@WebParam(name = "cardNumber") String cardNumber, @WebParam(name = "bookID") String bookID,
+                    @WebParam(name = "bookAmount") int bookAmount, @WebParam(name = "totp") String totp);
 
 
 
