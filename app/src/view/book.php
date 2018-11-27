@@ -1,8 +1,8 @@
 <?php
-function render_template(string $username, $book, $reviews) {
+function render_template(string $username, $book, $recommend, $reviews) {
   $reviewsHTML = "";
   $bookId = $book['id'];
-  $bookImagePath = "src/model/books/".$bookId.".jpg";
+  $bookImagePath = $book['image'];
 
   $rating = round($book['rating'], 1);
   $intRating = round($rating, 0, PHP_ROUND_HALF_UP);
@@ -76,6 +76,7 @@ HTML;
   <link rel='stylesheet' href='src/view/static/css/common.css'>
   <link rel='stylesheet' href='src/view/static/css/main.css'>
   <link rel='stylesheet' href='src/view/static/css/book.css'>
+  <link rel='stylesheet' href='src/view/static/css/search.css'>
   <script type='module' src='src/view/static/js/main.js'></script>
   <script type='module' src='src/view/static/js/book.js'></script>
   <link rel="stylesheet" href="src/view/static/css/fonts.css" type='text/css'>
@@ -144,12 +145,15 @@ HTML;
           <div class='book-detail-left-container'>
             <h3 class='book-detail-title'>{$book['title']}</h3>
             <h4 class='book-detail-author add-background'>{$book['author']}</h4>
-            <p class='book-detail-synopsis add-background'>{$book['synopsis']}</p>
+            <p class='book-detail-synopsis add-background'>{$book['description']}</p>
           </div>
           <div class='book-detail-right-container'>
             <div class='book-detail-right-content-container'>
               <div class='book-detail-image-container'>
                 <img class='book-detail-image' src='{$bookImagePath}'>
+              </div>
+              <div class='book-detail-rating-container add-background'>
+                <h4 class='book-detail-rating'>{$book['price']}</h4>
               </div>
               <div class='book-detail-stars-container add-background'>
                 {$starsHTML}
@@ -183,6 +187,35 @@ HTML;
                 ORDER
               </div>
             </button>
+          </div>
+        </div>
+
+        <div class='book-order-container'>
+          <div class='book-review-content-container'>
+            <h3>You Might Also Like</h3>
+          </div>
+          <div class='search-book-container'>
+            <div class='search-book-content-container'>
+              <div class='search-book-image-container'>
+                <img class='search-book-image' src="{$recommend['image']}"/>
+              </div>
+              <div class='search-book-text-container'>
+                <h4 class='book-title'>{$recommend['title']}</h4>
+                <h4 class='book-author'>{$recommend['authors']} - {$recommend['rating']} / 5.0 from {$recommend['rating_count']} votes</h4>
+                <h4 class='book-author'>{$recommend['price']}</h5>
+                <p class='book-description'>{$recommend['description']}</p>
+              </div>
+            </div>
+            <div class='search-detail-button-container'>
+              <form id='bookDetail-{$recommend['id']}' action='/book' method='get'>
+                <input hidden name='id' value={$recommend['id']}>
+              </form>
+              <button class='search-detail-button' type='submit' form='bookDetail-{$recommend['id']}'>
+                <div class='search-detail-button-inner'>
+                  DETAILS
+                </div>
+              </button>
+            </div>
           </div>
         </div>
 

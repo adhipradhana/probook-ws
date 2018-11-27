@@ -22,9 +22,17 @@ class Api {
 
   public static function search(string $query) {
     $searchResult = [];
-    $client = new SoapClient('http://localhost:3000/service/book?wsdl', array('cache_wsdl' => WSDL_CACHE_NONE) );
+    $client = new SoapClient('http://localhost:3000/bookws/book?wsdl', array('cache_wsdl' => WSDL_CACHE_NONE) );
     $books = $client->searchBook($query)->item;
     foreach ($books as $book) {
+      if ($book->price == 0) {
+        $book->price = "NOT FOR SALE";
+      } else {
+        $book->price = "Rp. " . $book->price;
+      }
+
+      $book->description = (strlen($book->description) > 300) ? substr($book->description,0,300).'...' : $book->description;
+
       $temp = array(
         "id" => $book->id,
         "title" => $book->title,
