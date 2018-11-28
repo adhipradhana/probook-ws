@@ -76,17 +76,22 @@ class MarufDB {
   }
 
   public function addToken($user_id, $token) {
-    $query = $this->pdo->prepare("INSERT INTO ActiveTokens (user_id, token, login_timestamp) VALUES (?, ?, ?)");
-    $query->execute(array($user_id, $token, time()));
+    $user_agent = $_SERVER['HTTP_USER_AGENT'];
+    $ip_address = $_SERVER['REMOTE_ADDR'];
+    $expiration_timestamp = time() + (int)$_ENV['COOKIE_EXPIRED_TIME'];
+    $query = $this->pdo->prepare("INSERT INTO ActiveTokens (user_id, token, user_agent, ip_address, expiration_timestamp) VALUES (?, ?, ?, ?, ?)");
+    $query->execute(array($user_id, $token, $user_agent, $ip_address, $expiration_timestamp));
     return 1;
   }
 
   public function checkToken($token) {
-    $query = $this->pdo->prepare("SELECT login_timestamp FROM ActiveTokens WHERE token = ?");
-    $query->execute(array($token));
+    $user_agent = $_SERVER['HTTP_USER_AGENT'];
+    $ip_address = $_SERVER['REMOTE_ADDR'];
+    $query = $this->pdo->prepare("SELECT expiration_timestamp FROM ActiveTokens WHERE token = ? AND user_agent = ? AND ip_address = ?");
+    $query->execute(array($token, $user_agent, $ip_address));
     if ($query->rowCount() > 0) {
       $curTimestamp = time();
-      if ($curTimestamp - $query->fetch()['login_timestamp'] < (int)$_ENV['COOKIE_EXPIRED_TIME']) {
+      if (time() < $query->fetch()['expiration_timestamp']) {
         return 1;
       } else {
         return $this-> deleteToken($token);
