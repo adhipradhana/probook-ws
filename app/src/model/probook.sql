@@ -1,8 +1,8 @@
--- MySQL dump 10.13  Distrib 5.7.24, for Linux (x86_64)
+-- MySQL dump 10.13  Distrib 5.7.20, for osx10.13 (x86_64)
 --
 -- Host: localhost    Database: probook
 -- ------------------------------------------------------
--- Server version	5.7.24-0ubuntu0.16.04.1
+-- Server version	5.7.20
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -25,7 +25,9 @@ DROP TABLE IF EXISTS `ActiveTokens`;
 CREATE TABLE `ActiveTokens` (
   `user_id` int(11) DEFAULT NULL,
   `token` varchar(300) DEFAULT NULL,
-  `login_timestamp` bigint(20) DEFAULT NULL
+  `user_agent` varchar(300) DEFAULT NULL,
+  `ip_address` varchar(20) DEFAULT NULL,
+  `expiration_timestamp` bigint(20) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -35,7 +37,7 @@ CREATE TABLE `ActiveTokens` (
 
 LOCK TABLES `ActiveTokens` WRITE;
 /*!40000 ALTER TABLE `ActiveTokens` DISABLE KEYS */;
-INSERT INTO `ActiveTokens` VALUES (1,'3141f6a32bc6b73627157967ada18a29',1540459624),(1,'b1131a1accfc54889a18c3d57c89674e',1540460042),(2,'5cdc5921ad8a3d95ba6c4b3002e9b27d',1540460636);
+INSERT INTO `ActiveTokens` VALUES (4,'612f775192650e5226aee455fa26afe3','Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/70.0.3538.110 Safari/537.36','::1',1543449510),(4,'226cbc7f2c0607295bc625037e6ccfb3','Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/70.0.3538.110 Safari/537.36','::1',1543449562);
 /*!40000 ALTER TABLE `ActiveTokens` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -138,8 +140,9 @@ CREATE TABLE `Users` (
   `password` varchar(255) DEFAULT NULL,
   `address` varchar(255) DEFAULT NULL,
   `phonenumber` varchar(255) DEFAULT NULL,
+  `cardnumber` varchar(16) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -148,7 +151,7 @@ CREATE TABLE `Users` (
 
 LOCK TABLES `Users` WRITE;
 /*!40000 ALTER TABLE `Users` DISABLE KEYS */;
-INSERT INTO `Users` VALUES (1,'Koko Widodo','misterjoko','2019tetapjokowi@indonesia.com','adbf245ec953b6ba5a29d600a12e4e3c','Rumah Kaesang, Istana Presiden, Jakarta','08169696969'),(2,'Rachel Park','kimmiso','kimmiso@seoulentertainment.com','e7750d4a7fd4c70f46c6da28900df35e','DG Enterprise 105, Seoul, South Korea','081395954095');
+INSERT INTO `Users` VALUES (1,'Koko Widodo','misterjoko','2019tetapjokowi@indonesia.com','adbf245ec953b6ba5a29d600a12e4e3c','Rumah Kaesang, Istana Presiden, Jakarta','08169696969','4716717075371688'),(2,'Rachel Park','kimmiso','kimmiso@seoulentertainment.com','e7750d4a7fd4c70f46c6da28900df35e','DG Enterprise 105, Seoul, South Korea','081395954095','4485012043330381'),(4,'Aldo Azaloss','aldoazaloss','aldoloss@skip.com','794edcec3964982758a23fa88adac396','Jalan jalan','098123098123','4126795473513873');
 /*!40000 ALTER TABLE `Users` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -161,4 +164,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2018-10-25 16:47:59
+-- Dump completed on 2018-11-28 14:25:34
