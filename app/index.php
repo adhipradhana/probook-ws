@@ -82,6 +82,10 @@ $router->post('/review', function($request) {
   return ReviewPostController::control($request);
 });
 
+$router->post('/google', function($request) {
+  return GooglePostController::control($request);
+});
+
 /************/
 /* REST API */
 /************/
