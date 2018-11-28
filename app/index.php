@@ -103,6 +103,10 @@ $router->get('/soapsearch', function($request) {
   return json_encode(Api::search($request->query));
 });
 
+$router->get('/cardnumber', function($request) {
+  return json_encode(Api::validateCardNumber($request->cardnumber));
+});
+
 /** POST */
 $router->post('/order', function($request) {
   return json_encode(Api::order($request));

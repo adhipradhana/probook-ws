@@ -13,9 +13,9 @@ app.controller("searchBook", function($scope, $http) {
             //First function handles success
             console.log(response.data);
             $scope.books = response.data;
+            $scope.status = true;
         }, function(response) {
             console.log("error");
         });
-        $scope.status = true;
     }
 });
