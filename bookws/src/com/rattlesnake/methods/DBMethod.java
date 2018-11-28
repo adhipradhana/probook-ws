@@ -9,8 +9,8 @@ public class DBMethod {
     private static Dotenv dotenv = Dotenv.load();
 
     private static final String host = dotenv.get("DB_HOST");
-    private static final String user = dotenv.get("USER_DB");
-    private static final String password = dotenv.get("PASSWORD");
+    private static final String user = dotenv.get("DB_USER");
+    private static final String password = dotenv.get("DB_PASSWORD");
 
     public static HashMap<String, Number> getBookInfo(String id) {
         Connection con = null;

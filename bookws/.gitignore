@@ -37,7 +37,8 @@ Desktop.ini
  
 .DS_Store
 .svn
- 
+.env
+
 # Thumbnails
 ._*
  
