@@ -184,6 +184,28 @@
   flex: 5;
 }
 
+.profile-detail-content-row-content-image-container {
+  height: 170px;
+  width: 170px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 10px;
+  box-shadow: 0 0px 10px 0 rgba(0, 0, 0, 0.2), 0 0px 20px 0 rgba(0, 0, 0, 0.1);
+}
+
+.payment-totp-qrcode {
+  height: 100%;
+  width: 100%;
+  border-radius: 10px;
+}
+
+.payment-totp-qrcode-placeholder {
+  height: 50%;
+  width: 50%;
+  transform: translateX(-5px);
+}
+
 #oOrangeButton {
   color: orangered;
 }

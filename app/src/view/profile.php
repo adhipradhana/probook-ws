@@ -1,7 +1,7 @@
 <?php
-function render_template(string $userId, string $name, string $username, string $email, string $cardnumber, string $address, string $phoneNumber) {
+function render_template(string $userId, string $name, string $username, string $email, string $cardnumber, string $address, string $phoneNumber, string $qrCode) {
   $path = 'src/model/profile/';
-  if(file_exists($path . $userId .'.jpg')) {
+  if (file_exists($path . $userId .'.jpg')) {
     $path = $path . $userId . '.jpg';
     $img = <<<HTML
     <img class='profile-picture' src={$path} alt='Profile Picture' height='200' width='200'>
@@ -12,7 +12,15 @@ HTML;
 HTML;
   }
 
-
+  if ($qrCode == '') {
+    $qrCodeImg = <<<HTML
+    <img class='payment-totp-qrcode-placeholder' src='src/view/static/img/icon_problem.svg' alt='Payment TOTP QR code'>
+HTML;
+  } else {
+    $qrCodeImg = <<<HTML
+    <img class='payment-totp-qrcode' src='{$qrCode}' alt='Payment TOTP QR code'>
+HTML;
+  }
 
   return <<<HTML
 
@@ -137,6 +145,18 @@ HTML;
             </div>
             <div class='profile-detail-content-row-content-container'>
               <p class='profile-detail-content-row-content'>{$cardnumber}</p>
+            </div>
+          </div>
+          <div class='profile-detail-content-row-container'>
+            <div class='profile-detail-content-row-label-container'>
+              <img class='profile-detail-content-row-label-icon' src='src/view/static/img/icon_qrcode.svg' alt='Payment TOTP icon'>
+              <p class='profile-detail-content-row-label'>Payment TOTP</p>
+            </div>
+            <div class='profile-detail-content-row-content-container'>
+              <!-- <p class='profile-detail-content-row-content'>{$cardnumber}</p> -->
+              <div class='profile-detail-content-row-content-image-container'>
+                {$qrCodeImg}
+              </div>
             </div>
           </div>
         </div>
