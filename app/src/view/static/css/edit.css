@@ -309,6 +309,10 @@ button:hover[disabled] {
 
 .edit-detail-content-row-content-container {
   flex: 5;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
 }
 
 .edit-detail-content-row-input {
@@ -318,6 +322,20 @@ button:hover[disabled] {
 .edit-detail-content-row-textarea {
   height: 100px;
   width: 300px;
+}
+
+.edit-detail-content-row-input-short {
+  width: 270px;
+}
+
+.edit-detail-content-row-validation-container {
+  width: 50px;
+}
+
+.edit-detail-content-row-validation-icon {
+  height: 24px;
+  padding: 7px 0px 0px 6px;
+  opacity: 1;
 }
 
 .edit-main-button-container {

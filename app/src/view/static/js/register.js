@@ -198,12 +198,12 @@ function validateCardNumber(_) {
     cardNumberValidationMessage = checkingCardNumberMessage;
     cardNumberValidationRequest = $$.ajax({
       method: 'GET',
-      url: 'http://localhost:5000/api/v1/account?cardNumber=' + cardNumber,
+      url: '/cardnumber?cardnumber=' + cardNumber,
       callback: (response) => {
         response = JSON.parse(response);
         const cardNumberValidationIcon = $$('#formCardNumberValidationIcon');
         const submitButton = $$('#formSubmitButton');
-        if (response.status == 'success') {
+        if (response.valid) {
           cardNumberValidationIcon.src = 'src/view/static/img/icon_success.svg';
           submitButton.disabled = false;
           cardNumberValid = true;

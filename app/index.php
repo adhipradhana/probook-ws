@@ -95,8 +95,13 @@ $router->get('/email', function($request) {
   return json_encode(Api::validateEmail($request->email));
 });
 
+<<<<<<< HEAD
 $router->get('/soapsearch', function($request) {
   return json_encode(Api::search($request->query));
+=======
+$router->get('/cardnumber', function($request) {
+  return json_encode(Api::validateCardNumber($request->cardnumber));
+>>>>>>> 49477104a85536907d5b8fe598f21b9beb905d41
 });
 
 /** POST */
