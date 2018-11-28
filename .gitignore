@@ -10,3 +10,8 @@ bankws/node_modules
 
 # VSCode
 .vscode
+
+composer.phar
+app/vendor/
+
+

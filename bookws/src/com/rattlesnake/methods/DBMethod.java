@@ -2,12 +2,15 @@ package com.rattlesnake.methods;
 
 import java.sql.*;
 import java.util.HashMap;
+import io.github.cdimascio.dotenv.Dotenv;
 
 public class DBMethod {
 
-    private static final String host = "jdbc:mysql://localhost:3306/bookws";
-    private static final String user = "root";
-    private static final String password = "";
+    private static Dotenv dotenv = Dotenv.load();
+
+    private static final String host = dotenv.get("DB_HOST");
+    private static final String user = dotenv.get("DB_USER");
+    private static final String password = dotenv.get("DB_PASSWORD");
 
     public static HashMap<String, Number> getBookInfo(String id) {
         Connection con = null;

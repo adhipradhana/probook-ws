@@ -82,6 +82,10 @@ $router->post('/review', function($request) {
   return ReviewPostController::control($request);
 });
 
+$router->post('/google', function($request) {
+  return GooglePostController::control($request);
+});
+
 /************/
 /* REST API */
 /************/
@@ -95,6 +99,10 @@ $router->get('/email', function($request) {
   return json_encode(Api::validateEmail($request->email));
 });
 
+$router->get('/soapsearch', function($request) {
+  return json_encode(Api::search($request->query));
+});
+
 $router->get('/cardnumber', function($request) {
   return json_encode(Api::validateCardNumber($request->cardnumber));
 });
@@ -103,4 +111,3 @@ $router->get('/cardnumber', function($request) {
 $router->post('/order', function($request) {
   return json_encode(Api::order($request));
 }, [new TokenValidationMiddleware, new ApiAuthMiddleware]);
-

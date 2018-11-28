@@ -1,31 +1,25 @@
 package com.rattlesnake.ws;
 
-import javax.jws.WebMethod;
-import javax.jws.WebParam;
 import javax.jws.WebService;
-import javax.jws.soap.SOAPBinding;
-import javax.jws.soap.SOAPBinding.Style;
-
-import com.rattlesnake.methods.JSONMethod;
 import org.json.*;
 
+import com.rattlesnake.methods.JSONMethod;
 import com.rattlesnake.methods.HTTPMethod;
 import com.rattlesnake.methods.DBMethod;
 import com.rattlesnake.models.Book;
+import com.rattlesnake.models.Status;
 
-import java.util.HashMap;
 import java.util.Random;
 
-@WebService
-@SOAPBinding(style = Style.RPC)
-public class BookService {
+@WebService(endpointInterface="com.rattlesnake.ws.BookInterface")
+public class BookService implements BookInterface {
 
     private final String BOOK_API_KEY = "AIzaSyAmKiuIzrY3aUGm6nh5MjVq7gaio0xobv8";
     private final String BASE_URL = "https://www.googleapis.com/books/v1/volumes";
     private final String MERCHANT_SECRET = "DJJALIJALIKECEBONGKU";
 
-    @WebMethod
-    public Book[] searchBook(@WebParam(name = "searchTitle") String searchTitle) {
+    @Override
+    public Book[] searchBook(String searchTitle) {
         String targetURL = BASE_URL + "?q=intitle:" + searchTitle + "&key=" + BOOK_API_KEY;
         Book[] bookList;
 
@@ -43,8 +37,8 @@ public class BookService {
         return bookList;
     }
 
-    @WebMethod
-    public Book getBookDetail(@WebParam(name = "bookID") String id) {
+    @Override
+    public Book getBookDetail(String id) {
         // target url
         String targetURL = BASE_URL + "/" + id + "?key=" + BOOK_API_KEY;
 
@@ -55,20 +49,24 @@ public class BookService {
         }
 
         // parse book
-        Book book = JSONMethod.parseBook(response);
+        Book book = JSONMethod.parseBookResponse(response);
 
         return book;
     }
 
-    @WebMethod
-    public boolean setBookRating(@WebParam(name = "bookID") String id, @WebParam(name = "rating") double rating) {
+    @Override
+    public Status setBookRating(String id, double rating) {
         boolean result = DBMethod.changeRating(id, rating);
 
-        return result;
+        if (result) {
+            return new Status("success", "");
+        } else {
+            return new Status("error", "Unable to change rating");
+        }
     }
 
-    @WebMethod
-    public Book getRecommendedBook(@WebParam(name = "genre") String genre) {
+    @Override
+    public Book getRecommendedBook(String genre) {
         // get book id
         String id = DBMethod.getRecommendedBook(genre);
 
@@ -105,9 +103,8 @@ public class BookService {
         return book;
     }
 
-    @WebMethod
-    public boolean buyBook(@WebParam(name = "cardNumber") String cardNumber,
-                           @WebParam(name = "bookID") String bookID, @WebParam(name = "bookAmount") int bookAmount) {
+    @Override
+    public Status buyBook(String cardNumber, String bookID, int bookAmount, String totpCode) {
         // target url
         String targetURL = "http://localhost:5000/api/v1/charge";
 
@@ -116,7 +113,7 @@ public class BookService {
 
         // book not found
         if (book.getId().equals("0")) {
-            return false;
+            return new Status("error", "Book not found");
         }
 
         // calculate book price
@@ -129,6 +126,7 @@ public class BookService {
         body.put("secret", MERCHANT_SECRET);
         body.put("amount", totalAmount);
         body.put("cardNumber", cardNumber);
+        body.put("totp", totpCode);
 
         // execute post request
         String response = HTTPMethod.executePost(targetURL, body);
@@ -136,15 +134,15 @@ public class BookService {
 
         // get response
         if (jsonResponse.getString("status").equals("error")) {
-            return false;
+            return new Status("error", jsonResponse.getString("message"));
         }
 
         // add sales record to database
         if (!DBMethod.updateSales(bookID, genre, bookAmount)) {
-            return false;
+            return new Status("error", "Unable to add sales record to database");
         }
 
-        return true;
+        return new Status("success", "");
     }
 
 }

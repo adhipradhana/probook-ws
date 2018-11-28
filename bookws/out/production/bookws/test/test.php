@@ -1,9 +1,13 @@
 <?php
 
-$client = new SoapClient('http://localhost:3000/service/book?wsdl', array('cache_wsdl' => WSDL_CACHE_NONE) );
+$client = new SoapClient('http://localhost:3000/bookws/book?wsdl', array('cache_wsdl' => WSDL_CACHE_NONE) );
 
 var_dump($client->__getFunctions());
-//var_dump($client->searchBook("power+system+analysis"));
-//var_dump($client->getBookDetail("s5xrAwAAQBAJ"));
+//var_dump($client->searchBook("the+shining"));
+//var_dump($client->getBookDetail("8VnJLu3AvvQC"));
+$query = "\"Horror\"";
+$query_bersih = urlencode($query);
+
+var_dump($client->getRecommendedBook($query_bersih));
 
 ?>

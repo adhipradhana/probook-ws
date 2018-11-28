@@ -3,7 +3,7 @@
 <endpoints xmlns='http://java.sun.com/xml/ns/jax-ws/ri/runtime' version='2.0'>
 
     <endpoint
-            name='Book'
-            implementation='com.rattlesnake.ws.BookService'
-            url-pattern='/services/book'/>
+            name="book"
+            implementation="com.rattlesnake.ws.BookService"
+            url-pattern="/book"/>
 </endpoints>

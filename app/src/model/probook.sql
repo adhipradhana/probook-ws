@@ -80,7 +80,7 @@ CREATE TABLE `Orders` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `user_id` int(11) DEFAULT NULL,
   `is_review` tinyint(1) DEFAULT NULL,
-  `book_id` int(11) DEFAULT NULL,
+  `book_id` VARCHAR(50) DEFAULT NULL,
   `amount` int(11) DEFAULT NULL,
   `order_timestamp` bigint(20) DEFAULT NULL,
   PRIMARY KEY (`id`)
@@ -108,7 +108,7 @@ CREATE TABLE `Reviews` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `rating` float DEFAULT NULL,
   `comment` varchar(500) DEFAULT NULL,
-  `book_id` int(11) DEFAULT NULL,
+  `book_id` VARCHAR(50) DEFAULT NULL,
   `username` varchar(300) DEFAULT NULL,
   `user_id` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`)
