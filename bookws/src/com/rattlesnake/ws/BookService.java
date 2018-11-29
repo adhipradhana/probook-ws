@@ -73,6 +73,13 @@ public class BookService implements BookInterface {
         // split string into genre
         String[] genreList = genres.split(",");
 
+        System.out.println("memek");
+        System.out.println("Genres " + genres);
+        for (int i = 0; i < genreList.length; i++) {
+            System.out.println(i);
+            System.out.println(genreList[i]);
+        }
+
         // get book id
         List<String> idList = DBMethod.getRecommendedBook(genreList);
 
@@ -92,6 +99,8 @@ public class BookService implements BookInterface {
         Random rand = new Random();
         int genreIndex = rand.nextInt(genreList.length);
         String genreString = genreList[genreIndex];
+
+        System.out.println("Genre " + genreString) ;
         
         String urlGenre;
         try {
@@ -112,6 +121,13 @@ public class BookService implements BookInterface {
 
         // parse json object
         JSONObject jsonResponse = new JSONObject(response);
+
+        // handle null values
+        if (!jsonResponse.has("items")) {
+            bookList = new Book[1];
+
+            return bookList;
+        }
 
         // get item list
         JSONArray items = jsonResponse.getJSONArray("items");
