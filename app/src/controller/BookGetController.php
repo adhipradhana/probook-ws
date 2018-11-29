@@ -46,7 +46,7 @@ class BookGetController implements ControllerInterface {
       "rating_count" => $recommend->rating_count
     );
 
-    $reviews = $db->getReviews($detail->id);
+    $reviews = $db->getReviews($book->id);
     $template = new Template('src/view/book.php');
     return $template->render($username, $detail, $detail_recommend, $reviews);
   }

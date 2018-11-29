@@ -81,11 +81,13 @@ function render_template(string $username) {
               </div>
             </button>
           </div>
+          <div id="loader" class="loader">
+            <div class="lds-roller"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div>
+          </div>
         </div>
 
         <div ng-if="status" class='ng-search-content-container'>
           <div class='search-title-container'>
-            <h1 class='search-title'>Search Result</h1>
             <div class='search-result-count-container add-background'>
               <h4 class='search-result-count'>Found {{ books.length }} results</h4>
             </div>

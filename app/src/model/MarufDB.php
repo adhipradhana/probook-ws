@@ -65,6 +65,17 @@ class MarufDB {
     }
   }
 
+  public function getCardNumber($token) {
+    $user_id = $this->getUserId($token);
+    if ($user_id == -1) {
+      return "";
+    } else {
+      $query = $this->pdo->prepare("SELECT cardnumber FROM Users WHERE id = ?");
+      $query->execute(array($user_id));
+      return $query->fetch()['cardnumber'];
+    }
+  }
+
   public function checkLogin($username, $password) {
     try {
       $query = $this->pdo->prepare("SELECT * FROM Users WHERE username = ? AND password = ?");
