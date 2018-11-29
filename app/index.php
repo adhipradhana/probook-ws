@@ -23,6 +23,10 @@ $router->get('/register', function($request) {
   return RegisterGetController::control($request);
 }, [new TokenValidationMiddleware, new LoginRegisterMiddleware]);
 
+$router->get('/completeprofile', function($request) {
+  return CompleteProfileGetController::control($request);
+}, [new TokenValidationMiddleware, new ProfileIncompleteMiddleware]);
+
 $router->get('/logout', function($request) {
   return LogoutGetController::control($request);
 }, [new TokenValidationMiddleware, new AuthMiddleware]);
@@ -74,6 +78,10 @@ $router->post('/register', function($request) {
   return RegisterPostController::control($request);
 }, [new VerifyRegisterMiddleware]);
 
+$router->post('/completeprofile', function($request) {
+  return CompleteProfilePostController::control($request);
+}, [new TokenValidationMiddleware, new ProfileIncompleteMiddleware]);
+
 $router->post('/edit', function($request) {
   return EditPostController::control($request);
 });
@@ -82,8 +90,8 @@ $router->post('/review', function($request) {
   return ReviewPostController::control($request);
 });
 
-$router->post('/google', function($request) {
-  return GooglePostController::control($request);
+$router->post('/googlelogin', function($request) {
+  return GoogleLoginPostController::control($request);
 });
 
 /************/
@@ -105,6 +113,10 @@ $router->get('/soapsearch', function($request) {
 
 $router->get('/cardnumber', function($request) {
   return json_encode(Api::validateCardNumber($request->cardnumber));
+});
+
+$router->get('/isusinggoogle', function($request) {
+  return json_encode(Api::checkUsingGoogle());
 });
 
 /** POST */

@@ -80,39 +80,23 @@ HTML
               LOGIN
             </div>
           </button>
-          <div class="g-signin2" data-onsuccess="onSignIn" data-theme="dark"></div>  
-
+          <div class='g-signin2' data-onsuccess='onSignIn' data-theme='dark'></div>  
           <script>
             function onSignIn(googleUser) {
-              // Useful data for your client-side scripts:
-              var profile = googleUser.getBasicProfile();
+              const profile = googleUser.getBasicProfile();
 
-              let form = document.createElement("form");
-              form.action = "/google";
+              let form = document.createElement('form');
+              form.method = 'post';
+              form.action = '/googlelogin';
 
-              let nameField = document.createElement("input");
-              nameField.type = "hidden";
-              nameField.name = "name";
-              nameField.value = profile.getName()
-
-              let emailField = document.createElement("email");
-              emailField.type = "hidden";
-              emailField.name = "email";
+              let emailField = document.createElement('input');
+              emailField.type = 'hidden';
+              emailField.name = 'email';
               emailField.value = profile.getEmail();
 
-              let imageField = document.createElement("image");
-              imageField.type = "hidden";
-              imageField.name = "image";
-              imageField.value = profile.getImageUrl();
-
-              form.appendChild(nameField);
               form.appendChild(emailField);
-              form.appendChild(imageField);
-              
               document.body.appendChild(form);
-
               form.submit();
-
               document.body.removeChild(form);
             }
           </script>

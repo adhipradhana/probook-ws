@@ -156,10 +156,10 @@
 .profile-detail-content-row-container {
   width: 100%;
   display: flex;
-  margin-bottom: 24px;
+  margin-bottom: 34px;
   flex-direction: row;
   justify-content: flex-start;
-  align-items: center;
+  align-items: flex-start;
 }
 
 .profile-detail-content-row-label-container {

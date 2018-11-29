@@ -24,6 +24,12 @@ class Api {
     }
   }
 
+  public static function checkUsingGoogle() {
+    $token = $_COOKIE['token'];
+    $db = new MarufDB();
+    return array('usingGoogle' => (bool) $db->checkTokenUsingGoogle($token));
+  }
+
   public static function order(Request $request) {
     $db = new MarufDB();
     $otp = $request->otp;
