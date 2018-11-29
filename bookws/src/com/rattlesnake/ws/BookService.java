@@ -142,7 +142,7 @@ public class BookService implements BookInterface {
 
         // create and assign json
         JSONObject body = new JSONObject();
-        body.put("secret", MERCHANT_SECRET);
+        body.put("apiKey", MERCHANT_SECRET);
         body.put("amount", totalAmount);
         body.put("cardNumber", cardNumber);
         body.put("totpCode", totpCode);
@@ -150,9 +150,10 @@ public class BookService implements BookInterface {
         // execute post request
         String response = HTTPMethod.executePost(targetURL, body);
         JSONObject jsonResponse = new JSONObject(response);
+        System.out.println(jsonResponse.toString());
 
         // get response
-        if (jsonResponse.getString("status").equals("error")) {
+        if (jsonResponse.getString("status").equals("failed")) {
             return new Status("error", jsonResponse.getString("message"));
         }
 
