@@ -167,7 +167,7 @@ class MarufDB {
   }
 
   public function getHistory($user_id) {
-    $query = $this->pdo->prepare("SELECT Orders.id as order_id, Books.id as book_id, order_timestamp, is_review, title, amount  FROM Orders JOIN Books ON Orders.book_id = Books.id WHERE user_id = ? ORDER BY Orders.id DESC");
+    $query = $this->pdo->prepare("SELECT Orders.id as order_id, book_id, order_timestamp, is_review, amount  FROM Orders WHERE user_id = ? ORDER BY Orders.id DESC");
     $query->execute(array($user_id));
     return $query->fetchAll();
   }
