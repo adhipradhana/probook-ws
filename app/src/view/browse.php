@@ -19,7 +19,7 @@ function render_template(string $username) {
   <script src='src/view/static/js/lib/soapclient.js'></script>
   <link rel="stylesheet" href="src/view/static/css/fonts.css" type='text/css'>
   <meta name="google-signin-client_id" content="248062336710-1caa1sjcc7vicoq05a0ac0m8ctlien6k.apps.googleusercontent.com">
-  <script src="https://apis.google.com/js/client:platform.js?" async defer></script>
+  <script src="https://apis.google.com/js/client:platform.js" async defer></script>
   <title>Pro-Book</title>
 </head>
 <body>
