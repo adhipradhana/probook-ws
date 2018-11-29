@@ -43,6 +43,12 @@ db.sync({force: true})
       balance: 100000,
       totpSecret: speakeasy.generateSecret().base32
     });
+    Account.create({ 
+      cardNumber: "111",
+      name: 'Memec', 
+      balance: 100000,
+      totpSecret: speakeasy.generateSecret().base32
+    });
   })
   .then(() => {
     Merchant.create({ 
