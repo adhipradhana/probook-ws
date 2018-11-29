@@ -44,3 +44,21 @@ $$('#historyTab').onclick = () => {
 $$('#profileTab').onclick = () => {
   window.location = '/profile';
 };
+
+$$('#logoutButton').onclick = () => {
+  $$.ajax({
+    method: 'GET',
+    url: '/isusinggoogle',
+    callback: (response) => {
+      response = JSON.parse(response);
+      if (response.usingGoogle) {
+        const auth2 = gapi.auth2.getAuthInstance();
+        auth2.signOut().then(function () {
+          document.getElementById("logoutForm").submit();
+        });
+      } else {
+        $$('#logoutForm').submit();
+      }
+    }
+  });
+}

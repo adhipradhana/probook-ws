@@ -33,6 +33,16 @@ class MarufDB {
     }
   }
 
+  public function getUserIdByEmail($email) {
+    $query = $this->pdo->prepare("SELECT * FROM Users WHERE email = ?");
+    $query->execute(array($email));
+    if ($query->rowCount() < 1) {
+      return -1;
+    } else {
+      return $query->fetch()['id'];
+    }
+  }
+
   public function getUser($token) {
     $user_id = $this->getUserId($token);
     if ($user_id == -1) {
@@ -86,12 +96,12 @@ class MarufDB {
     return $query->fetchAll();
   }
 
-  public function addToken($user_id, $token) {
+  public function addToken($user_id, $token, $google_login) {
     $user_agent = $_SERVER['HTTP_USER_AGENT'];
     $ip_address = $_SERVER['REMOTE_ADDR'];
     $expiration_timestamp = time() + (int)$_ENV['COOKIE_EXPIRED_TIME'];
-    $query = $this->pdo->prepare("INSERT INTO ActiveTokens (user_id, token, user_agent, ip_address, expiration_timestamp) VALUES (?, ?, ?, ?, ?)");
-    $query->execute(array($user_id, $token, $user_agent, $ip_address, $expiration_timestamp));
+    $query = $this->pdo->prepare("INSERT INTO ActiveTokens (user_id, token, user_agent, ip_address, expiration_timestamp, google_login) VALUES (?, ?, ?, ?, ?, ?)");
+    $query->execute(array($user_id, $token, $user_agent, $ip_address, $expiration_timestamp, $google_login));
     return 1;
   }
 
@@ -105,7 +115,30 @@ class MarufDB {
       if (time() < $query->fetch()['expiration_timestamp']) {
         return 1;
       } else {
-        return $this-> deleteToken($token);
+        return $this->deleteToken($token);
+      }
+    } else {
+      return 0;
+    }
+  }
+
+  public function checkTokenUsingGoogle($token) {
+    $query = $this->pdo->prepare("SELECT google_login FROM ActiveTokens WHERE token = ?");
+    $query->execute(array($token));
+    if ($query->rowCount() > 0) {
+      return $query->fetch()['google_login'];
+    } else {
+      return 0;
+    }
+  }
+
+  public function checkProfileComplete($token) {
+    $user = $this->getUser($token);
+    if ($user != "") {
+      if (is_null($user['username'])) {
+        return 0;
+      } else {
+        return 1;
       }
     } else {
       return 0;
@@ -149,8 +182,26 @@ class MarufDB {
   public function addProfile($name, $username, $email, $password, $cardnumber, $address, $phonenumber) {
     if ($this->validateUsername($username) == 1 && $this->validateEmail($email) == 1){
       $query = $this->pdo->prepare("INSERT INTO Users (name, username, email, password, cardnumber, address, phonenumber) VALUES (?, ?, ?, ?, ?, ?, ?)");
-      $query->execute(array($name, $username, $email, md5($password), $cardnumber, $address, $phonenumber));
+      if (is_null($password)) {
+        $query->execute(array($name, $username, $email, $password, $cardnumber, $address, $phonenumber));
+      } else {
+        $query->execute(array($name, $username, $email, md5($password), $cardnumber, $address, $phonenumber));
+      }
       return 1;
+    } else {
+      return 0;
+    }
+  }
+
+  public function completeProfile($id, $name, $username, $password, $cardnumber, $address, $phonenumber) {
+    if ($this->validateUsername($username) == 1) {
+      try {
+        $query = $this->pdo->prepare("UPDATE Users SET name = ?, username = ?, password = ?, cardnumber = ?, address = ?, phonenumber = ? WHERE id = ?");
+        $query->execute(array($name, $username, md5($password), $cardnumber, $address, $phonenumber, $id));
+        return 1;
+      } catch (PDOException $e){
+        return 0;
+      }
     } else {
       return 0;
     }
