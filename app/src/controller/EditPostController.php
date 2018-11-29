@@ -69,6 +69,7 @@ class EditPostController implements ControllerInterface {
         $response['error'][] = 'Phone number must be a number with 9 to 12 digits';
       } else {
         $name = $request->name;
+        $cardNumber = $request->cardNumber;
         $address = $request->address;
         $phoneNumber = $request->phoneNumber;
         $response['success'] = True;
@@ -82,6 +83,6 @@ class EditPostController implements ControllerInterface {
     }
 
     $template = new Template('src/view/edit.php');
-    return $template->render($user['id'], $name, $user['username'], $user['email'], $address, $phoneNumber, $response);
+    return $template->render($user['id'], $name, $user['username'], $user['email'], $cardNumber, $address, $phoneNumber, $response);
   }
 }

@@ -8,7 +8,7 @@ const invalidCardNumberMessage = 'Card number invalid';
 const invalidImageMessage = 'Image must be in JPG format';
 
 let cardNumberValidationMessage = invalidCardNumberMessage;
-let cardNumberValid = false;
+let cardNumberValid = true;
 let cardNumberValidationRequest;
 
 let submitButtonHovered = false;

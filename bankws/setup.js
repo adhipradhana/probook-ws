@@ -45,8 +45,8 @@ db.sync({force: true})
     });
     Account.create({ 
       cardNumber: "111",
-      name: 'Memec', 
-      balance: 100000,
+      name: 'Mr. Tempic bin Memec', 
+      balance: 100000000,
       totpSecret: speakeasy.generateSecret().base32
     });
   })
