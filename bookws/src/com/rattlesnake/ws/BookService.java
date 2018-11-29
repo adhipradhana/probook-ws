@@ -9,6 +9,8 @@ import com.rattlesnake.methods.DBMethod;
 import com.rattlesnake.models.Book;
 import com.rattlesnake.models.Status;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.util.List;
 import java.util.Random;
 
@@ -93,8 +95,16 @@ public class BookService implements BookInterface {
         }
         genreString.deleteCharAt(genreString.length() - 1);
 
+        String urlGenre;
+        try {
+            urlGenre = URLEncoder.encode(genreString.toString(), "UTF-8");
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+            urlGenre = genreList[0];
+        }
+
         // target url
-        String targetURL = BASE_URL + "?q=subject:" + genreString.toString() + "&key=" + BOOK_API_KEY;
+        String targetURL = BASE_URL + "?q=subject:" + urlGenre + "&key=" + BOOK_API_KEY;
 
         // return null if error
         String response = HTTPMethod.executeGet(targetURL);
