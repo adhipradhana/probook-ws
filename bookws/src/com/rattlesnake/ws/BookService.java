@@ -9,6 +9,7 @@ import com.rattlesnake.methods.DBMethod;
 import com.rattlesnake.models.Book;
 import com.rattlesnake.models.Status;
 
+import java.util.List;
 import java.util.Random;
 
 @WebService(endpointInterface="com.rattlesnake.ws.BookInterface")
@@ -66,21 +67,39 @@ public class BookService implements BookInterface {
     }
 
     @Override
-    public Book getRecommendedBook(String genre) {
-        // get book id
-        String id = DBMethod.getRecommendedBook(genre);
+    public Book[] getRecommendedBook(String genres) {
+        // split string into genre
+        String[] genreList = genres.split(",");
 
-        if (id != null) {
-            return getBookDetail(id);
+        // get book id
+        List<String> idList = DBMethod.getRecommendedBook(genreList);
+
+        // book array declaration
+        Book[] bookList = new Book[1];
+
+        if (idList != null) {
+            bookList = new Book[idList.size()];
+            for (int i = 0; i < bookList.length; i++) {
+                bookList[i] = getBookDetail(idList.get(i));
+            }
+
+            return bookList;
         }
 
+        // get genre
+        StringBuilder genreString = new StringBuilder();
+        for (int i = 0; i < genreList.length; i++) {
+            genreString.append(genreList[i].toLowerCase() + '+');
+        }
+        genreString.deleteCharAt(genreString.length() - 1);
+
         // target url
-        String targetURL = BASE_URL + "?q=subject:" + genre + "&key=" + BOOK_API_KEY;
+        String targetURL = BASE_URL + "?q=subject:" + genreString.toString() + "&key=" + BOOK_API_KEY;
 
         // return null if error
         String response = HTTPMethod.executeGet(targetURL);
         if (response == null) {
-            return new Book();
+            return bookList;
         }
 
         // parse json object
@@ -98,13 +117,13 @@ public class BookService implements BookInterface {
         JSONObject item = items.getJSONObject(index);
 
         // parse book
-        Book book = JSONMethod.parseBook(item);
+        bookList[0] = JSONMethod.parseBook(item);
 
-        return book;
+        return bookList;
     }
 
     @Override
-    public Status buyBook(String cardNumber, String bookID, int bookAmount, String totpCode) {
+    public Status purchaseBook(String cardNumber, String bookID, int bookAmount, String totpCode) {
         // target url
         String targetURL = "http://localhost:5000/api/v1/charge";
 
@@ -126,7 +145,7 @@ public class BookService implements BookInterface {
         body.put("secret", MERCHANT_SECRET);
         body.put("amount", totalAmount);
         body.put("cardNumber", cardNumber);
-        body.put("totp", totpCode);
+        body.put("totpCode", totpCode);
 
         // execute post request
         String response = HTTPMethod.executePost(targetURL, body);

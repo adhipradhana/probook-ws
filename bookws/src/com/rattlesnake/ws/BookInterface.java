@@ -23,12 +23,10 @@ public interface BookInterface {
     Status setBookRating(@WebParam(name = "bookID") String id, @WebParam(name = "rating") double rating);
 
     @WebMethod
-    Book getRecommendedBook(@WebParam(name = "genre") String genre);
+    Book[] getRecommendedBook(@WebParam(name = "genre") String genres);
 
     @WebMethod
-    Status buyBook(@WebParam(name = "cardNumber") String cardNumber, @WebParam(name = "bookID") String bookID,
+    Status purchaseBook(@WebParam(name = "cardNumber") String cardNumber, @WebParam(name = "bookID") String bookID,
                     @WebParam(name = "bookAmount") int bookAmount, @WebParam(name = "totpCode") String totpCode);
-
-
 
 }

@@ -27,8 +27,9 @@ class GooglePostController implements ControllerInterface {
             if ($result == 1) {
                 return LoginPostController::control($registerData);
             } else {
+                exit();
                 $template = new Template('src/view/login.php');
-                return $template->render(True, False);
+                return $template->render(False, False);
             }
         } else {
             return LoginPostController::control($registerData);
