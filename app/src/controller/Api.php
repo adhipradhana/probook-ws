@@ -42,7 +42,8 @@ class Api {
     }
     
     return array(
-      'orderNumber' => $orderNumber
+      'orderNumber' => $orderNumber,
+      'message' => $order->message
     );
   }
 

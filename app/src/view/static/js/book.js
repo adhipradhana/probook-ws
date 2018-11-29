@@ -1,31 +1,5 @@
 import $$ from './lib/jQowi.js';
 
-/* 
-$$('#orderButton').onclick = () => {
-  $$('#orderButton').disabled = true;
-  const data = {
-    'book_id': parseInt($$('#bookIdField').value, 10),
-    'quantity': parseInt($$('#orderQuantitySelector').value, 10)
-  }
-  $$.ajax({
-    method: 'POST',
-    url: '/order',
-    data: JSON.stringify(data),
-    callback: (response) => {
-      response = JSON.parse(response);
-      $$('#orderButton').disabled = false;
-      $$('#purchaseMessagePopupText').innerHTML = 'Transaction Number: ' + response.orderNumber;
-      $$('#purchaseMessageBackground').style.zIndex = 2;
-      $$('#purchaseMessagePopup').style.zIndex = 2;
-      setTimeout(() => {
-        $$('#purchaseMessageBackground').classList.add('visible');
-        $$('#purchaseMessagePopup').classList.add('visible');
-      }, 100);
-    },
-  })
-}; 
-*/
-
 $$('#orderButton').onclick = () => {
   $$('#purchaseMessageBackground').style.zIndex = 2;
   $$('#purchaseMessagePopup').style.zIndex = 2;
@@ -52,8 +26,6 @@ $$('#orderOTPButton').onclick = () => {
     'quantity': parseInt($$('#orderQuantitySelector').value, 10)
   }
 
-  console.log(data);
-
   $$('#purchaseMessageBackground').classList.remove('visible');
   $$('#purchaseMessagePopup').classList.remove('visible');
   setTimeout(() => {
@@ -70,7 +42,23 @@ $$('#orderOTPButton').onclick = () => {
 
       $$('#orderOTPButton').disabled = false;
 
-      $$('#statusMessagePopupText').innerHTML = 'Transaction Number: ' + response.orderNumber;
+      if (response.orderNumber == -1) {
+        $$('#statusMessagePopupText').innerHTML = response.message;
+        $$('#orderStatus').innerHTML = 'Purchase Failed!';
+        if ( $$('#imageStatus').classList.contains('book-purchase-message-popup-content-icon-img') ) {
+          $$('#imageStatus').classList.remove('book-purchase-message-popup-content-icon-img');
+        }
+        $$('#imageStatus').classList.add('book-purchase-message-popup-content-icon-img-fail');
+      } else {
+        $$('#orderStatus').innerHTML = 'Purchase Successful!';
+        $$('#statusMessagePopupText').innerHTML = 'Transaction Number: ' + response.orderNumber;
+
+        if ( $$('#imageStatus').classList.contains('book-purchase-message-popup-content-icon-img-fail') ) {
+          $$('#imageStatus').classList.remove('book-purchase-message-popup-content-icon-img-fail');
+        }
+        $$('#imageStatus').classList.add('book-purchase-message-popup-content-icon-img');
+      }
+
       $$('#purchaseMessageBackground').style.zIndex = 2;
       $$('#statusMessagePopup').style.zIndex = 2;
       setTimeout(() => {

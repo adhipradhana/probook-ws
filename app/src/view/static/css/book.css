@@ -125,6 +125,14 @@
   mask: url(../img/icon_check.svg) no-repeat center;
 }
 
+.book-purchase-message-popup-content-icon-img-fail {
+  height: 50px;
+  width: 50px;
+  background-color: white;
+  -webkit-mask: url(../img/icon_fail.svg) no-repeat center;
+  mask: url(../img/icon_fail.svg) no-repeat center;
+}
+
 .book-purchase-message-popup-content-text-container {
   height: 100%;
   margin-left: 10px;
@@ -261,6 +269,10 @@
 	justify-content: center;
   align-items: flex-start;
   transform: translateY(-50px);
+}
+
+.book-order-container.hidden {
+  display: none;
 }
 
 .book-order-title-container {

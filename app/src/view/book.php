@@ -12,6 +12,24 @@ function render_template(string $username, $book, $recommend, $reviews) {
     $ratingText = $ratingText . ".0";
   }
 
+  $orderHTML = <<<HTML
+<button id='orderButton' class='book-order-button' disabled>
+  <div class='book-order-button-inner'>
+    ORDER
+  </div>
+</button>
+HTML;
+
+  if ($book['price'] != 'NOT FOR SALE') {
+    $orderHTML = <<<HTML
+<button id='orderButton' class='book-order-button'>
+  <div class='book-order-button-inner'>
+    ORDER
+  </div>
+</button>
+HTML;
+  }
+
   $starsHTML = "";
   for ($x = 0; $x < $intRating; $x++) {
     $starsHTML = $starsHTML . <<<HTML
@@ -92,9 +110,9 @@ HTML;
       <div id='purchaseMessagePopupCloseButton' class='book-purchase-message-popup-close'></div>
     </div>
     <div class='book-purchase-message-popup-content'>
-        <h3>Insert OTP</h3>
+        <h3>Insert TOTP</h3>
         <form id='browseForm' class='browse-form'>
-          <input id='otpField' type='text' name='title' placeholder='Input your OTP code...' autofocus ng-model="query">
+          <input id='otpField' type='text' name='title' placeholder='Input your TOTP secret key...' autofocus ng-model="query">
         </form>
         <button id='orderOTPButton' class='order-otp-button'>ORDER</button>
     </div>
@@ -107,11 +125,11 @@ HTML;
     <div class='book-status-message-popup-content'>
       <div class='book-purchase-message-popup-content-icon-container'>
         <div class='book-purchase-message-popup-content-icon'>
-          <div class='book-purchase-message-popup-content-icon-img'></div>
+          <div id="imageStatus"></div>
         </div>
       </div>
       <div class='book-purchase-message-popup-content-text-container'>
-        <h3>Purchase Successful!</h3>
+        <h3 id='orderStatus'>Purchase Successful!</h3>
         <p id='statusMessagePopupText'></p>
       </div>
     </div>
@@ -198,11 +216,7 @@ HTML;
           </div>
           <div class='book-order-button-container'>
             <input hidden id='bookIdField' value={$bookId}>
-            <button id='orderButton' class='book-order-button'>
-              <div class='book-order-button-inner'>
-                ORDER
-              </div>
-            </button>
+            {$orderHTML}
           </div>
         </div>
 
