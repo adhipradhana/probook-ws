@@ -121,17 +121,10 @@ class MarufDB {
     }
   }
 
-  public function deleteToken($token) {
-    $query = $this->pdo->prepare("DELETE FROM ActiveTokens WHERE token = ?");
-    $query->execute(array($token));
-    return 0;
-  }
-
   public function checkProfileComplete($token) {
-    $query = $this->pdo->prepare("SELECT * FROM Users WHERE email = ?");
-    $query->execute(array($email));
-    if ($query->rowCount() > 0) {
-      if ($query->fetch()['username'] == NULL) {
+    $user = $this->getUser($token);
+    if ($user != "") {
+      if (is_null($user['username'])) {
         return 0;
       } else {
         return 1;
@@ -139,6 +132,12 @@ class MarufDB {
     } else {
       return 0;
     }
+  }
+
+  public function deleteToken($token) {
+    $query = $this->pdo->prepare("DELETE FROM ActiveTokens WHERE token = ?");
+    $query->execute(array($token));
+    return 0;
   }
 
   public function validateUsername($username) {

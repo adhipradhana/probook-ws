@@ -23,9 +23,9 @@ $router->get('/register', function($request) {
   return RegisterGetController::control($request);
 }, [new TokenValidationMiddleware, new LoginRegisterMiddleware]);
 
-$router->get('/googleRegister', function($request) {
-  return GoogleRegisterGetController::control($request);
-}, [new TokenValidationMiddleware, new LoginRegisterMiddleware]);
+$router->get('/completeprofile', function($request) {
+  return CompleteProfileGetController::control($request);
+}, [new TokenValidationMiddleware, new ProfileIncompleteMiddleware]);
 
 $router->get('/logout', function($request) {
   return LogoutGetController::control($request);

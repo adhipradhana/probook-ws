@@ -1,10 +1,10 @@
 <?php
-class ProfileCompleteMiddleware implements MiddlewareInterface {
+class ProfileIncompleteMiddleware implements MiddlewareInterface {
   public function run(Request $request) {
     $token = $_COOKIE['token'];
     $db = new MarufDB();
-    if (is_null($token)) {
-      header("Location: /login?redirected=1");
+    if ($db->checkProfileComplete($token) == 1) {
+      header("Location: /");
       return False;
     } else {
       return True;
