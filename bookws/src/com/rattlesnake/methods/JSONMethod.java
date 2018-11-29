@@ -62,8 +62,22 @@ public class JSONMethod {
 
         // assign genre
         if (item.getJSONObject("volumeInfo").has("categories")) {
-            String genre = item.getJSONObject("volumeInfo").getJSONArray("categories").getString(0);
-            book.setGenre(genre);
+            JSONArray genres = item.getJSONObject("volumeInfo").getJSONArray("categories");
+            StringBuilder genreString = new StringBuilder();
+
+            for (int i = 0; i < genres.length(); i++) {
+                String genre = genres.getString(i);
+
+                if (i == 0) {
+                    genreString.append(genre);
+                } else {
+                    genreString.append(",");
+                    genreString.append(genre);
+                }
+            }
+
+            System.out.println(genreString.toString());
+            book.setGenre(genreString.toString());
         } else {
             book.setGenre("Unknown");
         }
@@ -120,8 +134,22 @@ public class JSONMethod {
 
         // assign genre
         if (item.getJSONObject("volumeInfo").has("categories")) {
-            String genre = item.getJSONObject("volumeInfo").getJSONArray("categories").getString(0);
-            book.setGenre(genre);
+            JSONArray genres = item.getJSONObject("volumeInfo").getJSONArray("categories");
+            StringBuilder genreString = new StringBuilder();
+
+            for (int i = 0; i < genres.length(); i++) {
+                String genre = genres.getString(i);
+
+                if (i == 0) {
+                    genreString.append(genre);
+                } else {
+                    genreString.append(",");
+                    genreString.append(genre);
+                }
+            }
+
+            System.out.println(genreString.toString());
+            book.setGenre(genreString.toString());
         } else {
             book.setGenre("Unknown");
         }
