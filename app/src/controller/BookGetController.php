@@ -24,7 +24,7 @@ class BookGetController implements ControllerInterface {
       "rating_count" => $book->rating_count
     );
 
-    $recommends = $client->getRecommendedBook($book->genre);
+    $recommends = $client->getRecommendedBook($book->genre)->item;
     $detail_recommends = [];
 
     foreach ($recommends as $recommend) {
