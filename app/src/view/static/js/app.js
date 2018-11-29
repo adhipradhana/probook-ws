@@ -15,6 +15,7 @@ app.controller("searchBook", function($scope, $http) {
             document.getElementById('loader').classList.remove('visible');
             console.log(response.data);
             $scope.books = response.data;
+            console.log($scope.books);
             $scope.status = true;
         }, function(response) {
             document.getElementById('loader').classList.remove('visible');

@@ -29,7 +29,7 @@ public class JSONMethod {
         return bookList;
     }
 
-    public static Book parseBookResponse(String response) {
+    public static Book parseBook(String response) {
         // parse json object
         JSONObject item = new JSONObject(response);
 

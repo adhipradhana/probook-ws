@@ -6,7 +6,7 @@ function render_template(string $username, $orders) {
     $orderDate = date("j F Y", $order['order_timestamp']);
     $orderId = $order['order_id'];
     $reviewStatusText = $order['is_review'] == 1 ? "You have already reviewed this purchase." : "You haven't reviewed this purchase yet.";
-    $imagePath = "src/model/books/".$order['book_id'].".jpg";
+    $imagePath = $order['image'];
 
     $reviewButtonHTML = $order['is_review'] == 1 ? '' : <<<HTML
 

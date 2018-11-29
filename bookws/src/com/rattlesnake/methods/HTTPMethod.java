@@ -60,6 +60,8 @@ public class HTTPMethod {
     public static String executeGet(String targetURL) {
         HttpURLConnection con = null;
 
+        System.out.println(targetURL);
+
         try {
             URL obj = new URL(targetURL);
             con = (HttpURLConnection) obj.openConnection();
