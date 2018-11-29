@@ -23,17 +23,3 @@ class GoogleLoginPostController implements ControllerInterface {
     }
   }
 }
-
-// if ($db->checkProfileComplete($email) == 1) {
-//   $JKWToken = new JKWToken();
-//   $token = $JKWToken->generateJKWToken();
-//   if ($db->addToken($user_id, $token, TRUE) == 1) {
-//     setcookie("token", $token, time() + (int)$_ENV['COOKIE_EXPIRED_TIME'], '/');
-//     header("Location: /");
-//     exit();
-//   } else {
-//     return '<h1>Failed</h1>';
-//   }
-// } else {
-//   header("Location: /googleRegister?email={$email}");
-// }
