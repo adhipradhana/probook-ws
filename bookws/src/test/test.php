@@ -4,11 +4,11 @@ $client = new SoapClient('http://localhost:3000/bookws/book?wsdl', array('cache_
 
 var_dump($client->__getFunctions());
 //var_dump($client->searchBook("the+shining"));
-var_dump($client->getBookDetail("8VnJLu3AvvQC"));
+//var_dump($client->getBookDetail("8VnJLu3AvvQC"));
 //$query = "\"Horror\"";
 //$query_bersih = urlencode($query);
 //$client->setBookRating('1', 5.0);
 
-//var_dump($client->getRecommendedBooks("funny,science"));
+var_dump($client->getRecommendedBook("Fiction / Horror"));
 
 ?>

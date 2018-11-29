@@ -72,6 +72,8 @@ HTML;
   <link rel='stylesheet' href='src/view/static/css/history.css'>
   <script type='module' src='src/view/static/js/main.js'></script>
   <link rel="stylesheet" href="src/view/static/css/fonts.css" type='text/css'>
+  <meta name="google-signin-client_id" content="248062336710-1caa1sjcc7vicoq05a0ac0m8ctlien6k.apps.googleusercontent.com">
+  <script src="https://apis.google.com/js/client:platform.js" async defer></script>
   <title>History</title>
 </head>
 <body>
@@ -95,9 +97,10 @@ HTML;
           </div>
           <div id='logoutButtonContainer' class='main-logout-button-container'>
             <form id='logoutForm' action='/logout' method='get'></form>
-            <button id="logoutButton" class='main-logout-button' type='submit' form='logoutForm'>
+            <button id="logoutButton" class='main-logout-button'>
               <div id="logoutButtonIcon" class='main-logout-button-icon'></div>
             </button>
+            <div class="g-signin2" hidden></div>
           </div>
         </div>
       </div>

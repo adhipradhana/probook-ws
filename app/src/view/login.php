@@ -80,6 +80,9 @@ HTML
               LOGIN
             </div>
           </button>
+        </div>
+        <hr/>
+        <div class='auth-google-container'>
           <div class='g-signin2' data-onsuccess='onSignIn' data-theme='dark'></div>  
           <script>
             function onSignIn(googleUser) {
@@ -100,7 +103,6 @@ HTML
               document.body.removeChild(form);
             }
           </script>
-
         </div>
       </div>
 		</div>
