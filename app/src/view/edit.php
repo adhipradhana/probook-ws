@@ -139,7 +139,7 @@ function render_template(string $id, string $name, string $username, string $ema
                 </div>
                 <div id='submitButtonContainer'>
                   <button id='submitButton' form='editForm' type='submit'>
-                    SUBMIT
+                    SAVE
                   </button>
                 </div>
               </div>
