@@ -72,14 +72,14 @@ public class DBMethod {
 
             // prepare sql statement
             String updateSql =
-                    "UPDATE books AS b, (" +
-                    "  SELECT rating, rating_count" +
-                    "  FROM books" +
-                    "  WHERE id = ?" +
-                    ") AS curr" +
+                    "UPDATE `books` AS `b`, (" +
+                    "  SELECT `rating`, `rating_count`" +
+                    "  FROM `books`" +
+                    "  WHERE `id` = ?" +
+                    ") AS `curr`" +
                     "SET b.rating = (((curr.rating * curr.rating_count) + ?) / (curr.rating_count + 1))," +
-                    "b.rating_count = curr.rating_count + 1" +
-                    "WHERE id = ?";
+                    "b.rating_count = (curr.rating_count + 1)" +
+                    "WHERE `id` = ?";
             PreparedStatement preparedStatement = con.prepareStatement(updateSql);
             preparedStatement.setString(1, id);
             preparedStatement.setDouble(2, rating);
