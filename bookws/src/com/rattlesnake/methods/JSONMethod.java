@@ -13,6 +13,10 @@ public class JSONMethod {
         JSONObject jsonResponse = new JSONObject(response);
 
         // get item list
+        if (!jsonResponse.has("items")) {
+            return new Book[1];
+        }
+
         JSONArray items = jsonResponse.getJSONArray("items");
         int totalItems = items.length();
 
