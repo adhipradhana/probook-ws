@@ -88,16 +88,14 @@ public class BookService implements BookInterface {
             return bookList;
         }
 
-        // get genre
-        StringBuilder genreString = new StringBuilder();
-        for (int i = 0; i < genreList.length; i++) {
-            genreString.append(genreList[i].toLowerCase() + '+');
-        }
-        genreString.deleteCharAt(genreString.length() - 1);
-
+        // get random genre
+        Random rand = new Random();
+        int genreIndex = rand.nextInt(genreList.length);
+        String genreString = genreList[genreIndex];
+        
         String urlGenre;
         try {
-            urlGenre = URLEncoder.encode(genreString.toString(), "UTF-8");
+            urlGenre = URLEncoder.encode(genreString, "UTF-8");
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
             urlGenre = genreList[0];
@@ -117,17 +115,13 @@ public class BookService implements BookInterface {
 
         // get item list
         JSONArray items = jsonResponse.getJSONArray("items");
-        int totalItems = items.length();
+        int totalItems = items.length() > 3 ? 3 : items.length();
 
-        // get random item
-        Random rand = new Random();
-        int index = rand.nextInt(totalItems);
-
-        // get random json object
-        JSONObject item = items.getJSONObject(index);
-
-        // parse book
-        bookList[0] = JSONMethod.parseBook(item);
+        // get book
+        bookList = new Book[totalItems];
+        for (int i = 0; i < totalItems; i++) {
+            bookList[i] = JSONMethod.parseBook(items.getJSONObject(i));
+        }
 
         return bookList;
     }
