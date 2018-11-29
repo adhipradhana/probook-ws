@@ -78,6 +78,10 @@ $router->post('/register', function($request) {
   return RegisterPostController::control($request);
 }, [new VerifyRegisterMiddleware]);
 
+$router->post('/completeprofile', function($request) {
+  return CompleteProfilePostController::control($request);
+}, [new TokenValidationMiddleware, new ProfileIncompleteMiddleware]);
+
 $router->post('/edit', function($request) {
   return EditPostController::control($request);
 });
