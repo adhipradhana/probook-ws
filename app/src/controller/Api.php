@@ -26,11 +26,23 @@ class Api {
 
   public static function order(Request $request) {
     $db = new MarufDB();
+    $otp = $request->otp;
     $bookId = $request->bookId;
+    $cardNumber = $db->getCardNumber($_COOKIE['token']);
     $userId = $db->getUserId($_COOKIE['token']);
     $quantity = $request->quantity;
+
+    $client = new SoapClient('http://localhost:3000/bookws/book?wsdl', array('cache_wsdl' => WSDL_CACHE_NONE) );
+    $order = $client->purchaseBook($cardNumber, $bookId, $quantity, $otp);
+
+    if ($order->status == 'success') {
+      $orderNumber = $db->orderBook($bookId, $userId, $quantity, time());
+    } else {
+      $orderNumber = -1;
+    }
+    
     return array(
-      'orderNumber' => $db->orderBook($bookId, $userId, $quantity, time())
+      'orderNumber' => $orderNumber
     );
   }
 

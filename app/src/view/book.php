@@ -77,12 +77,14 @@ HTML;
   <link rel='stylesheet' href='src/view/static/css/main.css'>
   <link rel='stylesheet' href='src/view/static/css/book.css'>
   <link rel='stylesheet' href='src/view/static/css/search.css'>
+  <script src='src/view/static/js/order.js'></script>
   <script type='module' src='src/view/static/js/main.js'></script>
   <script type='module' src='src/view/static/js/book.js'></script>
   <link rel="stylesheet" href="src/view/static/css/fonts.css" type='text/css'>
   <title>{$book['title']} - Browse</title>
 </head>
 <body>
+
   <div id='purchaseMessageBackground' class='book-purchase-message-background'>
   </div>
   <div id='purchaseMessagePopup' class='book-purchase-message-popup'>
@@ -90,6 +92,19 @@ HTML;
       <div id='purchaseMessagePopupCloseButton' class='book-purchase-message-popup-close'></div>
     </div>
     <div class='book-purchase-message-popup-content'>
+        <h3>Insert OTP</h3>
+        <form id='browseForm' class='browse-form'>
+          <input id='otpField' type='text' name='title' placeholder='Input your OTP code...' autofocus ng-model="query">
+        </form>
+        <button id='orderOTPButton' class='order-otp-button'>ORDER</button>
+    </div>
+  </div>
+
+  <div id='statusMessagePopup' class='book-purchase-message-popup'>
+    <div class='book-purchase-message-popup-close-container'>
+      <div id='statusMessagePopupCloseButton' class='book-purchase-message-popup-close'></div>
+    </div>
+    <div class='book-status-message-popup-content'>
       <div class='book-purchase-message-popup-content-icon-container'>
         <div class='book-purchase-message-popup-content-icon'>
           <div class='book-purchase-message-popup-content-icon-img'></div>
@@ -97,10 +112,11 @@ HTML;
       </div>
       <div class='book-purchase-message-popup-content-text-container'>
         <h3>Purchase Successful!</h3>
-        <p id='purchaseMessagePopupText'></p>
+        <p id='statusMessagePopupText'></p>
       </div>
     </div>
   </div>
+
 	<div class='main-page-container'>
     <div class='main-header-container'>
       <div class='main-header-top-container'>

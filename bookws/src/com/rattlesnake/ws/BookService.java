@@ -104,7 +104,7 @@ public class BookService implements BookInterface {
     }
 
     @Override
-    public Status buyBook(String cardNumber, String bookID, int bookAmount, String totpCode) {
+    public Status purchaseBook(String cardNumber, String bookID, int bookAmount, String totpCode) {
         // target url
         String targetURL = "http://localhost:5000/api/v1/charge";
 
