@@ -11,4 +11,7 @@ bankws/node_modules
 # VSCode
 .vscode
 
-/app/.ethes
+composer.phar
+app/vendor/
+
+

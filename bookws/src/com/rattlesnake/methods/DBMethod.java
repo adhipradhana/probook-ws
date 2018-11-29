@@ -1,7 +1,10 @@
 package com.rattlesnake.methods;
 
 import java.sql.*;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
+
 import io.github.cdimascio.dotenv.Dotenv;
 
 public class DBMethod {
@@ -101,36 +104,44 @@ public class DBMethod {
         }
     }
 
-    public static String getRecommendedBook(String genre) {
+    public static List<String> getRecommendedBook(String[] genres) {
         Connection con = null;
+
         try {
             // create a connection
             con = DriverManager.getConnection(host, user, password);
 
             // prepare sql statement
-            String selectSql =
-                    "SELECT * from sales " +
-                    "NATURAL JOIN (" +
-                    "SELECT genre, MAX(total_sales) AS total_sales " +
-                    "FROM sales " +
-                    "WHERE genre = ?" +
-                    "GROUP BY genre) as temp";
-            PreparedStatement preparedStatement = con.prepareStatement(selectSql);
-            preparedStatement.setString(1, genre);
+            StringBuilder selectSql = new StringBuilder("SELECT id FROM sales WHERE genre IN (");
+            for (int i = 0; i < genres.length; i++) {
+                if (i == 0) {
+                    selectSql.append('?');
+                } else {
+                    selectSql.append(",?");
+                }
+            }
+            selectSql.append(") AND total_sales > 0 ORDER BY total_sales DESC LIMIT 3");
+            PreparedStatement preparedStatement = con.prepareStatement(selectSql.toString());
+            for (int i = 0; i < genres.length; i++) {
+                preparedStatement.setString(i + 1, genres[i]);
+            }
 
             // execute query
             ResultSet resultSet = preparedStatement.executeQuery();
 
             // get result
-            resultSet.last();
-            int count = resultSet.getRow();
+            List<String> idList = new ArrayList<>();
+            resultSet.first();
+            while (resultSet.next()) {
+                idList.add(resultSet.getString("id"));
+            }
 
             // empty set
-            if (count == 0) {
+            if (idList.size() == 0) {
                 return null;
             }
 
-            return resultSet.getString("id");
+            return idList;
         } catch (SQLException e) {
             e.printStackTrace();
             return null;

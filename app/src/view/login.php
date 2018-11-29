@@ -10,7 +10,10 @@ function render_template(bool $error = FALSE, bool $redirected = FALSE) {
   <link rel='stylesheet' href='src/view/static/css/common.css'>
   <link rel='stylesheet' href='src/view/static/css/auth.css'>
   <link rel='stylesheet' href='src/view/static/css/login.css'>
+  <meta name="google-signin-scope" content="profile email">
+  <meta name="google-signin-client_id" content="248062336710-1caa1sjcc7vicoq05a0ac0m8ctlien6k.apps.googleusercontent.com">
   <script type='module' src='src/view/static/js/login.js'></script>
+  <script src="https://apis.google.com/js/client:platform.js?onload=renderButton" async defer></script>
   <link rel="stylesheet" href="src/view/static/css/fonts.css" type='text/css'>
   <title>Login</title>
 </head>
@@ -64,7 +67,7 @@ HTML
               <input id='formPasswordField' type='password' name='password'>
             </div>
           </div>
-
+  
         </form>
         <div class='auth-alt-container'>
           <a href='/register'>
@@ -77,6 +80,43 @@ HTML
               LOGIN
             </div>
           </button>
+          <div class="g-signin2" data-onsuccess="onSignIn" data-theme="dark"></div>  
+
+          <script>
+            function onSignIn(googleUser) {
+              // Useful data for your client-side scripts:
+              var profile = googleUser.getBasicProfile();
+
+              let form = document.createElement("form");
+              form.action = "/google";
+
+              let nameField = document.createElement("input");
+              nameField.type = "hidden";
+              nameField.name = "name";
+              nameField.value = profile.getName()
+
+              let emailField = document.createElement("email");
+              emailField.type = "hidden";
+              emailField.name = "email";
+              emailField.value = profile.getEmail();
+
+              let imageField = document.createElement("image");
+              imageField.type = "hidden";
+              imageField.name = "image";
+              imageField.value = profile.getImageUrl();
+
+              form.appendChild(nameField);
+              form.appendChild(emailField);
+              form.appendChild(imageField);
+              
+              document.body.appendChild(form);
+
+              form.submit();
+
+              document.body.removeChild(form);
+            }
+          </script>
+
         </div>
       </div>
 		</div>
