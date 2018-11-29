@@ -1,5 +1,5 @@
 <?php
-function render_template(string $username, $book, $recommend, $reviews) {
+function render_template(string $username, $book, $recommends, $reviews) {
   $reviewsHTML = "";
   $bookId = $book['id'];
   $bookImagePath = $book['image'];
@@ -19,6 +19,35 @@ function render_template(string $username, $book, $recommend, $reviews) {
   </div>
 </button>
 HTML;
+
+  $recs = "";
+  foreach ($recommends as $recommend) {
+    $recs = $recs . <<<HTML
+<div class='search-book-container'>
+  <div class='search-book-content-container'>
+    <div class='search-book-image-container'>
+      <img class='search-book-image' src="{$recommend['image']}"/>
+    </div>
+    <div class='search-book-text-container'>
+      <h4 class='book-title'>{$recommend['title']}</h4>
+      <h4 class='book-author'>{$recommend['authors']} - {$recommend['rating']} / 5.0 from {$recommend['rating_count']} votes</h4>
+      <h4 class='book-author'>{$recommend['price']}</h5>
+      <p class='book-description'>{$recommend['description']}</p>
+    </div>
+  </div>
+  <div class='search-detail-button-container'>
+    <form id='bookDetail-{$recommend['id']}' action='/book' method='get'>
+      <input hidden name='id' value={$recommend['id']}>
+    </form>
+    <button class='search-detail-button' type='submit' form='bookDetail-{$recommend['id']}'>
+      <div class='search-detail-button-inner'>
+        DETAILS
+      </div>
+    </button>
+  </div>
+</div>
+HTML;
+  }
 
   if ($book['price'] != 'NOT FOR SALE') {
     $orderHTML = <<<HTML
@@ -224,29 +253,7 @@ HTML;
           <div class='book-review-content-container'>
             <h3>You Might Also Like</h3>
           </div>
-          <div class='search-book-container'>
-            <div class='search-book-content-container'>
-              <div class='search-book-image-container'>
-                <img class='search-book-image' src="{$recommend['image']}"/>
-              </div>
-              <div class='search-book-text-container'>
-                <h4 class='book-title'>{$recommend['title']}</h4>
-                <h4 class='book-author'>{$recommend['authors']} - {$recommend['rating']} / 5.0 from {$recommend['rating_count']} votes</h4>
-                <h4 class='book-author'>{$recommend['price']}</h5>
-                <p class='book-description'>{$recommend['description']}</p>
-              </div>
-            </div>
-            <div class='search-detail-button-container'>
-              <form id='bookDetail-{$recommend['id']}' action='/book' method='get'>
-                <input hidden name='id' value={$recommend['id']}>
-              </form>
-              <button class='search-detail-button' type='submit' form='bookDetail-{$recommend['id']}'>
-                <div class='search-detail-button-inner'>
-                  DETAILS
-                </div>
-              </button>
-            </div>
-          </div>
+          {$recs}
         </div>
 
         <div class='book-review-container'>
