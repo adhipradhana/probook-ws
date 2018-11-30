@@ -83,21 +83,27 @@ HTML
         </div>
         <hr/>
         <div class='auth-google-container'>
-          <div class='g-signin2' data-onsuccess='onSignIn' data-theme='dark'></div>  
+          <div id='googleSignInButton' class='g-signin2' data-onsuccess='onSignIn' data-theme='dark'></div>  
           <script>
             function onSignIn(googleUser) {
               const profile = googleUser.getBasicProfile();
 
-              let form = document.createElement('form');
+              const form = document.createElement('form');
               form.method = 'post';
               form.action = '/googlelogin';
 
-              let emailField = document.createElement('input');
+              const emailField = document.createElement('input');
               emailField.type = 'hidden';
               emailField.name = 'email';
               emailField.value = profile.getEmail();
 
+              const nameField = document.createElement('input');
+              nameField.type = 'hidden';
+              nameField.name = 'name';
+              nameField.value = profile.getName();
+
               form.appendChild(emailField);
+              form.appendChild(nameField);
               document.body.appendChild(form);
               form.submit();
               document.body.removeChild(form);

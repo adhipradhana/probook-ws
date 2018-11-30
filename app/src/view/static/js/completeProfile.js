@@ -1,6 +1,5 @@
 import $$ from './lib/jQowi.js';
 
-const invalidNameMessage = 'Name must be a valid person name with less than 20 characters';
 const invalidUsernameMessage = 'Username must contains alphanumeric or underscore';
 const checkingUsernameMessage = 'Please wait, we are checking your username availability...';
 const takenUsernameMessage = 'Username already taken';
@@ -21,11 +20,6 @@ let usernameValidationRequest;
 let cardNumberValidationRequest;
 
 let submitButtonHovered = false;
-
-function isName(value) {
-  const re = /^[a-zA-Z]+(([',. -][a-zA-Z ])?[a-zA-Z]*)*$/;
-  return re.test(value);
-}
 
 function isUsername(value) {
   const re = /^[a-zA-Z0-9_]+$/;
@@ -52,18 +46,13 @@ function updateInputValidationMessage(message) {
 }
 
 function validateInput(_) {
-  const nameField = $$('#formNameField');
   const passwordField = $$('#formPasswordField');
   const confirmPasswordField = $$('#formConfirmPasswordField');
   const addressField = $$('#formAddressField');
   const phoneNumberField = $$('#formPhoneNumberField');
   const submitButton = $$('#formSubmitButton');
 
-  if (!isName(nameField.value) || nameField.value.length == 0 || nameField.value.length > 20) {
-    submitButton.disabled = true;
-    updateInputValidationMessage(invalidNameMessage);
-    if (submitButtonHovered) showInputValidationMessage();
-  } else if (!usernameValid) {
+  if (!usernameValid) {
     submitButton.disabled = true;
     updateInputValidationMessage(usernameValidationMessage);
     if (submitButtonHovered) showInputValidationMessage();
@@ -174,13 +163,12 @@ function validateCardNumber(_) {
 $$('#formUsernameField').oninput = validateUsername;
 $$('#formCardNumberField').oninput = validateCardNumber;
 
-$$('#formNameField').oninput = validateInput;
 $$('#formPasswordField').oninput = validateInput;
 $$('#formConfirmPasswordField').oninput = validateInput;
 $$('#formAddressField').oninput = validateInput;
 $$('#formPhoneNumberField').oninput = validateInput;
 
-updateInputValidationMessage(invalidNameMessage);
+updateInputValidationMessage(invalidUsernameMessage);
 
 $$('#formSubmitButtonInner').onmouseenter = () => {
   if ($$('#formSubmitButton').disabled) showInputValidationMessage();
