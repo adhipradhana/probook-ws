@@ -14,9 +14,14 @@ function render_template(string $username, $book, $recommends, $reviews) {
 
   $orderHTML = "";
   $orderJS = "";
+  $reviewContainerOpenHTML = "";
+  $reviewContainerCloseHTML = "";
   $reviewContainerHTML = "";
-  $recs = "";
   
+  $ratingOpenHTML = "";
+  $ratingCloseHTML = "";
+  $recs = "";
+
   if (!is_null($recommends)) {
     $recs = $recs . <<<HTML
 <div class='book-review-content-container'>
@@ -81,20 +86,24 @@ HTML;
 </div>
 HTML;
 
-    $reviewContainerHTML = <<<HTML
+    $reviewContainerOpenHTML = <<<HTML
 <div class='book-review-container'>
   <div class='book-review-title-container'>
     <h3 class='book-review-title'>Review</h3>
   </div>
   <div class='book-review-content-container'>
-    {$reviewsHTML}
+HTML;
+
+    $reviewContainerCloseHTML = <<<HTML
   </div>
 </div>
 HTML;
 
-    $ratingHTML = <<<HTML
+    $ratingOpenHTML = <<<HTML
 <div class='book-detail-stars-container add-background'>
-  {$starsHTML}
+HTML;
+
+    $ratingCloseHTML = <<<HTML
 </div>
 <div class='book-detail-rating-container add-background'>
   <h4 class='book-detail-rating'>{$ratingText} / 5.0</h4>
@@ -275,7 +284,9 @@ HTML;
               <div class='book-detail-rating-container add-background'>
                 <h4 class='book-detail-rating'>{$book['price']}</h4>
               </div>
-              {$ratingHTML}
+              {$ratingOpenHTML}
+              {$starsHTML}
+              {$ratingCloseHTML}
             </div>
           </div>
         </div>
@@ -284,9 +295,9 @@ HTML;
         <div class='book-order-container'>      
           {$recs}
         </div>
-
-        {$reviewContainerHTML}
-
+        {$reviewContainerOpenHTML}
+        {$reviewHTML}
+        {$reviewContainerCloseHTML}
       </div>
 
     </div>
