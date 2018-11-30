@@ -179,3 +179,10 @@ $$('#formSubmitButtonInner').onmouseleave = () => {
   hideInputValidationMessage();
   submitButtonHovered = false;
 };
+
+$$('#cancelButton').onclick = () => {
+  const auth2 = gapi.auth2.getAuthInstance();
+  auth2.signOut().then(() => {
+    $$('#logoutForm').submit();
+  });
+};

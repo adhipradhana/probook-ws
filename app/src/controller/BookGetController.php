@@ -27,28 +27,30 @@ class BookGetController implements ControllerInterface {
     $recommends = $client->getRecommendedBook($book->genre)->item;
     $detail_recommends = [];
 
-    foreach ($recommends as $recommend) {
-      $recommend->description = (strlen($recommend->description) > 300) ? substr($recommend->description,0,300).'...' : $recommend->description;
+    if ($recommends != null) {
+      foreach ($recommends as $recommend) {
+        $recommend->description = (strlen($recommend->description) > 300) ? substr($recommend->description,0,300).'...' : $recommend->description;
 
-      if ($recommend->price == 0) {
-        $recommend->price = "NOT FOR SALE";
-      } else {
-        $recommend->price = "Rp. " . $recommend->price;
+        if ($recommend->price == 0) {
+          $recommend->price = "NOT FOR SALE";
+        } else {
+          $recommend->price = "Rp. " . $recommend->price;
+        }
+
+        $detail_recommend = array(
+          "id" => $recommend->id,
+          "title" => $recommend->title,
+          "authors" => $recommend->author,
+          "genre" => $recommend->genre,
+          "image" => $recommend->image,
+          "description" => $recommend->description,
+          "rating" => $recommend->rating,
+          "price" => $recommend->price,
+          "rating_count" => $recommend->rating_count
+        );
+
+        array_push($detail_recommends, $detail_recommend);
       }
-
-      $detail_recommend = array(
-        "id" => $recommend->id,
-        "title" => $recommend->title,
-        "authors" => $recommend->author,
-        "genre" => $recommend->genre,
-        "image" => $recommend->image,
-        "description" => $recommend->description,
-        "rating" => $recommend->rating,
-        "price" => $recommend->price,
-        "rating_count" => $recommend->rating_count
-      );
-
-      array_push($detail_recommends, $detail_recommend);
     }
 
     $reviews = $db->getReviews($book->id);

@@ -83,10 +83,8 @@ public class HTTPMethod {
                 response.append(inputLine);
             }
             in.close();
-
-            //print result
+            
             return response.toString();
-
         } catch (Exception e) {
             e.printStackTrace();
             return null;

@@ -61,4 +61,4 @@ $$('#logoutButton').onclick = () => {
       }
     }
   });
-}
+};
