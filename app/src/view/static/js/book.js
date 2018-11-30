@@ -6,6 +6,7 @@ $$('#orderButton').onclick = () => {
   setTimeout(() => {
     $$('#purchaseMessageBackground').classList.add('visible');
     $$('#purchaseMessagePopup').classList.add('visible');
+    $$('#otpField').focus();
   }, 100);
 };
 

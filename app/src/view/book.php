@@ -148,9 +148,11 @@ HTML;
       <div id='purchaseMessagePopupCloseButton' class='book-purchase-message-popup-close'></div>
     </div>
     <div class='book-purchase-message-popup-content'>
-        <h3>Insert TOTP</h3>
-        <form id='browseForm' class='browse-form'>
-          <input id='otpField' type='text' name='title' placeholder='Input your TOTP code...' autofocus ng-model="query">
+        <h3>Insert TOTP Code</h3>
+        <form id='otpForm' class='book-otp-form'>
+          <div class='book-otp-field-container'>
+            <input id='otpField' class='book-otp-field' type='number' name='title' autofocus ng-model="query">
+          </div>
         </form>
         <button id='orderOTPButton' class='order-otp-button'>ORDER</button>
     </div>
