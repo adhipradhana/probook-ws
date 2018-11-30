@@ -143,7 +143,7 @@ HTML;
     <div class='book-purchase-message-popup-content'>
         <h3>Insert TOTP</h3>
         <form id='browseForm' class='browse-form'>
-          <input id='otpField' type='text' name='title' placeholder='Input your TOTP secret key...' autofocus ng-model="query">
+          <input id='otpField' type='text' name='title' placeholder='Input your TOTP code...' autofocus ng-model="query">
         </form>
         <button id='orderOTPButton' class='order-otp-button'>ORDER</button>
     </div>
