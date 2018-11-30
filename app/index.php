@@ -29,7 +29,7 @@ $router->get('/completeprofile', function($request) {
 
 $router->get('/logout', function($request) {
   return LogoutGetController::control($request);
-}, [new TokenValidationMiddleware, new AuthMiddleware]);
+}, [new TokenValidationMiddleware, new LogoutAuthMiddleware]);
 
 $router->get('/browse', function($request) {
   return BrowseGetController::control($request);

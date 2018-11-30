@@ -1,5 +1,29 @@
-.auth-submit-container {
-  margin-top: 26px;
+.complete-profile-buttons-container {
+  width: 87%;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  margin: 16px 0px 26px 0;
+}
+
+.complete-profile-cancel-button {
+  width: 120px;
+  height: 50px;
+	box-sizing: border-box;
+	border-radius: 4px;
+	background-color: orangered;
+	outline: none;
+	cursor: pointer;
+	font-family: 'Chathura', sans-serif;
+	font-weight: 600;
+	font-size: 2.6rem;
+	color: white;
+	text-align: center;
+	text-decoration: none;
+	line-height: 28px;
+	-webkit-transition-duration: 0.3s;
+  transition-duration: 0.3s;
 }
 
 h1 {
