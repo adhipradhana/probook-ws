@@ -176,20 +176,28 @@ Anda membutuhkan tim operasional yang berpengalaman untuk memanage banyaknya sys
 *Harap semua anggota kelompok mengerjakan SOAP dan REST API kedua-duanya*. Tuliskan pembagian tugas seperti berikut ini.
 
 REST :
-1. Validasi nomor kartu : 1351xxxx
-2. ...
+1. Validasi nomor kartu : 13516137
+2. Pembayaran : 13516095
+3. Validasi merchant key : 13516095
 
 SOAP :
-1. Add Produce : 1351xxxx
-2. Fungsionalitas Y : 1351xxxx
-3. ...
+1. Mencari buku : 13516035 
+2. Mendapatkan detail buku : 13516095
+3. Mengganti rating buku : 13516137 
+4. Mendapatkan rekomendasi buku : 13516035
+5. Pembelian buku : 13516035 
 
 Perubahan Web app :
-1. Halaman Search : 
-2. Halaman X :
-3. ...
+1. Tampilan Hasil Search : 13516137
+2. Implementasi Search :  13516137
+2. Halaman Book Details : 13516095
+3. Halaman Review : 13516035
+4. Pop-up TOTP : 13516095
+5. Penggantian token dengan validasi server side, user agent, dan IP : 13516095 
+6. Perubahan database : 13516035 13516095 13516137
 
 Bonus :
-1. Pembangkitan token HTOP/TOTP : 
-2. Validasi token : 
-3. ...
+1. Pembangkitan token HTOP/TOTP : 13516095
+2. Validasi token : 13516137
+3. Pembuatan QR Code : 13516035
+4. Google Login : 13516095
