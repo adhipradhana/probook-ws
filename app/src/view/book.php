@@ -296,7 +296,7 @@ HTML;
           {$recs}
         </div>
         {$reviewContainerOpenHTML}
-        {$reviewHTML}
+        {$reviewsHTML}
         {$reviewContainerCloseHTML}
       </div>
 
