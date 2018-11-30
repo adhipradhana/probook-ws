@@ -184,15 +184,14 @@ button {
   height: 50px;
   padding: 0px;
 	box-sizing: border-box;
-	border: 3px solid orangered;
 	border-radius: 4px;
-	background-color: white;
+	background-color: #54c0ff;
 	outline: none;
 	cursor: pointer;
 	font-family: 'Chathura', sans-serif;
 	font-weight: 600;
 	font-size: 2.6rem;
-	color: orangered;
+	color: white;
 	text-align: center;
 	text-decoration: none;
 	line-height: 28px;
@@ -214,14 +213,11 @@ button:active {
 }
 
 button[disabled] {
-  border: 3px solid lightsalmon;
-  color: lightsalmon;
+  background-color: lightblue;
 }
 
 button:hover[disabled] {
-  border: 3px solid lightsalmon;
-  background-color: white;
-  color: lightsalmon;
+  background-color: lightblue;
   transform: scale(1);
 }
 

@@ -13,6 +13,8 @@ function render_template(string $name, string $email) {
   <link rel='stylesheet' href='src/view/static/css/completeProfile.css'>
   <script type='module' src='src/view/static/js/completeProfile.js'></script>
   <link rel="stylesheet" href="src/view/static/css/fonts.css" type='text/css'>
+  <meta name="google-signin-client_id" content="248062336710-1caa1sjcc7vicoq05a0ac0m8ctlien6k.apps.googleusercontent.com">
+  <script src="https://apis.google.com/js/client:platform.js" async defer></script>
   <title>Complete Your Profile</title>
 </head>
 <body>
@@ -116,10 +118,15 @@ function render_template(string $name, string $email) {
           </div>
 
         </form>
-        <div class='auth-submit-container'>
+        <div class='g-signin2' hidden></div>
+        <form id='logoutForm' action='/logout' method='get'></form>
+        <div class='complete-profile-buttons-container'>
+          <button id='cancelButton' class='complete-profile-cancel-button'>
+            CANCEL
+          </button>
           <button id='formSubmitButton' type='submit' form='completeProfileForm' disabled>
             <div id='formSubmitButtonInner' class='auth-submit-inner'>
-              REGISTER
+              CONFIRM
             </div>
           </button>
         </div>
