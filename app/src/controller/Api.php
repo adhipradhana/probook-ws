@@ -57,28 +57,31 @@ class Api {
     $searchResult = [];
     $client = new SoapClient('http://localhost:3000/bookws/book?wsdl', array('cache_wsdl' => WSDL_CACHE_NONE) );
     $books = $client->searchBook($query)->item;
-    foreach ($books as $book) {
-      if ($book->price == 0) {
-        $book->price = "NOT FOR SALE";
-      } else {
-        $book->price = "Rp. " . $book->price;
+    if ($books != null) {
+      foreach ($books as $book) {
+        if ($book->price == 0) {
+          $book->price = "NOT FOR SALE";
+        } else {
+          $book->price = "Rp. " . $book->price;
+        }
+
+        $book->description = (strlen($book->description) > 300) ? substr($book->description,0,300).'...' : $book->description;
+
+        $temp = array(
+          "id" => $book->id,
+          "title" => $book->title,
+          "authors" => $book->author,
+          "genre" => $book->genre,
+          "image" => $book->image,
+          "description" => $book->description,
+          "rating" => $book->rating,
+          "price" => $book->price,
+          "rating_count" => $book->rating_count
+        );
+        array_push($searchResult,$temp);
       }
-
-      $book->description = (strlen($book->description) > 300) ? substr($book->description,0,300).'...' : $book->description;
-
-      $temp = array(
-        "id" => $book->id,
-        "title" => $book->title,
-        "authors" => $book->author,
-        "genre" => $book->genre,
-        "image" => $book->image,
-        "description" => $book->description,
-        "rating" => $book->rating,
-        "price" => $book->price,
-        "rating_count" => $book->rating_count
-      );
-      array_push($searchResult,$temp);
     }
+
     return $searchResult;
   }
 }
