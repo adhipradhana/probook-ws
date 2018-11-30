@@ -38,7 +38,7 @@ class Api {
     $userId = $db->getUserId($_COOKIE['token']);
     $quantity = $request->quantity;
 
-    $client = new SoapClient('http://localhost:3000/bookws/book?wsdl', array('cache_wsdl' => WSDL_CACHE_NONE) );
+    $client = new SoapRequest();
     $order = $client->purchaseBook($cardNumber, $bookId, $quantity, $otp);
 
     if ($order->status == 'success') {
@@ -55,8 +55,8 @@ class Api {
 
   public static function search(string $query) {
     $searchResult = [];
-    $client = new SoapClient('http://localhost:3000/bookws/book?wsdl', array('cache_wsdl' => WSDL_CACHE_NONE) );
-    $books = $client->searchBook($query)->item;
+    $client = new SoapRequest();
+    $books = $client->searchBook($query);
     if ($books != null) {
       foreach ($books as $book) {
         if ($book->price == 0) {

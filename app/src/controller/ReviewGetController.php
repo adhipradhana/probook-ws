@@ -6,7 +6,7 @@ class ReviewGetController implements ControllerInterface {
     $order_id = $request->id;
     $book_id = $db->getBookIdByOrderId($order_id);
 
-    $client = new SoapClient('http://localhost:3000/bookws/book?wsdl', array('cache_wsdl' => WSDL_CACHE_NONE) );
+    $client = new SoapRequest();
     $book = $client->getBookDetail($book_id);
     $bookArray = array(
       "id" => $book->id,
