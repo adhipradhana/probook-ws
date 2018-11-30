@@ -30,6 +30,130 @@ Setiap kelompok beranggotakan **3 orang dari kelas yang sama**. Jika jumlah maha
 8. Pada *readme* terdapat penjelasan mengenai pembagian tugas masing-masing anggota (lihat formatnya pada bagian **pembagian tugas**).
 9. Merge request dari repository anda ke repository ini dengan format **Nama kelompok** - **NIM terkecil** - **Nama Lengkap dengan NIM terkecil** sebelum **Jumat, 30 November 2018 pukul 23.59**.
 
+### Basis Data
+
+Basis data dari aplikasi yang kami buat terdiri dari 3, yakni Basis data aplikasi pro-book, Basis data webservice bank yang mengatur transaksi, dan Basis data webservice buku untuk mengakses data-data buku dari Google Books API
+
+### Basis Data Pro-book :blue_book:
+
+* ActiveTokens :key:
+
+Tabel ini berfungsi untuk menyimpan token dari user yang telah login. Berbeda dengan probook versi sebelumnya, pada token basis data versi ini juga menyimpan user-agent, ip address, serta flag google login, untuk menandakan apakah akun tersebut masuk melalui akun google atau tidak.
+
+| Field                   | Type          |
+|:-----------------------:|:-------------:|
+| user_id                 | int(11)       |
+| token                   | varchar(300)  |
+| user_agent              | varchar(300)  |
+| ip_address              | varchar(20)   |
+| expiration_timestamp    | bigint(20)    |
+| google_login            | tinyint(1)    |
+
+* Orders :clipboard:
+
+Tabel ini berfungsi untuk menyimpan order/pesanan yang telah berhasil.
+
+| Field           | Type        |
+|:---------------:|:-----------:|
+| id              | int(11)     |
+| user_id         | int(11)     |
+| is_review       | tinyint(1)  |
+| book_id         | varchar(50) |
+| amount          | int(11)     |
+| order_timestamp | bigint(20)  |
+
+* Reviews :page_with_curl:
+
+Tabel ini berfungsi untuk menyimpan review seorang user terhadap buku yang dijual di probook. 
+
+| Field    | Type         |
+|:--------:|:------------:|
+| id       | int(11)      |
+| rating   | float        |
+| comment  | varchar(500) |
+| book_id  | varchar(50)  |
+| username | varchar(300) |
+| user_id  | int(11)      |
+
+* Users :hear_no_evil:
+
+Tabel ini berfungsi untuk menyimpan user-user yang telah terdaftar.
+
+| Field       | Type         |
+|:-----------:|:------------:|
+| id          | int(11)      |
+| name        | varchar(255) |
+| username    | varchar(255) |
+| email       | varchar(255) |
+| password    | varchar(255) |
+| address     | varchar(255) |
+| phonenumber | varchar(255) |
+| cardnumber  | varchar(16)  |
+
+### Basis Data Webservice Bank :bank:
+
+* Accounts :credit_card:
+
+Tabel ini berfungsi untuk menyimpan akun-akun bank yang telah terdaftar beserta detail-detailnya seperti saldo, kode totp, dll.
+
+| Field      | Type         |
+|:----------:|:------------:|
+| id         | int(11)      |
+| cardNumber | varchar(16)  |
+| name       | varchar(255) |
+| balance    | bigint(20)   |
+| totpSecret | varchar(52)  |
+| createdAt  | datetime     |
+| updatedAt  | datetime     |
+
+* Merchants :goberserk:
+
+Tabel ini berfungsi untuk menyimpan akun bank milik merchant-merchant, salah satunya adalah akun dari probook.
+
+| Field     | Type         |
+|:---------:|:------------:|
+| id        | int(11)      |
+| accountId | int(11)      |
+| name      | varchar(255) |
+| apiKey    | varchar(24)  |
+| createdAt | datetime     |
+| updatedAt | datetime     |
+
+* Transactions :money_with_wings:
+
+| Field      | Type     |
+|:----------:|:--------:|
+| id         | int(11)  |
+| senderId   | int(11)  |
+| receiverId | int(11)  |
+| amount     | float    |
+| timeStamp  | datetime |
+| createdAt  | datetime |
+| updatedAt  | datetime |
+
+### Basis Data Webservice Book :book:
+
+* Books :books:
+
+Tabel ini untuk menyimpan buku yang dijual oleh probook. Berbeda dengan probook sebelumnya, id yang disimpan pada tabel ini adalah tabel buku yang ada di google books API. Rating juga disimpan di tabel ini.
+
+| Field        | Type         |
+|:------------:|:------------:|
+| id           | varchar(50)  |
+| rating       | decimal(5,1) |
+| price        | int(10)      |
+| rating_count | int(5)       |
+
+* Sales :chart_with_upwards_trend:
+
+Tabel ini udah menyimpan total penjualan pada masing-masing genre, untuk kemudian menjadi pertimbangan dalam rekomendasi buku yang diberikan oleh probook.
+
+| Field       | Type         |
+|:-----------:|:------------:|
+| id          | varchar(100) |
+| genre       | varchar(50)  |
+| total_sales | int(10)      |
+
 ### Deskripsi Tugas
 ![](temp/architecture.png)
 
