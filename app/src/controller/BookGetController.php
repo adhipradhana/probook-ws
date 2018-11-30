@@ -27,7 +27,7 @@ class BookGetController implements ControllerInterface {
     $recommends = $client->getRecommendedBook($book->genre)->item;
     $detail_recommends = [];
 
-    if (!is_null($recommends)) {
+    if ($recommends != null) {
       foreach ($recommends as $recommend) {
         $recommend->description = (strlen($recommend->description) > 300) ? substr($recommend->description,0,300).'...' : $recommend->description;
 
