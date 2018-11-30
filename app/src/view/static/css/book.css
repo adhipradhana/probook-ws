@@ -154,17 +154,26 @@
 
 .book-otp-form {
   margin-bottom: 24px;
-}
-
-.book-otp-field-container {
   display: flex;
   flex-direction: row;
   justify-content: center;
   align-items: center;
 }
 
-.book-otp-field {
+.book-otp-field-container {
   width: 90%;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.book-otp-number-field {
+  width: 58px;
+  padding-left: 0px;
+  text-align: center;
+  border: 3px solid black;
+	color: black;
 }
 
 .main-content-container {
@@ -543,14 +552,14 @@ input {
   transition-duration: 0.3s;
 }
 
-input:hover {
+/* input:hover {
 	border: 4px solid gray;
 }
 
 input:focus {
 	border: 4px solid black;
 	color: black;
-}
+} */
 
 input::-webkit-outer-spin-button,
 input::-webkit-inner-spin-button {

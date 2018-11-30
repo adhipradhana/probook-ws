@@ -151,7 +151,12 @@ HTML;
         <h3>Insert TOTP Code</h3>
         <form id='otpForm' class='book-otp-form'>
           <div class='book-otp-field-container'>
-            <input id='otpField' class='book-otp-field' type='number' name='title' autofocus ng-model="query">
+            <input id='otpNumberField0' class='book-otp-number-field' type='text' name='title' maxlength="1" autofocus ng-model="query">
+            <input id='otpNumberField1' class='book-otp-number-field' type='text' name='title' maxlength="1" autofocus ng-model="query">
+            <input id='otpNumberField2' class='book-otp-number-field' type='text' name='title' maxlength="1" autofocus ng-model="query">
+            <input id='otpNumberField3' class='book-otp-number-field' type='text' name='title' maxlength="1" autofocus ng-model="query">
+            <input id='otpNumberField4' class='book-otp-number-field' type='text' name='title' maxlength="1" autofocus ng-model="query">
+            <input id='otpNumberField5' class='book-otp-number-field' type='text' name='title' maxlength="1" autofocus ng-model="query">
           </div>
         </form>
         <button id='orderOTPButton' class='order-otp-button'>ORDER</button>
