@@ -4,6 +4,6 @@ class CompleteProfileGetController implements ControllerInterface {
     $db = new MarufDB;
     $user = $db->getUser($_COOKIE['token']);
     $template = new Template('src/view/completeProfile.php');
-    return $template->render($user['email']);
+    return $template->render($user['name'], $user['email']);
   }
 }

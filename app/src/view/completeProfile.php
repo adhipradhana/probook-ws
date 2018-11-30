@@ -1,5 +1,5 @@
 <?php
-function render_template(string $email) {
+function render_template(string $name, string $email) {
   return <<<HTML
 
 <!DOCTYPE html>
@@ -34,7 +34,20 @@ function render_template(string $email) {
               <h4>Name</h4>
             </div>
             <div class='auth-form-item-field-container'>
-              <input id='formNameField' type='text' name='name' autofocus>
+              <div class='auth-form-item-field-text-container'>
+                <h5>{$name}</h5>
+              </div>
+            </div>
+          </div>
+
+          <div class='auth-form-item'>
+            <div class='auth-form-item-label-container'>
+              <h4>Email</h4>
+            </div>
+            <div class='auth-form-item-field-container'>
+              <div class='auth-form-item-field-text-container'>
+                <h5>{$email}</h5>
+              </div>
             </div>
           </div>
 
@@ -48,17 +61,6 @@ function render_template(string $email) {
               </div>
               <div id='formUsernameValidation' class='auth-form-item-field-validation-container'>
                 <img id='formUsernameValidationIcon' class='auth-form-item-validation-icon' src='src/view/static/img/icon_failed.svg' alt='Validation icon'>
-              </div>
-            </div>
-          </div>
-
-          <div class='auth-form-item'>
-            <div class='auth-form-item-label-container'>
-              <h4>Email</h4>
-            </div>
-            <div class='auth-form-item-field-container'>
-              <div class='auth-form-item-field-text-container'>
-                <h5>{$email}</h5>
               </div>
             </div>
           </div>

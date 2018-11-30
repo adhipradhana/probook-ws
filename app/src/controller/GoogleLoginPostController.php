@@ -2,10 +2,11 @@
 class GoogleLoginPostController implements ControllerInterface {
   public static function control(Request $request) {
     $email = $request->email;
+    $name = $request->name;
     $db = new MarufDB();
 
     if ($db->validateEmail($email) == 1) {
-      $result = $db->addProfile(NULL, NULL, $email, NULL, NULL, NULL, NULL);
+      $result = $db->addProfile($name, NULL, $email, NULL, NULL, NULL, NULL);
       if ($result == 0) {
         return '<h1>Failed</h1>';
       }

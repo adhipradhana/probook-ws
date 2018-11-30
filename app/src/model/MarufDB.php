@@ -193,11 +193,11 @@ class MarufDB {
     }
   }
 
-  public function completeProfile($id, $name, $username, $password, $cardnumber, $address, $phonenumber) {
+  public function completeProfile($id, $username, $password, $cardnumber, $address, $phonenumber) {
     if ($this->validateUsername($username) == 1) {
       try {
-        $query = $this->pdo->prepare("UPDATE Users SET name = ?, username = ?, password = ?, cardnumber = ?, address = ?, phonenumber = ? WHERE id = ?");
-        $query->execute(array($name, $username, md5($password), $cardnumber, $address, $phonenumber, $id));
+        $query = $this->pdo->prepare("UPDATE Users SET username = ?, password = ?, cardnumber = ?, address = ?, phonenumber = ? WHERE id = ?");
+        $query->execute(array($username, md5($password), $cardnumber, $address, $phonenumber, $id));
         return 1;
       } catch (PDOException $e){
         return 0;
