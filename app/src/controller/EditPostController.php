@@ -16,7 +16,6 @@ class EditPostController implements ControllerInterface {
     $address = $user['address'];
     $phoneNumber = $user['phonenumber'];
 
-
     $response = array('error' => array());
     $response['success'] = True;
     $uploadOk = 1;
@@ -73,7 +72,7 @@ class EditPostController implements ControllerInterface {
         $address = $request->address;
         $phoneNumber = $request->phoneNumber;
         $response['success'] = True;
-        $result = $db->editProfile($request->name, $request->address, $request->phoneNumber, $request->userId);
+        $result = $db->editProfile($request->name, $request->address, $request->phoneNumber, $request->cardNumber, $request->userId);
       }
     }
 
