@@ -21,8 +21,8 @@
 
 .book-purchase-message-popup {
   position: fixed;
-  width: 500px;
-  height: 180px;
+  width: 440px;
+  height: 230px;
   padding: 14px;
   top: 50%;
   left: 50%;
@@ -75,7 +75,7 @@
 .book-purchase-message-popup-content {
   width: 100%;
   flex: 1;
-  margin-bottom: 30px;
+  margin-bottom: 10px;
   flex-direction: row;
 	justify-content: center;
   align-items: center;
@@ -92,11 +92,20 @@
 }
 
 .book-purchase-message-popup-content h3 {
+  width: 100%;
+  flex: 1;
+  margin-top: 12px;
+  margin-bottom: 18px;
+  display: flex;
+  flex-direction: column;
+	justify-content: space-around;
+  align-items: center;
   text-align:center;
 }
 
 .book-purchase-message-popup-content-icon-container {
   height: 100%;
+  margin-left: 12px;
   flex: 2;
   display: flex;
   flex-direction: row;
@@ -114,7 +123,6 @@
   border-radius: 62px;
   background-color: #54c0ff;
   box-shadow: 0 0px 10px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
-  transform: rotateZ(5deg);
 }
 
 .book-purchase-message-popup-content-icon-img {
@@ -135,13 +143,37 @@
 
 .book-purchase-message-popup-content-text-container {
   height: 100%;
-  margin-left: 10px;
+  margin-left: 24px;
   padding-bottom: 8px;
   flex: 5.4;
   display: flex;
   flex-direction: column;
 	justify-content: center;
   align-items: flex-start;
+}
+
+.book-otp-form {
+  margin-bottom: 24px;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+}
+
+.book-otp-field-container {
+  width: 90%;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.book-otp-number-field {
+  width: 58px;
+  padding-left: 0px;
+  text-align: center;
+  border: 3px solid black;
+	color: black;
 }
 
 .main-content-container {
@@ -193,7 +225,7 @@
 }
 
 .book-detail-synopsis {
-  padding: 0px 10px;
+  padding: 0px 10px 50px 10px;
 }
 
 .book-detail-right-container {
@@ -520,11 +552,18 @@ input {
   transition-duration: 0.3s;
 }
 
-input:hover {
+/* input:hover {
 	border: 4px solid gray;
 }
 
 input:focus {
 	border: 4px solid black;
 	color: black;
+} */
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+    /* display: none; <- Crashes Chrome on hover */
+    -webkit-appearance: none;
+    margin: 0; /* <-- Apparently some margin are still there even though it's hidden */
 }
