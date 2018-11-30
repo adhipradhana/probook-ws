@@ -21,6 +21,7 @@ function render_template(string $username, $book, $recommends, $reviews) {
   $ratingOpenHTML = "";
   $ratingCloseHTML = "";
   $recs = "";
+  $starsHTML = "";
 
   if (!is_null($recommends)) {
     $recs = $recs . <<<HTML
@@ -86,6 +87,21 @@ HTML;
 </div>
 HTML;
 
+  for ($x = 0; $x < $intRating; $x++) {
+    $starsHTML = $starsHTML . <<<HTML
+
+  <div class="book-detail-star-icon"></div>
+
+HTML;
+  }
+  for ($x = 0; $x < 5 - $intRating; $x++) {
+    $starsHTML = $starsHTML . <<<HTML
+
+  <div class="book-detail-star-icon star-icon-empty"></div>
+
+HTML;
+  }
+
     $reviewContainerOpenHTML = <<<HTML
 <div class='book-review-container'>
   <div class='book-review-title-container'>
@@ -112,22 +128,6 @@ HTML;
 
     $orderJS = <<<HTML
 <script type='module' src='src/view/static/js/book.js'></script>
-HTML;
-  }
-
-  $starsHTML = "";
-  for ($x = 0; $x < $intRating; $x++) {
-    $starsHTML = $starsHTML . <<<HTML
-
-<div class="book-detail-star-icon"></div>
-
-HTML;
-  }
-  for ($x = 0; $x < 5 - $intRating; $x++) {
-    $starsHTML = $starsHTML . <<<HTML
-
-<div class="book-detail-star-icon star-icon-empty"></div>
-
 HTML;
   }
 
