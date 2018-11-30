@@ -81,7 +81,7 @@ CREATE TABLE `Orders` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `user_id` int(11) DEFAULT NULL,
   `is_review` tinyint(1) DEFAULT NULL,
-  `book_id` int(11) DEFAULT NULL,
+  `book_id` varchar(50) DEFAULT NULL,
   `amount` int(11) DEFAULT NULL,
   `order_timestamp` bigint(20) DEFAULT NULL,
   PRIMARY KEY (`id`)
@@ -94,8 +94,6 @@ CREATE TABLE `Orders` (
 
 LOCK TABLES `Orders` WRITE;
 /*!40000 ALTER TABLE `Orders` DISABLE KEYS */;
-INSERT INTO `Orders` VALUES (1,1,0,1,4,1540460068),(2,1,1,11,3,1540460087);
-/*!40000 ALTER TABLE `Orders` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -109,7 +107,7 @@ CREATE TABLE `Reviews` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `rating` float DEFAULT NULL,
   `comment` varchar(500) DEFAULT NULL,
-  `book_id` int(11) DEFAULT NULL,
+  `book_id` varchar(50) DEFAULT NULL,
   `username` varchar(300) DEFAULT NULL,
   `user_id` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`)
@@ -122,8 +120,7 @@ CREATE TABLE `Reviews` (
 
 LOCK TABLES `Reviews` WRITE;
 /*!40000 ALTER TABLE `Reviews` DISABLE KEYS */;
-INSERT INTO `Reviews` VALUES (1,5,'This book has open my mind!! World Governments need to change their country\'s ideology to Nazi Imperialism!! HEIL HITLER!! Aufa Fuhrer!! Leben von Aufa, Make Aufa ist ein Vorbild, Aufa ist Konig',11,'misterjoko',1);
-/*!40000 ALTER TABLE `Reviews` ENABLE KEYS */;
+
 UNLOCK TABLES;
 
 --

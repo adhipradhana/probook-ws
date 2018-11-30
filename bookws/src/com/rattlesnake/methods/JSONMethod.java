@@ -83,7 +83,7 @@ public class JSONMethod {
             System.out.println(genreString.toString());
             book.setGenre(genreString.toString());
         } else {
-            book.setGenre("Unknown");
+            book.setGenre("Fiction");
         }
 
         // assign description
@@ -155,7 +155,7 @@ public class JSONMethod {
             System.out.println(genreString.toString());
             book.setGenre(genreString.toString());
         } else {
-            book.setGenre("Unknown");
+            book.setGenre("Fiction");
         }
 
         // assign description

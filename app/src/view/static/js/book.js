@@ -38,6 +38,7 @@ $$('#orderOTPButton').onclick = () => {
     url: '/order',
     data: JSON.stringify(data),
     callback: (response) => {
+      console.log(response);
       response = JSON.parse(response);
 
       $$('#orderOTPButton').disabled = false;

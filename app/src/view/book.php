@@ -21,8 +21,14 @@ function render_template(string $username, $book, $recommends, $reviews) {
 HTML;
 
   $recs = "";
-  foreach ($recommends as $recommend) {
+  if (!is_null($recommends)) {
     $recs = $recs . <<<HTML
+<div class='book-review-content-container'>
+    <h3>You Might Also Like</h3>
+</div>
+HTML;
+    foreach ($recommends as $recommend) {
+      $recs = $recs . <<<HTML
 <div class='search-book-container'>
   <div class='search-book-content-container'>
     <div class='search-book-image-container'>
@@ -47,7 +53,8 @@ HTML;
   </div>
 </div>
 HTML;
-  }
+    }
+  } 
 
   if ($book['price'] != 'NOT FOR SALE') {
     $orderHTML = <<<HTML
@@ -252,10 +259,7 @@ HTML;
           </div>
         </div>
 
-        <div class='book-order-container'>
-          <div class='book-review-content-container'>
-            <h3>You Might Also Like</h3>
-          </div>
+        <div class='book-order-container'>      
           {$recs}
         </div>
 
