@@ -102,7 +102,8 @@ function render_template(string $username) {
                 </div>
                 <div class='search-book-text-container'>
                   <h4 class='book-title'>{{ book.title }}</h4>
-                  <h4 class='book-author'>{{ book.authors }} - {{ book.rating }} / 5.0 from {{ book.rating_count }} votes</h4>
+                  <h4 ng-if='book.rating_count > 0' class='book-author'>{{ book.authors }} - {{ book.rating }} / 5.0 from {{ book.rating_count }} votes</h4>
+                  <h4 ng-if='book.rating_count == 0' class='book-author'>{{ book.authors }} - No Ratings</h4>
                   <h4 class='book-author'>{{ book.price }}</h5>
                   <p class='book-description'>{{ book.description }}</p>
                 </div>

@@ -12,15 +12,17 @@ function render_template(string $username, $book, $recommends, $reviews) {
     $ratingText = $ratingText . ".0";
   }
 
-  $orderHTML = <<<HTML
-<button id='orderButton' class='book-order-button' disabled>
-  <div class='book-order-button-inner'>
-    ORDER
-  </div>
-</button>
-HTML;
-
+  $orderHTML = "";
+  $orderJS = "";
+  $reviewContainerOpenHTML = "";
+  $reviewContainerCloseHTML = "";
+  $reviewContainerHTML = "";
+  
+  $ratingOpenHTML = "";
+  $ratingCloseHTML = "";
   $recs = "";
+  $starsHTML = "";
+
   if (!is_null($recommends)) {
     $recs = $recs . <<<HTML
 <div class='book-review-content-container'>
@@ -58,27 +60,74 @@ HTML;
 
   if ($book['price'] != 'NOT FOR SALE') {
     $orderHTML = <<<HTML
-<button id='orderButton' class='book-order-button'>
-  <div class='book-order-button-inner'>
-    ORDER
+<div class='book-order-container'>
+  <div class='book-order-title-container'>
+    <h3 class='book-order-title'>Order</h3>
   </div>
-</button>
+  <div class='book-order-dropdown-container add-background'>
+    <h4 class='book-order-dropdown-label'>Amount: </h4>
+    <select id='orderQuantitySelector' name='orderQuantity'>
+      <option value='1'>1</option>
+      <option value='2'>2</option>
+      <option value='3'>3</option>
+      <option value='4'>4</option>
+      <option value='5'>5</option>
+      <option value='6'>6</option>
+      <option value='7'>7</option>
+    </select>
+  </div>
+  <div class='book-order-button-container'>
+    <input hidden id='bookIdField' value={$bookId}>
+    <button id='orderButton' class='book-order-button'>
+      <div class='book-order-button-inner'>
+        ORDER
+      </div>
+    </button>
+  </div>
+</div>
 HTML;
-  }
 
-  $starsHTML = "";
   for ($x = 0; $x < $intRating; $x++) {
     $starsHTML = $starsHTML . <<<HTML
 
-<div class="book-detail-star-icon"></div>
+  <div class="book-detail-star-icon"></div>
 
 HTML;
   }
   for ($x = 0; $x < 5 - $intRating; $x++) {
     $starsHTML = $starsHTML . <<<HTML
 
-<div class="book-detail-star-icon star-icon-empty"></div>
+  <div class="book-detail-star-icon star-icon-empty"></div>
 
+HTML;
+  }
+
+    $reviewContainerOpenHTML = <<<HTML
+<div class='book-review-container'>
+  <div class='book-review-title-container'>
+    <h3 class='book-review-title'>Review</h3>
+  </div>
+  <div class='book-review-content-container'>
+HTML;
+
+    $reviewContainerCloseHTML = <<<HTML
+  </div>
+</div>
+HTML;
+
+    $ratingOpenHTML = <<<HTML
+<div class='book-detail-stars-container add-background'>
+HTML;
+
+    $ratingCloseHTML = <<<HTML
+</div>
+<div class='book-detail-rating-container add-background'>
+  <h4 class='book-detail-rating'>{$ratingText} / 5.0</h4>
+</div>
+HTML;
+
+    $orderJS = <<<HTML
+<script type='module' src='src/view/static/js/book.js'></script>
 HTML;
   }
 
@@ -133,7 +182,7 @@ HTML;
   <link rel='stylesheet' href='src/view/static/css/search.css'>
   <script src='src/view/static/js/order.js'></script>
   <script type='module' src='src/view/static/js/main.js'></script>
-  <script type='module' src='src/view/static/js/book.js'></script>
+  {$orderJS}
   <link rel="stylesheet" href="src/view/static/css/fonts.css" type='text/css'>
   <meta name="google-signin-client_id" content="248062336710-1caa1sjcc7vicoq05a0ac0m8ctlien6k.apps.googleusercontent.com">
   <script src="https://apis.google.com/js/client:platform.js" async defer></script>
@@ -148,9 +197,16 @@ HTML;
       <div id='purchaseMessagePopupCloseButton' class='book-purchase-message-popup-close'></div>
     </div>
     <div class='book-purchase-message-popup-content'>
-        <h3>Insert TOTP</h3>
-        <form id='browseForm' class='browse-form'>
-          <input id='otpField' type='text' name='title' placeholder='Input your TOTP code...' autofocus ng-model="query">
+        <h3>Insert TOTP Code</h3>
+        <form id='otpForm' class='book-otp-form'>
+          <div class='book-otp-field-container'>
+            <input id='otpNumberField0' class='book-otp-number-field' type='text' name='title' maxlength="1" autofocus ng-model="query">
+            <input id='otpNumberField1' class='book-otp-number-field' type='text' name='title' maxlength="1" autofocus ng-model="query">
+            <input id='otpNumberField2' class='book-otp-number-field' type='text' name='title' maxlength="1" autofocus ng-model="query">
+            <input id='otpNumberField3' class='book-otp-number-field' type='text' name='title' maxlength="1" autofocus ng-model="query">
+            <input id='otpNumberField4' class='book-otp-number-field' type='text' name='title' maxlength="1" autofocus ng-model="query">
+            <input id='otpNumberField5' class='book-otp-number-field' type='text' name='title' maxlength="1" autofocus ng-model="query">
+          </div>
         </form>
         <button id='orderOTPButton' class='order-otp-button'>ORDER</button>
     </div>
@@ -228,50 +284,20 @@ HTML;
               <div class='book-detail-rating-container add-background'>
                 <h4 class='book-detail-rating'>{$book['price']}</h4>
               </div>
-              <div class='book-detail-stars-container add-background'>
-                {$starsHTML}
-              </div>
-              <div class='book-detail-rating-container add-background'>
-                <h4 class='book-detail-rating'>{$ratingText} / 5.0</h4>
-              </div>
+              {$ratingOpenHTML}
+              {$starsHTML}
+              {$ratingCloseHTML}
             </div>
           </div>
         </div>
-        <div class='book-order-container'>
-          <div class='book-order-title-container'>
-            <h3 class='book-order-title'>Order</h3>
-          </div>
-          <div class='book-order-dropdown-container add-background'>
-            <h4 class='book-order-dropdown-label'>Amount: </h4>
-            <select id='orderQuantitySelector' name='orderQuantity'>
-              <option value='1'>1</option>
-              <option value='2'>2</option>
-              <option value='3'>3</option>
-              <option value='4'>4</option>
-              <option value='5'>5</option>
-              <option value='6'>6</option>
-              <option value='7'>7</option>
-            </select>
-          </div>
-          <div class='book-order-button-container'>
-            <input hidden id='bookIdField' value={$bookId}>
-            {$orderHTML}
-          </div>
-        </div>
+        {$orderHTML}
 
         <div class='book-order-container'>      
           {$recs}
         </div>
-
-        <div class='book-review-container'>
-          <div class='book-review-title-container'>
-            <h3 class='book-review-title'>Review</h3>
-          </div>
-          <div class='book-review-content-container'>
-            {$reviewsHTML}
-          </div>
-        </div>
-
+        {$reviewContainerOpenHTML}
+        {$reviewHTML}
+        {$reviewContainerCloseHTML}
       </div>
 
     </div>
