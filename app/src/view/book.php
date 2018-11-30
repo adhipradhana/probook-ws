@@ -12,13 +12,10 @@ function render_template(string $username, $book, $recommends, $reviews) {
     $ratingText = $ratingText . ".0";
   }
 
-  $orderHTML = <<<HTML
-<button id='orderButton' class='book-order-button' disabled>
-  <div class='book-order-button-inner'>
-    ORDER
-  </div>
-</button>
-HTML;
+  $orderHTML = "";
+  $orderJS = "";
+
+  $reviewContainerHTML = "";
 
   $recs = "";
   if (!is_null($recommends)) {
@@ -58,11 +55,55 @@ HTML;
 
   if ($book['price'] != 'NOT FOR SALE') {
     $orderHTML = <<<HTML
-<button id='orderButton' class='book-order-button'>
-  <div class='book-order-button-inner'>
-    ORDER
+<div class='book-order-container'>
+  <div class='book-order-title-container'>
+    <h3 class='book-order-title'>Order</h3>
   </div>
-</button>
+  <div class='book-order-dropdown-container add-background'>
+    <h4 class='book-order-dropdown-label'>Amount: </h4>
+    <select id='orderQuantitySelector' name='orderQuantity'>
+      <option value='1'>1</option>
+      <option value='2'>2</option>
+      <option value='3'>3</option>
+      <option value='4'>4</option>
+      <option value='5'>5</option>
+      <option value='6'>6</option>
+      <option value='7'>7</option>
+    </select>
+  </div>
+  <div class='book-order-button-container'>
+    <input hidden id='bookIdField' value={$bookId}>
+    <button id='orderButton' class='book-order-button'>
+      <div class='book-order-button-inner'>
+        ORDER
+      </div>
+    </button>
+  </div>
+</div>
+HTML;
+
+    $reviewContainerHTML = <<<HTML
+<div class='book-review-container'>
+  <div class='book-review-title-container'>
+    <h3 class='book-review-title'>Review</h3>
+  </div>
+  <div class='book-review-content-container'>
+    {$reviewsHTML}
+  </div>
+</div>
+HTML;
+
+    $ratingHTML = <<<HTML
+<div class='book-detail-stars-container add-background'>
+  {$starsHTML}
+</div>
+<div class='book-detail-rating-container add-background'>
+  <h4 class='book-detail-rating'>{$ratingText} / 5.0</h4>
+</div>
+HTML;
+
+    $orderJS = <<<HTML
+<script type='module' src='src/view/static/js/book.js'></script>
 HTML;
   }
 
@@ -133,7 +174,7 @@ HTML;
   <link rel='stylesheet' href='src/view/static/css/search.css'>
   <script src='src/view/static/js/order.js'></script>
   <script type='module' src='src/view/static/js/main.js'></script>
-  <script type='module' src='src/view/static/js/book.js'></script>
+  {$orderJS}
   <link rel="stylesheet" href="src/view/static/css/fonts.css" type='text/css'>
   <meta name="google-signin-client_id" content="248062336710-1caa1sjcc7vicoq05a0ac0m8ctlien6k.apps.googleusercontent.com">
   <script src="https://apis.google.com/js/client:platform.js" async defer></script>
@@ -228,49 +269,17 @@ HTML;
               <div class='book-detail-rating-container add-background'>
                 <h4 class='book-detail-rating'>{$book['price']}</h4>
               </div>
-              <div class='book-detail-stars-container add-background'>
-                {$starsHTML}
-              </div>
-              <div class='book-detail-rating-container add-background'>
-                <h4 class='book-detail-rating'>{$ratingText} / 5.0</h4>
-              </div>
+              {$ratingHTML}
             </div>
           </div>
         </div>
-        <div class='book-order-container'>
-          <div class='book-order-title-container'>
-            <h3 class='book-order-title'>Order</h3>
-          </div>
-          <div class='book-order-dropdown-container add-background'>
-            <h4 class='book-order-dropdown-label'>Amount: </h4>
-            <select id='orderQuantitySelector' name='orderQuantity'>
-              <option value='1'>1</option>
-              <option value='2'>2</option>
-              <option value='3'>3</option>
-              <option value='4'>4</option>
-              <option value='5'>5</option>
-              <option value='6'>6</option>
-              <option value='7'>7</option>
-            </select>
-          </div>
-          <div class='book-order-button-container'>
-            <input hidden id='bookIdField' value={$bookId}>
-            {$orderHTML}
-          </div>
-        </div>
+        {$orderHTML}
 
         <div class='book-order-container'>      
           {$recs}
         </div>
 
-        <div class='book-review-container'>
-          <div class='book-review-title-container'>
-            <h3 class='book-review-title'>Review</h3>
-          </div>
-          <div class='book-review-content-container'>
-            {$reviewsHTML}
-          </div>
-        </div>
+        {$reviewContainerHTML}
 
       </div>
 
