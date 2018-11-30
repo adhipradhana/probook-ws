@@ -3,7 +3,7 @@ class BookGetController implements ControllerInterface {
   public static function control(Request $request) {
     $db = new MarufDB;
     $username = $db->getUsername($_COOKIE['token']);
-    $client = new SoapClient('http://localhost:3000/bookws/book?wsdl', array('cache_wsdl' => WSDL_CACHE_NONE) );
+    $client = new SoapRequest();
     $book = $client->getBookDetail($request->id);
 
     if ($book->price == 0) {

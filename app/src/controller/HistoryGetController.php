@@ -6,7 +6,7 @@ class HistoryGetController implements ControllerInterface {
     $user_id = $db->getUserId($_COOKIE['token']);
     $orders = $db->getHistory($user_id);
 
-    $client = new SoapClient('http://localhost:3000/bookws/book?wsdl', array('cache_wsdl' => WSDL_CACHE_NONE) );
+    $client = new SoapRequest();
 
     foreach($orders as &$order) {
       $book = $client->getBookDetail($order['book_id']);

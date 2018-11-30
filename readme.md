@@ -150,25 +150,31 @@ Expire time pada probook kami selama 60000, tidak terlalu lama, dan tidak terlal
 
 #### :heavy_plus_sign: Kelebihan 
 
-* Batasan Modul yang Kuat
-Microservice memperkuat struktur modular yang sangat penting bagi tim yang sangat besar. Menurut Martin Fowler ini adalah key benefit yang juga aneh jika dikatakan kelebihan, karena tidak ada alasan apapun mengapa microservice memiliki struktur modular yang lebih kuat daripada monolithic. Dalam arsitektur monolithic pada umumnya, sangatlah mudah bagi developer untuk melewati batas. Umumnya digunakan untuk mencari jalan pintas dalam mengimplementasikan fitur dengan lebih cepat. Akan tetapi berakhir pada merusak struktur modular yang berimplikasi pada penurunan produktifitas Tim. Sepengalaman kami ketika membangun monolithic application, kami mengalami kesulitan dalam mereview banyaknya kode-kode yang terkumpul di satu project repository. Sehingga terkadang Spaghetti Code terapprove dan masuk kedalam sistem. Hal ini tidak lagi kami temukan ketika migrasi ke microservice, dikarenakan tiap service sangat kecil dan hanya menghandle satu domain.
+* **Batasan Modul yang Kuat**
 
-* Deployment yang Independen
-Service yang sederhana lebih mudah dideploy dan digunakan. Karena mereka berdiri sendiri, kecil kemungkinan kegagalan sistem terjadi saat salah satu service mengalami kesalahan. Selain itu sepengalaman kami sebelum migrasi ke microservice, applikasi yang kami kembangkan memiliki lebih dari 600 integration test dengan terdiri dari hampir 1000 assertion. Jumlah durasi test sekitar 42.55 minutes. Test ini tidak dapat dilakukan secara parallel dikarenakan adanya batasan I/O HIT ke database yang tinggi. Ini menyebabkan development time menjadi lambat, karena harus menunggu integration test selesai. Padahal hanya menambahkan atau mengupdate satu fitur baru pada salah satu domain. Belum lagi lamanya waktu menunggu migrasi database, waktu eksekusi seeding dan automated deployment. Sehingga waktu yang diperlukan untuk 1 process deployment hampir 1 jam. Hal tersebut diatas tidak lagi ditemukan sepanjang perjalanan kami migrasi ke microservice. Lamanya deployment tiap service hanya memakan waktu kurang dari 5 menit. Kita hanya perlu mengetest pada service yang mengalami perubahan saja.
+   Microservice memperkuat struktur modular yang sangat penting bagi tim yang sangat besar. Menurut Martin Fowler ini adalah key benefit yang juga aneh jika dikatakan kelebihan, karena tidak ada alasan apapun mengapa microservice memiliki struktur modular yang lebih kuat daripada monolithic. Dalam arsitektur monolithic pada umumnya, sangatlah mudah bagi developer untuk melewati batas. Umumnya digunakan untuk mencari jalan pintas dalam mengimplementasikan fitur dengan lebih cepat. Akan tetapi berakhir pada merusak struktur modular yang berimplikasi pada penurunan produktifitas Tim. Sepengalaman kami ketika membangun monolithic application, kami mengalami kesulitan dalam mereview banyaknya kode-kode yang terkumpul di satu project repository. Sehingga terkadang Spaghetti Code terapprove dan masuk kedalam sistem. Hal ini tidak lagi kami temukan ketika migrasi ke microservice, dikarenakan tiap service sangat kecil dan hanya menghandle satu domain.
 
-* Memungkinkan Keberagaman Teknologi
-Dengan microservice, kita dapat mencampur dan menggunakan beragam bahasa pemrograman, framework, dan teknologi penyimpanan database yang digunakan. Dalam project kami, ada fitur yang mengimplementasikan SOAP pada JAVA dan REST pada NodeJS.
+* **Deployment yang Independen**
+
+   Service yang sederhana lebih mudah dideploy dan digunakan. Karena mereka berdiri sendiri, kecil kemungkinan kegagalan sistem terjadi saat salah satu service mengalami kesalahan. Selain itu sepengalaman kami sebelum migrasi ke microservice, applikasi yang kami kembangkan memiliki lebih dari 600 integration test dengan terdiri dari hampir 1000 assertion. Jumlah durasi test sekitar 42.55 minutes. Test ini tidak dapat dilakukan secara parallel dikarenakan adanya batasan I/O HIT ke database yang tinggi. Ini menyebabkan development time menjadi lambat, karena harus menunggu integration test selesai. Padahal hanya menambahkan atau mengupdate satu fitur baru pada salah satu domain. Belum lagi lamanya waktu menunggu migrasi database, waktu eksekusi seeding dan automated deployment. Sehingga waktu yang diperlukan untuk 1 process deployment hampir 1 jam. Hal tersebut diatas tidak lagi ditemukan sepanjang perjalanan kami migrasi ke microservice. Lamanya deployment tiap service hanya memakan waktu kurang dari 5 menit. Kita hanya perlu mengetest pada service yang mengalami perubahan saja.
+
+* **Memungkinkan Keberagaman Stack Teknologi**
+
+   Dengan microservice, kita dapat mencampur dan menggunakan beragam bahasa pemrograman, framework, dan teknologi penyimpanan database yang digunakan. Dalam project kami, ada fitur yang mengimplementasikan SOAP pada JAVA dan REST pada NodeJS.
 
 #### :heavy_minus_sign: Kekurangan
 
-* Distribusi
-Sistem terdistribusi (distributed system) lebih sulit diprogram, karena Remote Call lamban dan selalu memiliki resiko terjadinya kegagalan.
+* **Distribusi**
 
-* Eventual Consistency
-Mengelola consistency yang kuat sangatlah sulit pada sistem terdistribusi, berarti setiap orang harus memanage untuk mendapatkan eventual consistency.
+   Sistem terdistribusi (distributed system) lebih sulit diprogram, karena Remote Call lamban dan selalu memiliki resiko terjadinya kegagalan.
 
-* Operational Complexity
-Anda membutuhkan tim operasional yang berpengalaman untuk memanage banyaknya system, yang akan dedeploy ulang secara berkala.
+* **Eventual Consistency**
+
+   Mengelola consistency yang kuat sangatlah sulit pada sistem terdistribusi, berarti setiap orang harus memanage untuk mendapatkan eventual consistency.
+
+* **Operational Complexity**
+
+   Anda membutuhkan tim operasional yang berpengalaman untuk memanage banyaknya system, yang akan dedeploy ulang secara berkala.
 
 ### Pembagian Tugas
 "Gaji buta dilarang dalam tugas ini. Bila tak mengerti, luangkan waktu belajar lebih banyak. Bila belum juga mengerti, belajarlah bersama-sama kelompokmu. Bila Anda sekelompok bingung, bertanyalah (bukan menyontek) ke teman seangkatanmu. Bila seangkatan bingung, bertanyalah pada asisten manapun."
