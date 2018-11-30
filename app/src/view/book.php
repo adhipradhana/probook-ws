@@ -14,10 +14,9 @@ function render_template(string $username, $book, $recommends, $reviews) {
 
   $orderHTML = "";
   $orderJS = "";
-
   $reviewContainerHTML = "";
-
   $recs = "";
+  
   if (!is_null($recommends)) {
     $recs = $recs . <<<HTML
 <div class='book-review-content-container'>
